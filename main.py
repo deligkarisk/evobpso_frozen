@@ -2,8 +2,11 @@ from Particle import Particle
 from Population import Population
 from Rastrigin import Rastrigin
 
-problem = Rastrigin(steps=2**32 - 1)
-parent_pop = Population()
-particle = Particle(problem, 12, 32, parent_pop)
+problem = Rastrigin(steps=2**32 - 1, dimensions=2)
+parent_pop = Population(20, problem, 32)
 
-print("ok")
+
+for i in range(0,100):
+    parent_pop.iterate()
+    #print(parent_pop.global_best_result)
+    print(parent_pop.particles[0].current_position, parent_pop.particles[0].current_result)

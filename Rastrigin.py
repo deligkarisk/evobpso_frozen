@@ -4,11 +4,11 @@ import math
 # This file contains the definitions of rastrigin problem
 class Rastrigin:
 
-    def __init__(self, steps):
-        self.minimize = True
+    def __init__(self, dimensions, steps):
         self.min_value = -5.12
         self.max_value = 5.12
         self.step = (self.max_value - self.min_value)/steps
+        self.dimensions = dimensions
 
 
     def evaluate(self, position):
