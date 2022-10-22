@@ -4,9 +4,13 @@ import random
 
 class Particle:
 
-    def __init__(self, problem, n_bits, parent_pop):
+    def __init__(self, problem, n_bits, parent_pop, decoder):
+        # decoder is a required decoder that implements the method decode(). It is used to convert the positions from
+        # binary representation of bPSO to what is required by the Problem instance. If e.g. there is no conversion
+        # needed then the converter can return its input as it is.
 
         self.parent_pop = parent_pop
+        self.decoder = decoder
 
         self.c1 = 0.3
         self.c2 = 0.3
@@ -22,7 +26,7 @@ class Particle:
             self.current_velocity.append(self.create_rnd_binary_vector(0.5))
 
         self.problem = problem
-        self.evaluate_position()
+        self.current_result = self.get_current_position_result()
         self.personal_best_result = copy.deepcopy(self.current_result)
         self.personal_best_position = copy.deepcopy(self.current_position)
 
@@ -34,19 +38,12 @@ class Particle:
 
     def update_velocity(self):
 
-        new_velocity = [self.create_rnd_binary_vector(self.omega) & current_vel | (self.create_rnd_binary_vector(self.c1) & (pbest ^ current_pos)) |
+        new_velocity = [self.create_rnd_binary_vector(self.omega) & current_vel | (
+                self.create_rnd_binary_vector(self.c1) & (pbest ^ current_pos)) |
                         (self.create_rnd_binary_vector(self.c2) & (gbest ^ current_pos)) for
                         (current_vel, current_pos, pbest, gbest) in
                         zip(self.current_velocity, self.current_position, self.personal_best_position,
                             self.parent_pop.global_best_position)]
-
-        if max(new_velocity) > 2**self.n_bits - 1:
-           pass
-           # print("Velocity overflow")
-
-        if (min(new_velocity)) == 0:
-          pass
-          #  print("velocity zero")
 
         self.current_velocity = new_velocity
 
@@ -65,7 +62,11 @@ class Particle:
                                  zip(self.current_position, self.current_velocity)]
 
     def evaluate_position(self):
-        self.current_result = self.problem.evaluate(self.current_position)
+        self.current_result = self.get_current_position_result()
+
+    def get_current_position_result(self):
+        decoded_position = self.decoder.decode(self.problem, self.current_position)
+        return self.problem.evaluate(decoded_position)
 
     def update_personal_best(self):
         if self.current_result < self.personal_best_result:

@@ -5,11 +5,12 @@ from Particle import Particle
 
 class Population:
 
-    def __init__(self, pop_size, problem, nbits):
+    def __init__(self, pop_size, problem, nbits, decoder):
+
         self.particles = []
 
         for id in range(0, pop_size):
-            self.particles.append(Particle(problem, nbits, self))
+            self.particles.append(Particle(problem, nbits, self, decoder))
 
         best_particle = self.get_best_particle()
         self.global_best_position = copy.deepcopy(best_particle.personal_best_position)
