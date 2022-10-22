@@ -7,7 +7,7 @@ n_bits = 32
 
 decoder = BinToRealDecoder(n_bits)
 
-problem = Rastrigin(steps=2**32 - 1, dimensions=2)
+problem = Rastrigin(dimensions=2)
 parent_pop = Population(20, problem, n_bits, decoder)
 
 
