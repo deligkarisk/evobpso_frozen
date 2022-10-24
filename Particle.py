@@ -1,29 +1,31 @@
 import copy
 import random
 
+from VelocityStrategy import VelocityStrategy
+from utils import create_rnd_binary_vector
+
 
 class Particle:
 
-    def __init__(self, problem, n_bits, parent_pop, decoder):
+    def __init__(self, problem, n_bits, parent_pop, decoder, pso_params, velocity_strategy: VelocityStrategy):
         # decoder is a required decoder that implements the method decode(). It is used to convert the positions from
         # binary representation of bPSO to what is required by the Problem instance. If e.g. there is no conversion
         # needed then the converter can return its input as it is.
 
         self.parent_pop = parent_pop
         self.decoder = decoder
+        self.params = pso_params
+        self.velocity_strategy = velocity_strategy
 
-        self.c1 = 0.3
-        self.c2 = 0.3
-        self.omega = 0.01
         self.n_bits = n_bits
 
         self.current_position = []
         for i in range(0, problem.dimensions):
-            self.current_position.append(self.create_rnd_binary_vector(0.5))
+            self.current_position.append(create_rnd_binary_vector(0.5,  self.n_bits))
 
         self.current_velocity = []
         for i in range(0, problem.dimensions):
-            self.current_velocity.append(self.create_rnd_binary_vector(0.5))
+            self.current_velocity.append(create_rnd_binary_vector(0.5,  self.n_bits))
 
         self.problem = problem
         self.current_result = self.get_current_position_result()
@@ -37,25 +39,10 @@ class Particle:
         self.update_personal_best()
 
     def update_velocity(self):
+        self.current_velocity = self.velocity_strategy.update_velocity(
+            self.current_velocity, self.current_position, self.personal_best_position, self.parent_pop.global_best_position, self.params, self.n_bits)
 
-        new_velocity = [self.create_rnd_binary_vector(self.omega) & current_vel | (
-                self.create_rnd_binary_vector(self.c1) & (pbest ^ current_pos)) |
-                        (self.create_rnd_binary_vector(self.c2) & (gbest ^ current_pos)) for
-                        (current_vel, current_pos, pbest, gbest) in
-                        zip(self.current_velocity, self.current_position, self.personal_best_position,
-                            self.parent_pop.global_best_position)]
 
-        self.current_velocity = new_velocity
-
-    def create_rnd_binary_vector(self, prob):
-        result = 0
-
-        for x in range(0, self.n_bits):
-            x_rnd = random.random()
-            if x_rnd < prob:
-                bit_mask = 1 << x
-                result = result | bit_mask
-        return result
 
     def update_position(self):
         self.current_position = [current_position ^ current_velocity for (current_position, current_velocity) in
