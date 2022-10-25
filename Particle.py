@@ -83,3 +83,23 @@ class BooleanPSOParticle(Particle):
         new_position = [current_position ^ current_velocity for (current_position, current_velocity) in
                         zip(self.current_position, self.current_velocity)]
         return new_position
+
+
+class RealPSOParticle(Particle):
+    def get_initial_positions(self):
+        position = []
+        for i in range(0, self.problem.dimensions):
+            position.append(random.uniform(self.problem.min_value, self.problem.max_value))
+        return position
+
+    def get_initial_velocity(self):
+        velocity = []
+        for i in range(0, self.problem.dimensions):
+            velocity.append(random.uniform(0, 1))
+        return velocity
+
+    def get_new_position(self):
+        new_position = []
+        for i in range(0, self.problem.dimensions):
+            new_position.append(self.current_position[i] + self.current_velocity[i])
+        return new_position

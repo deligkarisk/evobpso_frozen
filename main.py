@@ -2,8 +2,8 @@ from Particle import Particle
 from Population import Population
 from PsoParams import PsoParams
 from Rastrigin import Rastrigin
-from Decoder import BinToRealDecoder
-from VelocityStrategy import BooleanPSOStandardVelocityStrategy
+from Decoder import BinToRealDecoder, RealToRealDecoder
+from VelocityStrategy import BooleanPSOStandardVelocityStrategy, RealPSOVelocityStrategy
 
 n_bits = 32
 
@@ -13,21 +13,37 @@ velocity_strategy = BooleanPSOStandardVelocityStrategy()
 decoder = BinToRealDecoder(n_bits)
 
 problem = Rastrigin(dimensions=2)
-parent_pop = Population(20, problem, decoder, params, velocity_strategy)
+parent_pop_bool = Population(20, problem, decoder, params, velocity_strategy, particle_type='boolean')
 
 
-for i in range(0,1000):
-    parent_pop.iterate()
+for i in range(0,10):
+    parent_pop_bool.iterate()
     #print(parent_pop.global_best_result)
     print("iteration: " + str(i))
-    particle = parent_pop.particles[0]
+    particle = parent_pop_bool.particles[0]
     print("particle 0: velocity: " + str(particle.current_velocity) + ", position: " + str(particle.current_position) + ", result: " + str(particle.current_result))
-    particle = parent_pop.particles[1]
+    particle = parent_pop_bool.particles[1]
     print("particle 1: velocity: " + str(particle.current_velocity) + ", position: " + str(particle.current_position) + ", result: " + str(particle.current_result))
-    particle = parent_pop.get_best_particle()
+    particle = parent_pop_bool.get_best_particle()
     print("global best: velocity: " + str(particle.current_velocity) + ", position: " + str(particle.current_position) + ", result: " + str(particle.current_result))
 
 
 
+
+
+velocity_strategy = RealPSOVelocityStrategy()
+decoder = RealToRealDecoder()
+parent_pop_real = Population(20, problem, decoder, params, velocity_strategy, particle_type='real')
+
+for i in range(0,100):
+    parent_pop_real.iterate()
+    #print(parent_pop.global_best_result)
+    print("iteration: " + str(i))
+    particle = parent_pop_real.particles[0]
+    print("particle 0: velocity: " + str(particle.current_velocity) + ", position: " + str(particle.current_position) + ", result: " + str(particle.current_result))
+    particle = parent_pop_real.particles[1]
+    print("particle 1: velocity: " + str(particle.current_velocity) + ", position: " + str(particle.current_position) + ", result: " + str(particle.current_result))
+    particle = parent_pop_real.get_best_particle()
+    print("global best: velocity: " + str(particle.current_velocity) + ", position: " + str(particle.current_position) + ", result: " + str(particle.current_result))
 
 
