@@ -7,13 +7,13 @@ from VelocityStrategy import BooleanPSOStandardVelocityStrategy
 
 n_bits = 32
 
-params = PsoParams(0.3, 0.3, 0.1)
+params = PsoParams(0.3, 0.3, 0.1, n_bits)
 velocity_strategy = BooleanPSOStandardVelocityStrategy()
 
 decoder = BinToRealDecoder(n_bits)
 
 problem = Rastrigin(dimensions=2)
-parent_pop = Population(20, problem, n_bits, decoder, params, velocity_strategy)
+parent_pop = Population(20, problem, decoder, params, velocity_strategy)
 
 
 for i in range(0,1000):

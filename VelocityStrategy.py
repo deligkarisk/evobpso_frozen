@@ -2,15 +2,15 @@ import abc
 from utils import create_rnd_binary_vector
 
 class VelocityStrategy(abc.ABC):
-    def update_velocity(self, current_velocity, current_position, pbest_position, gbest_position,params, n_bits):
+    def update_velocity(self, current_velocity, current_position, pbest_position, gbest_position,params):
         raise NotImplementedError
 
 class BooleanPSOStandardVelocityStrategy(VelocityStrategy):
-    def update_velocity(self, current_velocity, current_position, pbest_position, gbest_position,params, n_bits):
+    def update_velocity(self, current_velocity, current_position, pbest_position, gbest_position,params):
 
-        omega_vector = create_rnd_binary_vector(params.omega, n_bits)
-        c1_vector = create_rnd_binary_vector(params.c1, n_bits)
-        c2_vector = create_rnd_binary_vector(params.c2, n_bits)
+        omega_vector = create_rnd_binary_vector(params.omega, params.n_bits)
+        c1_vector = create_rnd_binary_vector(params.c1, params.n_bits)
+        c2_vector = create_rnd_binary_vector(params.c2, params.n_bits)
 
         new_velocity = [omega_vector & current_vel |
                         (c1_vector & (pbest ^ current_pos)) |
@@ -24,5 +24,5 @@ class BooleanPSOStandardVelocityStrategy(VelocityStrategy):
 
 
 class BooleanPSOVelocityMutationStrategy(VelocityStrategy):
-    def update_velocity(self, current_velocity, current_position, pbest_position, gbest_position,params, n_bits):
+    def update_velocity(self, current_velocity, current_position, pbest_position, gbest_position,params):
         pass
