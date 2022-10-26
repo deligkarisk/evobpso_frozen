@@ -3,13 +3,13 @@ import copy
 import random
 
 from PsoParams import PsoParams
-from VelocityStrategy import VelocityStrategy
+from velocity_strategy.BooleanPSOVelocityStrategy import BooleanPSOVelocityStrategy
 from utils import create_rnd_binary_vector
 
 
 class Particle(abc.ABC):
 
-    def __init__(self, parent_pop, problem, decoder, pso_params: PsoParams, velocity_strategy: VelocityStrategy):
+    def __init__(self, parent_pop, problem, decoder, pso_params: PsoParams, velocity_strategy: BooleanPSOVelocityStrategy):
         # decoder is a required decoder that implements the method decode(). It is used to convert the positions from
         # binary representation of bPSO to what is required by the Problem instance. If e.g. there is no conversion
         # needed then the converter can return its input as it is.
@@ -57,9 +57,9 @@ class Particle(abc.ABC):
         self.personal_best_result = copy.deepcopy(self.current_result)
         self.personal_best_position = copy.deepcopy(self.current_position)
 
-    # velocity is chosen based on strategy pattern
+    # velocity_strategy is chosen based on strategy pattern
     def get_new_velocity(self):
-        return self.velocity_strategy.update_velocity(
+        return self.velocity_strategy.get_new_velocity(
             self.current_velocity, self.current_position, self.personal_best_position, self.parent_pop.global_best_position, self.params)
 
 
