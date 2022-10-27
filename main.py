@@ -2,18 +2,23 @@ from Population import Population
 from PsoParams import PsoParams
 from Rastrigin import Rastrigin
 from Decoder import BinToRealDecoder, RealToRealDecoder
-from velocity_strategy.BooleanPSOVelocityStrategy import BooleanPSOStandardVelocityStrategy, RealPSOVelocityStrategy
+from position_update_strategy.BooleanPSOPositionUpdateStrategy import BooleanPSOStandardPositionUpdateStrategy
+from position_update_strategy.RealPSOPositionUpdateStrategy import RealPSOStandardPositionUpdateStrategy
+from velocity_strategy.BooleanPSOVelocityStrategy import BooleanPSOStandardVelocityStrategy
+from velocity_strategy.RealPSOVelocityStrategy import RealPSOStandardVelocityStrategy
 
 n_bits = 32
 
 params = PsoParams(0.3, 0.3, 0.1, n_bits)
 velocity_strategy = BooleanPSOStandardVelocityStrategy()
+position_update_strategy = BooleanPSOStandardPositionUpdateStrategy()
 
 decoder = BinToRealDecoder(n_bits)
 
 problem = Rastrigin(dimensions=2)
-parent_pop_bool = Population(20, problem, decoder, params, velocity_strategy, particle_type='boolean')
+parent_pop_bool = Population(20, problem, decoder, params, velocity_strategy, position_update_strategy, particle_type='boolean')
 
+print("--------------------------------- BOOLEAN PSO ---------------------------------")
 
 for i in range(0,10):
     parent_pop_bool.iterate()
@@ -28,11 +33,13 @@ for i in range(0,10):
 
 
 
+print("--------------------------------- REAL PSO ---------------------------------")
 
+velocity_strategy = RealPSOStandardVelocityStrategy()
+position_update_strategy = RealPSOStandardPositionUpdateStrategy()
 
-velocity_strategy = RealPSOVelocityStrategy()
 decoder = RealToRealDecoder()
-parent_pop_real = Population(20, problem, decoder, params, velocity_strategy, particle_type='real')
+parent_pop_real = Population(20, problem, decoder, params, velocity_strategy, position_update_strategy, particle_type='real')
 
 for i in range(0,100):
     parent_pop_real.iterate()

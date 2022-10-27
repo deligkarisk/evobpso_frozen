@@ -5,16 +5,16 @@ from Particle import Particle, BooleanPSOParticle, RealPSOParticle
 
 class Population:
 
-    def __init__(self, pop_size, problem, decoder, pso_params, velocity_strategy, particle_type):
+    def __init__(self, pop_size, problem, decoder, pso_params, velocity_strategy, position__update_strategy, particle_type):
 
         self.particles = []
 
         if particle_type == 'boolean':
             for id in range(0, pop_size):
-                self.particles.append(BooleanPSOParticle(self, problem, decoder, pso_params, velocity_strategy))
+                self.particles.append(BooleanPSOParticle(self, problem, decoder, pso_params, velocity_strategy, position__update_strategy))
         elif particle_type == 'real':
             for id in range(0, pop_size):
-                self.particles.append(RealPSOParticle(self, problem, decoder, pso_params, velocity_strategy))
+                self.particles.append(RealPSOParticle(self, problem, decoder, pso_params, velocity_strategy, position__update_strategy))
 
 
         best_particle = self.get_best_particle()

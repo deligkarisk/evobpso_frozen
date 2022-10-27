@@ -2,10 +2,12 @@ import abc
 import random
 
 from utils import create_rnd_binary_vector
+from velocity_strategy.VelocityStrategy import VelocityStrategy
 
-class BooleanPSOVelocityStrategy(abc.ABC):
-    def get_new_velocity(self, current_velocity, current_position, pbest_position, gbest_position, params):
-        raise NotImplementedError
+
+class BooleanPSOVelocityStrategy(VelocityStrategy, abc.ABC):
+    pass
+
 
 class BooleanPSOStandardVelocityStrategy(BooleanPSOVelocityStrategy):
     def get_new_velocity(self, current_velocity, current_position, pbest_position, gbest_position, params):

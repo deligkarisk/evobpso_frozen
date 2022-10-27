@@ -1,9 +1,11 @@
 import abc
 import random
 
-class RealPSOVelocityStrategy(abc.ABC):
-    def get_new_velocity(self, current_velocity, current_position, pbest_position, gbest_position, params):
-        raise NotImplementedError
+from velocity_strategy.VelocityStrategy import VelocityStrategy
+
+
+class RealPSOVelocityStrategy(VelocityStrategy, abc.ABC):
+    pass
 
 
 class RealPSOStandardVelocityStrategy(RealPSOVelocityStrategy):
