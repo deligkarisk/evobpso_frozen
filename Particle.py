@@ -3,13 +3,16 @@ import copy
 import random
 
 from PsoParams import PsoParams
+from position_update_strategy.BooleanPSOPositionUpdateStrategy import BooleanPSOPositionUpdateStrategy
+from position_update_strategy.PositionUpdateStrategy import PositionUpdateStrategy
 from velocity_strategy.BooleanPSOVelocityStrategy import BooleanPSOVelocityStrategy
 from utils import create_rnd_binary_vector
 
 
 class Particle(abc.ABC):
 
-    def __init__(self, parent_pop, problem, decoder, pso_params: PsoParams, velocity_strategy: BooleanPSOVelocityStrategy):
+    def __init__(self, parent_pop, problem, decoder, pso_params: PsoParams, velocity_strategy: BooleanPSOVelocityStrategy,
+                 position_update_strategy: PositionUpdateStrategy):
         # decoder is a required decoder that implements the method decode(). It is used to convert the positions from
         # binary representation of bPSO to what is required by the Problem instance. If e.g. there is no conversion
         # needed then the converter can return its input as it is.
@@ -31,9 +34,6 @@ class Particle(abc.ABC):
         raise NotImplementedError
 
     def get_initial_velocity(self):
-        raise NotImplementedError
-
-    def get_new_position(self):
         raise NotImplementedError
 
     def iterate(self):
@@ -62,8 +62,23 @@ class Particle(abc.ABC):
         return self.velocity_strategy.get_new_velocity(
             self.current_velocity, self.current_position, self.personal_best_position, self.parent_pop.global_best_position, self.params)
 
+    # position update is chosen based on the strategy pattern
+    def get_new_position(self):
+        return self.position_update_strategy.get_new_position(self.current_position, self.current_velocity)
+
 
 class BooleanPSOParticle(Particle):
+
+    def __init__(self, parent_pop, problem, decoder, pso_params: PsoParams, velocity_strategy: BooleanPSOVelocityStrategy,
+                 position_update_strategy: BooleanPSOPositionUpdateStrategy):
+
+        if not isinstance(position_update_strategy, BooleanPSOPositionUpdateStrategy):
+            raise ValueError("Position update strategy in Boolean PSO must be " + str(BooleanPSOPositionUpdateStrategy.__name__))
+
+        if not isinstance(velocity_strategy, BooleanPSOVelocityStrategy):
+            raise ValueError("Velocity update strategy in Boolean PSO must be " + str(BooleanPSOVelocityStrategy.__name__))
+
+        Particle.__init__(self, parent_pop, problem, decoder, pso_params, velocity_strategy, position_update_strategy)
 
     def get_initial_positions(self):
 
@@ -78,11 +93,6 @@ class BooleanPSOParticle(Particle):
         for i in range(0, self.problem.dimensions):
             velocity.append(create_rnd_binary_vector(0.5, self.params.n_bits))
         return velocity
-
-    def get_new_position(self):
-        new_position = [current_position ^ current_velocity for (current_position, current_velocity) in
-                        zip(self.current_position, self.current_velocity)]
-        return new_position
 
 
 class RealPSOParticle(Particle):
