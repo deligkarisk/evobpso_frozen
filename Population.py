@@ -1,21 +1,20 @@
 import copy
 
 from Particle import Particle, BooleanPSOParticle, RealPSOParticle
+from particle_factory.ParticleFactory import ParticleFactory
+from position_update_strategy.PositionUpdateStrategy import PositionUpdateStrategy
+from velocity_strategy.VelocityStrategy import VelocityStrategy
 
 
 class Population:
 
-    def __init__(self, pop_size, problem, decoder, pso_params, velocity_strategy, position__update_strategy, particle_type):
-
+    def __init__(self, pop_size, problem, decoder, pso_params, velocity_strategy: VelocityStrategy,
+                 position__update_strategy: PositionUpdateStrategy, particle_factory: ParticleFactory):
         self.particles = []
 
-        if particle_type == 'boolean':
-            for id in range(0, pop_size):
-                self.particles.append(BooleanPSOParticle(self, problem, decoder, pso_params, velocity_strategy, position__update_strategy))
-        elif particle_type == 'real':
-            for id in range(0, pop_size):
-                self.particles.append(RealPSOParticle(self, problem, decoder, pso_params, velocity_strategy, position__update_strategy))
-
+        for id in range(0, pop_size):
+            self.particles.append(
+                particle_factory.make_particle(self, problem, decoder, pso_params, velocity_strategy, position__update_strategy))
 
         best_particle = self.get_best_particle()
         self.global_best_position = copy.deepcopy(best_particle.personal_best_position)
