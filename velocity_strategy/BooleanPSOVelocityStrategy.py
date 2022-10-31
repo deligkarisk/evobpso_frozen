@@ -1,7 +1,7 @@
 import abc
 import random
 
-from utils import create_rnd_binary_vector
+from utils import create_rnd_binary_vector, find_largest_size
 from velocity_strategy.VelocityStrategy import VelocityStrategy
 
 
@@ -30,5 +30,6 @@ class BooleanPSOStandardVelocityStrategy(BooleanPSOVelocityStrategy):
 class BooleanPSOVelocityMutationStrategy(BooleanPSOVelocityStrategy):
     def get_new_velocity(self, current_velocity, current_position, pbest_position, gbest_position, params):
         pass
+
 
 
