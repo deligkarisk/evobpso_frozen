@@ -8,6 +8,7 @@ class VelocityComponent(abc.ABC):
         raise NotImplementedError
 
 
+
 class VelocityComponentProcessor:
 
     def __init__(self, params):
@@ -28,6 +29,12 @@ class VelocityComponentXOR(VelocityComponent):
         self.data = data
         self.processor = velocity_component_processor
 
+    def __eq__(self, other):
+        if self.data == other.data and isinstance(self, type(other)):
+            return True
+        else:
+            return False
+
     def merge(self, other):
         if (isinstance(other, VelocityComponentXOR)):
             return self.processor.xor(self, other)
@@ -43,11 +50,23 @@ class VelocityComponentRemove(VelocityComponent):
     def merge(self, other):
         return self.processor.random_choice(self, other)
 
+    def __eq__(self, other):
+        if isinstance(self, type(other)):
+            return True
+        else:
+            return False
+
 
 class VelocityComponentAdd(VelocityComponent):
     def __init__(self, data, velocity_component_processor):
         self.data = data
         self.processor = velocity_component_processor
+
+    def __eq__(self, other):
+        if self.data == other.data and isinstance(self, type(other)):
+            return True
+        else:
+            return False
 
     def merge(self, other):
         return self.processor.random_choice(self, other)

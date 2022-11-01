@@ -22,12 +22,11 @@ class BooleanPSONeuralVelocityStrategy(NeuralBPSOVelocityStrategy):
             self.processor = VelocityComponentProcessor(params)
 
         largest_size_gbest = find_largest_size(pbest_position, current_position)
-
         smallest_size_gbest = find_smallest_size(pbest_position, current_position)
-        personal_rnd_vector_partial = partial(create_rnd_binary_vector, params.c1, params.n_bits)
-        personal_component = self._create_component(pbest_position, current_position, personal_rnd_vector_partial)
-        global_rnd_vector_partial = partial(create_rnd_binary_vector, params.c2, params.n_bits)
-        global_component = self._create_component(pbest_position, current_position, global_rnd_vector_partial)
+        rnd_vector_partial = partial(create_rnd_binary_vector, params.c1, params.n_bits)
+        personal_component = self._create_component(pbest_position, current_position, rnd_vector_partial)
+        rnd_vector_partial = partial(create_rnd_binary_vector, params.c2, params.n_bits)
+        global_component = self._create_component(pbest_position, current_position, rnd_vector_partial)
         personal_component, global_component = self._equalize_sizes(personal_component, global_component)
 
         new_velocity = []
@@ -48,13 +47,12 @@ class BooleanPSONeuralVelocityStrategy(NeuralBPSOVelocityStrategy):
         # this depends on whether the best (global or personal) is larger than the current position or vice versa
         for current_index in range(smallest_size, largest_size):
             if best_position_is_larger:
-                velocity_entry = VelocityComponentAdd(data = best_position[current_index], velocity_component_processor=self.processor)
+                velocity_entry = VelocityComponentAdd(data=best_position[current_index], velocity_component_processor=self.processor)
                 result.append(velocity_entry)
             else:
-                velocity_entry =  VelocityComponentRemove(velocity_component_processor=self.processor)
+                velocity_entry = VelocityComponentRemove(velocity_component_processor=self.processor)
                 result.append(velocity_entry)
         return result
-
 
     def _equalize_sizes(self, personal_component, global_component):
         p_size = len(personal_component)
@@ -66,20 +64,18 @@ class BooleanPSONeuralVelocityStrategy(NeuralBPSOVelocityStrategy):
 
         if p_size < g_size:
             diff = g_size - p_size
-            for i in range(0,diff):
-                personal_component.append(VelocityComponentRemove())
+            for i in range(0, diff):
+                personal_component.append(VelocityComponentRemove(self.processor))
         else:
             diff = p_size - g_size
             for i in range(0, diff):
-                global_component.append(VelocityComponentRemove())
+                global_component.append(VelocityComponentRemove(self.processor))
 
-        return zip(personal_component, global_component)
+        return (personal_component, global_component)
 
-
-    def _merge_personal_and_global_components(self, personal_component, global_component, params):
+    def _merge_personal_and_global_components(self, personal_component, global_component):
 
         merged_components = []
         for p_entry, g_entry in zip(personal_component, global_component):
             merged_components.append(p_entry.merge(g_entry))
         return merged_components
-
