@@ -25,9 +25,9 @@ class VelocityComponentProcessor:
 
 
 class VelocityComponentEvolve(VelocityComponent):
-    def __init__(self, data, velocity_component_processor):
+    def __init__(self, data, processor):
         self.data = data
-        self.processor = velocity_component_processor
+        self.processor = processor
 
     def __eq__(self, other):
         if self.data == other.data and isinstance(self, type(other)):
@@ -43,9 +43,9 @@ class VelocityComponentEvolve(VelocityComponent):
 
 
 class VelocityComponentRemove(VelocityComponent):
-    def __init__(self, velocity_component_processor):
+    def __init__(self, processor):
         self.data = None
-        self.processor = velocity_component_processor
+        self.processor = processor
 
     def merge(self, other):
         return self.processor.random_choice(self, other)
@@ -58,9 +58,9 @@ class VelocityComponentRemove(VelocityComponent):
 
 
 class VelocityComponentAdd(VelocityComponent):
-    def __init__(self, data, velocity_component_processor):
+    def __init__(self, data, processor):
         self.data = data
-        self.processor = velocity_component_processor
+        self.processor = processor
 
     def __eq__(self, other):
         if self.data == other.data and isinstance(self, type(other)):

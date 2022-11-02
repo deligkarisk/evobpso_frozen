@@ -8,8 +8,8 @@ class TestVelocityComponentEvolve(TestCase):
 
     @patch('VelocityComponent.VelocityComponentProcessor')
     def test_merge_does_xor_when_both_are_evolve(self, mock_processor):
-        component_a = VelocityComponentEvolve(data=0b000111, velocity_component_processor=mock_processor)
-        component_b = VelocityComponentEvolve(data=0b100111, velocity_component_processor=mock_processor)
+        component_a = VelocityComponentEvolve(data=0b000111, processor=mock_processor)
+        component_b = VelocityComponentEvolve(data=0b100111, processor=mock_processor)
 
         result_a = component_a.merge(component_b)
         result_b = component_b.merge(component_a)
@@ -18,8 +18,8 @@ class TestVelocityComponentEvolve(TestCase):
 
     @patch('VelocityComponent.VelocityComponentProcessor')
     def test_merge_does_random_choice_when_one_is_add(self, mock_processor):
-        component_a = VelocityComponentEvolve(data=0b000111, velocity_component_processor=mock_processor)
-        component_b = VelocityComponentAdd(data=0b100111, velocity_component_processor=mock_processor)
+        component_a = VelocityComponentEvolve(data=0b000111, processor=mock_processor)
+        component_b = VelocityComponentAdd(data=0b100111, processor=mock_processor)
 
         result_a = component_a.merge(component_b)
 
@@ -28,8 +28,8 @@ class TestVelocityComponentEvolve(TestCase):
 
     @patch('VelocityComponent.VelocityComponentProcessor')
     def test_merge_does_random_choice_when_one_is_remove(self, mock_processor):
-        component_a = VelocityComponentEvolve(data=0b000111, velocity_component_processor=mock_processor)
-        component_b = VelocityComponentRemove(velocity_component_processor=mock_processor)
+        component_a = VelocityComponentEvolve(data=0b000111, processor=mock_processor)
+        component_b = VelocityComponentRemove(processor=mock_processor)
         result_a = component_a.merge(component_b)
 
         assert mock_processor.xor.call_count == 0
@@ -39,10 +39,10 @@ class TestVelocityComponentEvolve(TestCase):
 class TestVelocityComponentAdd(TestCase):
     @patch('VelocityComponent.VelocityComponentProcessor')
     def test_merge_does_always_random_choice(self, mock_processor):
-        component_a = VelocityComponentAdd(data=0b100111, velocity_component_processor=mock_processor)
-        component_b = VelocityComponentEvolve(data=0b100111, velocity_component_processor=mock_processor)
-        component_c = VelocityComponentAdd(data=0b100111, velocity_component_processor=mock_processor)
-        component_d = VelocityComponentRemove(velocity_component_processor=mock_processor)
+        component_a = VelocityComponentAdd(data=0b100111, processor=mock_processor)
+        component_b = VelocityComponentEvolve(data=0b100111, processor=mock_processor)
+        component_c = VelocityComponentAdd(data=0b100111, processor=mock_processor)
+        component_d = VelocityComponentRemove(processor=mock_processor)
 
         result_1 = component_a.merge(component_b)
         result_2 = component_a.merge(component_c)
@@ -54,10 +54,10 @@ class TestVelocityComponentAdd(TestCase):
 class TestVelocityComponentRemove(TestCase):
     @patch('VelocityComponent.VelocityComponentProcessor')
     def test_merge_does_always_random_choice(self, mock_processor):
-        component_a = VelocityComponentRemove(velocity_component_processor=mock_processor)
-        component_b = VelocityComponentAdd(data=0b100111, velocity_component_processor=mock_processor)
-        component_c = VelocityComponentEvolve(data=0b100111, velocity_component_processor=mock_processor)
-        component_d = VelocityComponentRemove(velocity_component_processor=mock_processor)
+        component_a = VelocityComponentRemove(processor=mock_processor)
+        component_b = VelocityComponentAdd(data=0b100111, processor=mock_processor)
+        component_c = VelocityComponentEvolve(data=0b100111, processor=mock_processor)
+        component_d = VelocityComponentRemove(processor=mock_processor)
 
         result_1 = component_a.merge(component_b)
         result_2 = component_a.merge(component_c)

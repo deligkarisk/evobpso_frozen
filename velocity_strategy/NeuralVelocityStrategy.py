@@ -6,14 +6,14 @@ from velocity_strategy.VelocityStrategy import VelocityStrategy
 from VelocityComponent import VelocityComponentRemove, VelocityComponentAdd, VelocityComponentEvolve, VelocityComponentProcessor
 
 
-class NeuralBPSOVelocityStrategy(VelocityStrategy, abc.ABC):
+class NeuralVelocityStrategy(VelocityStrategy, abc.ABC):
     pass
 
 
-class BooleanPSONeuralVelocityStrategy(NeuralBPSOVelocityStrategy):
+class BooleanPSONeuralVelocityStrategy(NeuralVelocityStrategy):
 
-    def __init__(self):
-        self.processor = None
+    def __init__(self, processor=None):
+        self.processor = processor
 
     def get_new_velocity(self, current_velocity, current_position, pbest_position, gbest_position, params):
 
@@ -40,17 +40,17 @@ class BooleanPSONeuralVelocityStrategy(NeuralBPSOVelocityStrategy):
         # for the dimensions that both positions have, produce the xor result
         for current_index in range(0, smallest_size):
             component = (best_position[current_index] ^ current_position[current_index]) & rnd_vector_partial()
-            velocity_entry = VelocityComponentEvolve(data=component, velocity_component_processor=self.processor)
+            velocity_entry = VelocityComponentEvolve(data=component, processor=self.processor)
             result.append(velocity_entry)
 
         # subsequently, fill the rest with either 'Add' or 'Remove'.
         # this depends on whether the best (global or personal) is larger than the current position or vice versa
         for current_index in range(smallest_size, largest_size):
             if best_position_is_larger:
-                velocity_entry = VelocityComponentAdd(data=best_position[current_index], velocity_component_processor=self.processor)
+                velocity_entry = VelocityComponentAdd(data=best_position[current_index], processor=self.processor)
                 result.append(velocity_entry)
             else:
-                velocity_entry = VelocityComponentRemove(velocity_component_processor=self.processor)
+                velocity_entry = VelocityComponentRemove(processor=self.processor)
                 result.append(velocity_entry)
         return result
 
