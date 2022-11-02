@@ -24,7 +24,7 @@ class VelocityComponentProcessor:
             return global_component
 
 
-class VelocityComponentXOR(VelocityComponent):
+class VelocityComponentEvolve(VelocityComponent):
     def __init__(self, data, velocity_component_processor):
         self.data = data
         self.processor = velocity_component_processor
@@ -36,7 +36,7 @@ class VelocityComponentXOR(VelocityComponent):
             return False
 
     def merge(self, other):
-        if (isinstance(other, VelocityComponentXOR)):
+        if (isinstance(other, VelocityComponentEvolve)):
             return self.processor.xor(self, other)
         elif isinstance(other, VelocityComponentAdd) or isinstance(other, VelocityComponentRemove):
             return self.processor.random_choice(self, other)

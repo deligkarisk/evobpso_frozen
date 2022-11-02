@@ -3,7 +3,7 @@ from functools import partial
 
 from utils import find_largest_size, create_rnd_binary_vector, find_smallest_size, find_smallest_index, find_largest_index
 from velocity_strategy.VelocityStrategy import VelocityStrategy
-from VelocityComponent import VelocityComponentRemove, VelocityComponentAdd, VelocityComponentXOR, VelocityComponentProcessor
+from VelocityComponent import VelocityComponentRemove, VelocityComponentAdd, VelocityComponentEvolve, VelocityComponentProcessor
 
 
 class NeuralBPSOVelocityStrategy(VelocityStrategy, abc.ABC):
@@ -28,8 +28,8 @@ class BooleanPSONeuralVelocityStrategy(NeuralBPSOVelocityStrategy):
         rnd_vector_partial = partial(create_rnd_binary_vector, params.c2, params.n_bits)
         global_component = self._create_component(pbest_position, current_position, rnd_vector_partial)
         personal_component, global_component = self._equalize_sizes(personal_component, global_component)
-
-        new_velocity = []
+        new_velocity = self._merge_personal_and_global_components(personal_component, global_component)
+        return new_velocity
 
     def _create_component(self, best_position, current_position, rnd_vector_partial):
         largest_size = find_largest_size(best_position, current_position)
@@ -40,7 +40,7 @@ class BooleanPSONeuralVelocityStrategy(NeuralBPSOVelocityStrategy):
         # for the dimensions that both positions have, produce the xor result
         for current_index in range(0, smallest_size):
             component = (best_position[current_index] ^ current_position[current_index]) & rnd_vector_partial()
-            velocity_entry = VelocityComponentXOR(data=component, velocity_component_processor=self.processor)
+            velocity_entry = VelocityComponentEvolve(data=component, velocity_component_processor=self.processor)
             result.append(velocity_entry)
 
         # subsequently, fill the rest with either 'Add' or 'Remove'.
@@ -71,11 +71,15 @@ class BooleanPSONeuralVelocityStrategy(NeuralBPSOVelocityStrategy):
             for i in range(0, diff):
                 global_component.append(VelocityComponentRemove(self.processor))
 
-        return (personal_component, global_component)
+        return personal_component, global_component
 
     def _merge_personal_and_global_components(self, personal_component, global_component):
+
+        if len(personal_component) != len(global_component):
+            raise ValueError('input components must have the same size')
 
         merged_components = []
         for p_entry, g_entry in zip(personal_component, global_component):
             merged_components.append(p_entry.merge(g_entry))
+
         return merged_components

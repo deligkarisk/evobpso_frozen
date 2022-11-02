@@ -3,7 +3,7 @@ from unittest import TestCase
 from unittest.mock import Mock, patch
 
 import VelocityComponent
-from VelocityComponent import VelocityComponentRemove, VelocityComponentAdd, VelocityComponentXOR
+from VelocityComponent import VelocityComponentRemove, VelocityComponentAdd, VelocityComponentEvolve
 from velocity_strategy.NeuralBPSOVelocityStrategy import BooleanPSONeuralVelocityStrategy
 
 
@@ -41,10 +41,10 @@ class TestBooleanPSONeuralVelocityStrategy(TestCase):
     # noinspection PyTypeChecker
     @patch('VelocityComponent.VelocityComponentProcessor')
     def test__equalize_sizes(self, mock_processor):
-        personal_component = [VelocityComponentXOR(data=0b000000, velocity_component_processor=mock_processor),
+        personal_component = [VelocityComponentEvolve(data=0b000000, velocity_component_processor=mock_processor),
                               VelocityComponentAdd(data=0b000000, velocity_component_processor=mock_processor)]
-        global_component = [VelocityComponentXOR(data=0b000000, velocity_component_processor=mock_processor),
-                            VelocityComponentXOR(data=0b000000, velocity_component_processor=mock_processor),
+        global_component = [VelocityComponentEvolve(data=0b000000, velocity_component_processor=mock_processor),
+                            VelocityComponentEvolve(data=0b000000, velocity_component_processor=mock_processor),
                             VelocityComponentAdd(data=0b000000, velocity_component_processor=mock_processor),
                             VelocityComponentAdd(data=0b000000, velocity_component_processor=mock_processor)
                             ]
@@ -60,3 +60,5 @@ class TestBooleanPSONeuralVelocityStrategy(TestCase):
 
         assert expected_global_component == updated_global_component
         assert expected_personal_component == updated_personal_component
+
+
