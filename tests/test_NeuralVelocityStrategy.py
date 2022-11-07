@@ -69,8 +69,6 @@ class TestBooleanPSONeuralVelocityStrategy(TestCase):
         assert expected_global_component == updated_global_component
         assert expected_personal_component == updated_personal_component
 
-
-class TestBooleanPSONeuralVelocityStrategy(TestCase):
     def test_get_new_velocity_only_personal_factor(self):
         current_velocity = [0b111111, 0b101010]
         current_position = [0b010101, 0b000000]
@@ -106,5 +104,3 @@ class TestBooleanPSONeuralVelocityStrategy(TestCase):
         expected_velocity.append(VelocityComponentRemove(processor=fixed_processor))
         expected_velocity.append(VelocityComponentRemove(processor=fixed_processor))
         assert new_velocity == expected_velocity
-
-
