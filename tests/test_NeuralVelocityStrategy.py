@@ -1,16 +1,15 @@
 import copy
 from unittest import TestCase
-from unittest.mock import Mock, patch
+from unittest.mock import patch
 
-import VelocityComponent
 from PsoParams import PsoParams
-from VelocityComponent import VelocityComponentRemove, VelocityComponentAdd, VelocityComponentEvolve, VelocityComponentProcessor
+from velocity_component.VelocityComponent import VelocityComponentRemove, VelocityComponentAdd, VelocityComponentEvolve, VelocityComponentProcessor
 from velocity_strategy.NeuralVelocityStrategy import BooleanPSONeuralVelocityStrategy
 
 
 class TestBooleanPSONeuralVelocityStrategy(TestCase):
 
-    @patch('VelocityComponent.VelocityComponentProcessor')
+    @patch('velocity_component.VelocityComponent.VelocityComponentProcessor')
     def test__create_component_when_best_position_longer_than_current(self, mock_processor):
         def vector_rnd_all_ones():
             return 0b111111
@@ -28,7 +27,7 @@ class TestBooleanPSONeuralVelocityStrategy(TestCase):
 
         assert result == expected_result
 
-    @patch('VelocityComponent.VelocityComponentProcessor')
+    @patch('velocity_component.VelocityComponent.VelocityComponentProcessor')
     def test__create_component_when_best_position_shorter_than_current(self, mock_processor):
         def vector_rnd_all_ones():
             return 0b111111
@@ -47,7 +46,7 @@ class TestBooleanPSONeuralVelocityStrategy(TestCase):
         assert result == expected_result
 
     # noinspection PyTypeChecker
-    @patch('VelocityComponent.VelocityComponentProcessor')
+    @patch('velocity_component.VelocityComponent.VelocityComponentProcessor')
     def test__equalize_sizes(self, mock_processor):
         personal_component = [VelocityComponentEvolve(data=0b000000, processor=mock_processor),
                               VelocityComponentAdd(data=0b000000, processor=mock_processor)]

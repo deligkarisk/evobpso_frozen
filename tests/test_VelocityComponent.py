@@ -1,12 +1,12 @@
 from unittest import TestCase
 from unittest.mock import patch
 
-from VelocityComponent import VelocityComponentEvolve, VelocityComponentAdd, VelocityComponentRemove
+from velocity_component.VelocityComponent import VelocityComponentEvolve, VelocityComponentAdd, VelocityComponentRemove
 
 
 class TestVelocityComponentEvolve(TestCase):
 
-    @patch('VelocityComponent.VelocityComponentProcessor')
+    @patch('velocity_component.VelocityComponent.VelocityComponentProcessor')
     def test_merge_does_xor_when_both_are_evolve(self, mock_processor):
         component_a = VelocityComponentEvolve(data=0b000111, processor=mock_processor)
         component_b = VelocityComponentEvolve(data=0b100111, processor=mock_processor)
@@ -16,7 +16,7 @@ class TestVelocityComponentEvolve(TestCase):
 
         assert mock_processor.xor.call_count == 2
 
-    @patch('VelocityComponent.VelocityComponentProcessor')
+    @patch('velocity_component.VelocityComponent.VelocityComponentProcessor')
     def test_merge_does_random_choice_when_one_is_add(self, mock_processor):
         component_a = VelocityComponentEvolve(data=0b000111, processor=mock_processor)
         component_b = VelocityComponentAdd(data=0b100111, processor=mock_processor)
@@ -26,7 +26,7 @@ class TestVelocityComponentEvolve(TestCase):
         assert mock_processor.xor.call_count == 0
         assert mock_processor.random_choice.call_count == 1
 
-    @patch('VelocityComponent.VelocityComponentProcessor')
+    @patch('velocity_component.VelocityComponent.VelocityComponentProcessor')
     def test_merge_does_random_choice_when_one_is_remove(self, mock_processor):
         component_a = VelocityComponentEvolve(data=0b000111, processor=mock_processor)
         component_b = VelocityComponentRemove(processor=mock_processor)
@@ -37,7 +37,7 @@ class TestVelocityComponentEvolve(TestCase):
 
 
 class TestVelocityComponentAdd(TestCase):
-    @patch('VelocityComponent.VelocityComponentProcessor')
+    @patch('velocity_component.VelocityComponent.VelocityComponentProcessor')
     def test_merge_does_always_random_choice(self, mock_processor):
         component_a = VelocityComponentAdd(data=0b100111, processor=mock_processor)
         component_b = VelocityComponentEvolve(data=0b100111, processor=mock_processor)
@@ -52,7 +52,7 @@ class TestVelocityComponentAdd(TestCase):
 
 
 class TestVelocityComponentRemove(TestCase):
-    @patch('VelocityComponent.VelocityComponentProcessor')
+    @patch('velocity_component.VelocityComponent.VelocityComponentProcessor')
     def test_merge_does_always_random_choice(self, mock_processor):
         component_a = VelocityComponentRemove(processor=mock_processor)
         component_b = VelocityComponentAdd(data=0b100111, processor=mock_processor)

@@ -1,9 +1,9 @@
 import abc
 from functools import partial
 
-from utils import find_largest_size, create_rnd_binary_vector, find_smallest_size, find_smallest_index, find_largest_index
+from utils import find_largest_size, create_rnd_binary_vector, find_smallest_size, find_largest_index
 from velocity_strategy.VelocityStrategy import VelocityStrategy
-from VelocityComponent import VelocityComponentRemove, VelocityComponentAdd, VelocityComponentEvolve, VelocityComponentProcessor
+from velocity_component.VelocityComponent import VelocityComponentRemove, VelocityComponentAdd, VelocityComponentEvolve, VelocityComponentProcessor
 
 
 class NeuralVelocityStrategy(VelocityStrategy, abc.ABC):
