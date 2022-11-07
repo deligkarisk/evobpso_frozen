@@ -4,6 +4,10 @@ import random
 
 class VelocityComponent(abc.ABC):
 
+    def __init__(self):
+        self.processor = None
+        self.data = None
+
     def merge(self, other):
         raise NotImplementedError
 
@@ -15,7 +19,9 @@ class VelocityComponentProcessor:
         self.params = params
 
     def xor(self, personal_component: VelocityComponent, global_component: VelocityComponent):
-        pass
+        result_data = personal_component.data ^ global_component.data
+        return VelocityComponentEvolve(data=result_data, processor=personal_component.processor)
+
 
     def random_choice(self, personal_component: VelocityComponent, global_component: VelocityComponent):
         if random.uniform(0, 1) < self.params.k:

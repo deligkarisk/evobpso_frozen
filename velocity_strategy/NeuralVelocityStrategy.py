@@ -21,12 +21,11 @@ class BooleanPSONeuralVelocityStrategy(NeuralVelocityStrategy):
         if self.processor is None:
             self.processor = VelocityComponentProcessor(params)
 
-        largest_size_gbest = find_largest_size(pbest_position, current_position)
-        smallest_size_gbest = find_smallest_size(pbest_position, current_position)
-        rnd_vector_partial = partial(create_rnd_binary_vector, params.c1, params.n_bits)
-        personal_component = self._create_component(pbest_position, current_position, rnd_vector_partial)
-        rnd_vector_partial = partial(create_rnd_binary_vector, params.c2, params.n_bits)
-        global_component = self._create_component(pbest_position, current_position, rnd_vector_partial)
+
+        rnd_vector_personal_partial = partial(create_rnd_binary_vector, params.c1, params.n_bits)
+        personal_component = self._create_component(pbest_position, current_position, rnd_vector_personal_partial)
+        rnd_vector_social_partial = partial(create_rnd_binary_vector, params.c2, params.n_bits)
+        global_component = self._create_component(gbest_position, current_position, rnd_vector_social_partial)
         personal_component, global_component = self._equalize_sizes(personal_component, global_component)
         new_velocity = self._merge_personal_and_global_components(personal_component, global_component)
         return new_velocity
@@ -60,7 +59,7 @@ class BooleanPSONeuralVelocityStrategy(NeuralVelocityStrategy):
 
         # if the sizes are equal, nothing to do
         if p_size == g_size:
-            return zip(personal_component, global_component)
+            return personal_component, global_component
 
         if p_size < g_size:
             diff = g_size - p_size
@@ -83,3 +82,5 @@ class BooleanPSONeuralVelocityStrategy(NeuralVelocityStrategy):
             merged_components.append(p_entry.merge(g_entry))
 
         return merged_components
+
+
