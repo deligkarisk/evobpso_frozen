@@ -12,11 +12,8 @@ class BooleanPSONeuralPositionUpdateStrategy(NeuralPositionUpdateStrategy):
     def get_new_position(self, current_position, current_velocity):
         new_position = []
         for i in range(0, len(current_velocity)):
-            if isinstance(current_velocity[i], VelocityComponentEvolve):
-                result = current_velocity[i].data ^ current_position[i]
-                new_position.append(result)
-            elif isinstance(current_velocity[i], VelocityComponentAdd):
-                new_position.append(current_velocity[i].data)
-            elif isinstance(current_velocity[i], VelocityComponentRemove):
-                pass
+            current_position_placeholder = current_position[i] if i < len(current_position) else None
+            new_position_in_dim = current_velocity[i].get_new_position(current_position_placeholder)
+            if new_position_in_dim is not None:
+                new_position.append(new_position_in_dim)
         return new_position

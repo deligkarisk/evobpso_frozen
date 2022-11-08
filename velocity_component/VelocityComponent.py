@@ -11,6 +11,8 @@ class VelocityComponent(abc.ABC):
     def merge(self, other):
         raise NotImplementedError
 
+    def get_new_position(self, current_position):
+        raise NotImplementedError
 
 
 class VelocityComponentProcessor:
@@ -22,7 +24,6 @@ class VelocityComponentProcessor:
         result_data = personal_component.data ^ global_component.data
         return VelocityComponentEvolve(data=result_data, processor=personal_component.processor)
 
-
     def random_choice(self, personal_component: VelocityComponent, global_component: VelocityComponent):
         if random.uniform(0, 1) < self.params.k:
             return personal_component
@@ -31,6 +32,7 @@ class VelocityComponentProcessor:
 
 
 class VelocityComponentEvolve(VelocityComponent):
+
     def __init__(self, data, processor):
         self.data = data
         self.processor = processor
@@ -47,6 +49,9 @@ class VelocityComponentEvolve(VelocityComponent):
         elif isinstance(other, VelocityComponentAdd) or isinstance(other, VelocityComponentRemove):
             return self.processor.random_choice(self, other)
 
+    def get_new_position(self, current_position):
+        return current_position ^ self.data
+
 
 class VelocityComponentRemove(VelocityComponent):
     def __init__(self, processor):
@@ -61,6 +66,8 @@ class VelocityComponentRemove(VelocityComponent):
             return True
         else:
             return False
+    def get_new_position(self, current_position):
+        return None
 
 
 class VelocityComponentAdd(VelocityComponent):
@@ -76,3 +83,6 @@ class VelocityComponentAdd(VelocityComponent):
 
     def merge(self, other):
         return self.processor.random_choice(self, other)
+
+    def get_new_position(self, current_position):
+        return self.data

@@ -35,6 +35,13 @@ class TestVelocityComponentEvolve(TestCase):
         assert mock_processor.xor.call_count == 0
         assert mock_processor.random_choice.call_count == 1
 
+    @patch('velocity_component.VelocityComponent.VelocityComponentProcessor')
+    def test_get_new_position(self, mock_processor):
+        component = VelocityComponentEvolve(data=0b111000, processor=mock_processor)
+        current_position = 0b0000001
+        new_position = component.get_new_position(current_position=current_position)
+        assert new_position == 0b111001
+
 
 class TestVelocityComponentAdd(TestCase):
     @patch('velocity_component.VelocityComponent.VelocityComponentProcessor')
@@ -50,6 +57,13 @@ class TestVelocityComponentAdd(TestCase):
 
         assert mock_processor.random_choice.call_count == 3
 
+    @patch('velocity_component.VelocityComponent.VelocityComponentProcessor')
+    def test_get_new_position(self, mock_processor):
+        component = VelocityComponentAdd(data=0b111000, processor=mock_processor)
+        current_position = None
+        new_position = component.get_new_position(current_position=current_position)
+        assert new_position == 0b111000
+
 
 class TestVelocityComponentRemove(TestCase):
     @patch('velocity_component.VelocityComponent.VelocityComponentProcessor')
@@ -64,3 +78,9 @@ class TestVelocityComponentRemove(TestCase):
         result_3 = component_a.merge(component_d)
 
         assert mock_processor.random_choice.call_count == 3
+
+    @patch('velocity_component.VelocityComponent.VelocityComponentProcessor')
+    def test_get_new_position(self, mock_processor):
+        component = VelocityComponentRemove(processor=mock_processor)
+        current_position = [0b0000001]
+        assert component.get_new_position(current_position=current_position) is None
