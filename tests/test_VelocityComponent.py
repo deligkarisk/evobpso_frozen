@@ -1,5 +1,5 @@
 from unittest import TestCase
-from unittest.mock import patch
+from unittest.mock import patch, Mock
 
 from velocity_component.VelocityComponent import VelocityComponentEvolve, VelocityComponentAdd, VelocityComponentRemove
 
@@ -38,9 +38,11 @@ class TestVelocityComponentEvolve(TestCase):
     @patch('velocity_component.VelocityComponent.VelocityComponentProcessor')
     def test_get_new_position(self, mock_processor):
         component = VelocityComponentEvolve(data=0b111000, processor=mock_processor)
+        position_visitor = Mock()
         current_position = 0b0000001
-        new_position = component.get_new_position(current_position=current_position)
-        assert new_position == 0b111001
+        new_position = component.convert_to_position(current_position=current_position, position_conversion_visitor=position_visitor)
+        assert position_visitor.do_for_component_evolve.call_count == 1
+        #assert new_position == 0b111001
 
 
 class TestVelocityComponentAdd(TestCase):
@@ -61,8 +63,9 @@ class TestVelocityComponentAdd(TestCase):
     def test_get_new_position(self, mock_processor):
         component = VelocityComponentAdd(data=0b111000, processor=mock_processor)
         current_position = None
-        new_position = component.get_new_position(current_position=current_position)
-        assert new_position == 0b111000
+        position_visitor = Mock()
+        new_position = component.convert_to_position(current_position=current_position, position_conversion_visitor=position_visitor)
+        assert position_visitor.do_for_component_add.call_count == 1
 
 
 class TestVelocityComponentRemove(TestCase):
@@ -82,5 +85,8 @@ class TestVelocityComponentRemove(TestCase):
     @patch('velocity_component.VelocityComponent.VelocityComponentProcessor')
     def test_get_new_position(self, mock_processor):
         component = VelocityComponentRemove(processor=mock_processor)
+        position_visitor = Mock()
         current_position = [0b0000001]
-        assert component.get_new_position(current_position=current_position) is None
+        new_position = component.convert_to_position(current_position=current_position, position_conversion_visitor=position_visitor)
+        assert  position_visitor.do_for_component_remove.call_count == 1
+

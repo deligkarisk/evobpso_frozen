@@ -11,7 +11,7 @@ class VelocityComponent(abc.ABC):
     def merge(self, other):
         raise NotImplementedError
 
-    def get_new_position(self, current_position):
+    def convert_to_position(self, current_position, position_conversion_visitor):
         raise NotImplementedError
 
 
@@ -49,8 +49,9 @@ class VelocityComponentEvolve(VelocityComponent):
         elif isinstance(other, VelocityComponentAdd) or isinstance(other, VelocityComponentRemove):
             return self.processor.random_choice(self, other)
 
-    def get_new_position(self, current_position):
-        return current_position ^ self.data
+    def convert_to_position(self, current_position, position_conversion_visitor):
+        return position_conversion_visitor.do_for_component_evolve(self, current_position)
+
 
 
 class VelocityComponentRemove(VelocityComponent):
@@ -66,8 +67,9 @@ class VelocityComponentRemove(VelocityComponent):
             return True
         else:
             return False
-    def get_new_position(self, current_position):
-        return None
+
+    def convert_to_position(self, current_position, position_conversion_visitor):
+        return position_conversion_visitor.do_for_component_remove(self)
 
 
 class VelocityComponentAdd(VelocityComponent):
@@ -84,5 +86,5 @@ class VelocityComponentAdd(VelocityComponent):
     def merge(self, other):
         return self.processor.random_choice(self, other)
 
-    def get_new_position(self, current_position):
-        return self.data
+    def convert_to_position(self, current_position, position_conversion_visitor):
+        return position_conversion_visitor.do_for_component_add(self)
