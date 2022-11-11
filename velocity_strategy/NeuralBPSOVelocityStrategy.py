@@ -10,7 +10,7 @@ class NeuralBPSOVelocityStrategy(VelocityStrategy, abc.ABC):
     pass
 
 
-class NeuralBPSOStandardNeuralVelocityStrategy(NeuralBPSOVelocityStrategy):
+class NeuralBPSOStandardVelocityStrategy(NeuralBPSOVelocityStrategy):
 
     def __init__(self, processor=None):
         self.processor = processor

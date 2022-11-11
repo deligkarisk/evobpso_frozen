@@ -1,7 +1,7 @@
 from velocity_component.VelocityComponent import VelocityComponentAdd, VelocityComponentEvolve, VelocityComponentRemove
 
 
-class ConventionalNeuralPositionUpdateVisitor:
+class ComponentToPositionStandardVisitor:
 
     def do_for_component_add(self, component: VelocityComponentAdd):
         return component.data

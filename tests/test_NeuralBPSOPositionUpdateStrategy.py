@@ -1,15 +1,18 @@
 from unittest import TestCase
 from unittest.mock import patch
 
+from neural_position_component_visitor.ComponentToPositionStandardVisitor import ComponentToPositionStandardVisitor
 from position_update_strategy.NeuralBPSOPositionUpdateStrategy import NeuralBPSOStandardPositionUpdateStrategy
 from velocity_component.VelocityComponent import VelocityComponentEvolve, VelocityComponentRemove, VelocityComponentAdd
 
 
-class TestBooleanPSONeuralPositionUpdateStrategy(TestCase):
+class TestNeuralBPSOStandardPositionUpdateStrategy(TestCase):
 
     @patch('velocity_component.VelocityComponent.VelocityComponentProcessor')
     def test_get_new_position(self, mock_processor):
-        strategy = NeuralBPSOStandardPositionUpdateStrategy()
+        comp_to_pos_visitor = ComponentToPositionStandardVisitor()
+
+        strategy = NeuralBPSOStandardPositionUpdateStrategy(component_to_position_visitor=comp_to_pos_visitor)
         current_position = [0b000111, 0b110000]
 
         component_a = VelocityComponentEvolve(data=0b100111, processor=mock_processor)

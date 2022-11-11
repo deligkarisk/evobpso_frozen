@@ -1,7 +1,7 @@
 import abc
 from typing import List
 
-from neural_position_component_visitor.ConventionalNeuralPositionUpdateVisitor import ConventionalNeuralPositionUpdateVisitor
+from neural_position_component_visitor.ComponentToPositionStandardVisitor import ComponentToPositionStandardVisitor
 from position_update_strategy.PositionUpdateStrategy import PositionUpdateStrategy
 from velocity_component.VelocityComponent import VelocityComponent
 
@@ -11,9 +11,12 @@ class NeuralBPSOPositionUpdateStrategy(PositionUpdateStrategy, abc.ABC):
 
 
 class NeuralBPSOStandardPositionUpdateStrategy(NeuralBPSOPositionUpdateStrategy):
-    def get_new_position(self, current_position, current_velocity: List[VelocityComponent]):
 
-        visitor = ConventionalNeuralPositionUpdateVisitor()
+    def __init__(self, component_to_position_visitor):
+        self.component_to_position_visitor = component_to_position_visitor
+
+    def get_new_position(self, current_position, current_velocity: List[VelocityComponent]):
+        visitor = self.component_to_position_visitor
         new_position = []
         for i in range(0, len(current_velocity)):
             current_position_placeholder = current_position[i] if i < len(current_position) else None
