@@ -4,17 +4,17 @@ from Rastrigin import Rastrigin
 from Decoder import BinToRealDecoder, RealToRealDecoder
 from particle_factory.ParticleFactory import BooleanPSOParticleFactory, RealPSOParticleFactory
 from position_update_strategy.BooleanPSOPositionUpdateStrategy import BooleanPSOStandardPositionUpdateStrategy
-from position_update_strategy.NeuralPositionUpdateStrategy import BooleanPSONeuralPositionUpdateStrategy
+from position_update_strategy.NeuralBPSOPositionUpdateStrategy import NeuralBPSOStandardPositionUpdateStrategy
 from position_update_strategy.RealPSOPositionUpdateStrategy import RealPSOStandardPositionUpdateStrategy
-from velocity_strategy.BooleanPSOVelocityStrategy import BooleanPSOStandardVelocityStrategy
-from velocity_strategy.NeuralVelocityStrategy import BooleanPSONeuralVelocityStrategy
+from velocity_strategy.NeuralBPSOVelocityStrategy import BooleanPSOStandardVelocityStrategy
+from velocity_strategy.NeuralBPSOVelocityStrategy import NeuralBPSOStandardNeuralVelocityStrategy
 from velocity_strategy.RealPSOVelocityStrategy import RealPSOStandardVelocityStrategy
 
 n_bits = 32
 
 params = PsoParams(0.3, 0.3, 0.1, n_bits)
-velocity_strategy = BooleanPSONeuralVelocityStrategy()
-position_update_strategy = BooleanPSONeuralPositionUpdateStrategy()
+velocity_strategy = NeuralBPSOStandardNeuralVelocityStrategy()
+position_update_strategy = NeuralBPSOStandardPositionUpdateStrategy()
 neural_component_config = ComponentConfigVisitor()
 
 

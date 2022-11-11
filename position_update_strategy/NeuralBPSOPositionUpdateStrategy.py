@@ -6,11 +6,11 @@ from position_update_strategy.PositionUpdateStrategy import PositionUpdateStrate
 from velocity_component.VelocityComponent import VelocityComponent
 
 
-class NeuralPositionUpdateStrategy(PositionUpdateStrategy, abc.ABC):
+class NeuralBPSOPositionUpdateStrategy(PositionUpdateStrategy, abc.ABC):
     pass
 
 
-class BooleanPSONeuralPositionUpdateStrategy(NeuralPositionUpdateStrategy):
+class NeuralBPSOStandardPositionUpdateStrategy(NeuralBPSOPositionUpdateStrategy):
     def get_new_position(self, current_position, current_velocity: List[VelocityComponent]):
 
         visitor = ConventionalNeuralPositionUpdateVisitor()

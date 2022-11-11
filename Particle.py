@@ -4,9 +4,11 @@ import random
 
 from PsoParams import PsoParams
 from position_update_strategy.BooleanPSOPositionUpdateStrategy import BooleanPSOPositionUpdateStrategy
+from position_update_strategy.NeuralBPSOPositionUpdateStrategy import NeuralBPSOPositionUpdateStrategy
 from position_update_strategy.PositionUpdateStrategy import PositionUpdateStrategy
 from position_update_strategy.RealPSOPositionUpdateStrategy import RealPSOPositionUpdateStrategy
 from velocity_strategy.BooleanPSOVelocityStrategy import BooleanPSOVelocityStrategy
+from velocity_strategy.NeuralBPSOVelocityStrategy import NeuralBPSOVelocityStrategy
 from utils import create_rnd_binary_vector
 from velocity_strategy.RealPSOVelocityStrategy import RealPSOVelocityStrategy
 from velocity_strategy.VelocityStrategy import VelocityStrategy
@@ -73,7 +75,7 @@ class Particle(abc.ABC):
 
 class BooleanPSOParticle(Particle):
 
-    def __init__(self, parent_pop, problem, decoder, pso_params: PsoParams, velocity_strategy: BooleanPSOVelocityStrategy,
+    def __init__(self, parent_pop, problem, decoder, pso_params: PsoParams, velocity_strategy: NeuralBPSOVelocityStrategy,
                  position_update_strategy: BooleanPSOPositionUpdateStrategy):
 
         if not isinstance(position_update_strategy, BooleanPSOPositionUpdateStrategy):
@@ -130,3 +132,31 @@ class RealPSOParticle(Particle):
         for i in range(0, self.problem.dimensions):
             new_position.append(self.current_position[i] + self.current_velocity[i])
         return new_position
+
+
+class NeuralBPSOParticle(Particle):
+
+    def __init__(self, parent_pop, problem, decoder, pso_params: PsoParams, velocity_strategy: NeuralBPSOVelocityStrategy,
+                 position_update_strategy: NeuralBPSOPositionUpdateStrategy):
+
+        if not isinstance(position_update_strategy, NeuralBPSOPositionUpdateStrategy):
+            raise ValueError("Position update strategy in Neural BPSO must be " + str(NeuralBPSOPositionUpdateStrategy.__name__))
+
+        if not isinstance(velocity_strategy, NeuralBPSOVelocityStrategy):
+            raise ValueError("Velocity update strategy in Neural BPSO must be " + str(NeuralBPSOVelocityStrategy.__name__))
+
+        Particle.__init__(self, parent_pop, problem, decoder, pso_params, velocity_strategy, position_update_strategy)
+
+    def get_initial_positions(self):
+
+        position = []
+        for i in range(0, self.problem.dimensions):
+            position.append(create_rnd_binary_vector(0.5, self.params.n_bits))
+        return position
+
+    def get_initial_velocity(self):
+
+        velocity = []
+        for i in range(0, self.problem.dimensions):
+            velocity.append(create_rnd_binary_vector(0.5, self.params.n_bits))
+        return velocity

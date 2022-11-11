@@ -6,11 +6,11 @@ from velocity_strategy.VelocityStrategy import VelocityStrategy
 from velocity_component.VelocityComponent import VelocityComponentRemove, VelocityComponentAdd, VelocityComponentEvolve, VelocityComponentProcessor
 
 
-class NeuralVelocityStrategy(VelocityStrategy, abc.ABC):
+class NeuralBPSOVelocityStrategy(VelocityStrategy, abc.ABC):
     pass
 
 
-class BooleanPSONeuralVelocityStrategy(NeuralVelocityStrategy):
+class NeuralBPSOStandardNeuralVelocityStrategy(NeuralBPSOVelocityStrategy):
 
     def __init__(self, processor=None):
         self.processor = processor

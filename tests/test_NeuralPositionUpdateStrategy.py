@@ -1,7 +1,7 @@
 from unittest import TestCase
 from unittest.mock import patch
 
-from position_update_strategy.NeuralPositionUpdateStrategy import BooleanPSONeuralPositionUpdateStrategy
+from position_update_strategy.NeuralBPSOPositionUpdateStrategy import NeuralBPSOStandardPositionUpdateStrategy
 from velocity_component.VelocityComponent import VelocityComponentEvolve, VelocityComponentRemove, VelocityComponentAdd
 
 
@@ -9,7 +9,7 @@ class TestBooleanPSONeuralPositionUpdateStrategy(TestCase):
 
     @patch('velocity_component.VelocityComponent.VelocityComponentProcessor')
     def test_get_new_position(self, mock_processor):
-        strategy = BooleanPSONeuralPositionUpdateStrategy()
+        strategy = NeuralBPSOStandardPositionUpdateStrategy()
         current_position = [0b000111, 0b110000]
 
         component_a = VelocityComponentEvolve(data=0b100111, processor=mock_processor)
