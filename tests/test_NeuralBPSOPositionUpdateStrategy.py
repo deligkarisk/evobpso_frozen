@@ -9,7 +9,7 @@ from velocity_component.VelocityComponent import VelocityComponentEvolve, Veloci
 class TestNeuralBPSOStandardPositionUpdateStrategy(TestCase):
 
     @patch('velocity_component.VelocityComponent.VelocityComponentProcessor')
-    def test_get_new_position(self, mock_processor):
+    def test_get_new_position_with_standard_position_visitor(self, mock_processor):
         comp_to_pos_visitor = ComponentToPositionStandardVisitor()
 
         strategy = NeuralBPSOStandardPositionUpdateStrategy(component_to_position_visitor=comp_to_pos_visitor)

@@ -5,7 +5,7 @@ from Decoder import BinToRealDecoder, RealToRealDecoder
 from particle_factory.ParticleFactory import BooleanPSOParticleFactory, RealPSOParticleFactory
 from position_update_strategy.BooleanPSOPositionUpdateStrategy import BooleanPSOStandardPositionUpdateStrategy
 from position_update_strategy.RealPSOPositionUpdateStrategy import RealPSOStandardPositionUpdateStrategy
-from velocity_strategy.NeuralBPSOVelocityStrategy import BooleanPSOStandardVelocityStrategy
+from velocity_strategy.BooleanPSOVelocityStrategy import BooleanPSOStandardVelocityStrategy
 from velocity_strategy.RealPSOVelocityStrategy import RealPSOStandardVelocityStrategy
 
 n_bits = 32
@@ -30,11 +30,11 @@ for i in range(0,10):
     #print(parent_pop.global_best_result)
     print("iteration: " + str(i))
     particle = parent_pop_bool.particles[0]
-    print("particle 0: velocity_strategy: " + str(particle.current_velocity) + ", position: " + str(particle.current_position) + ", result: " + str(particle.current_result))
+    print("particle 0: velocity: " + str(particle.current_velocity) + ", position: " + str(particle.current_position) + ", result: " + str(particle.current_result))
     particle = parent_pop_bool.particles[1]
-    print("particle 1: velocity_strategy: " + str(particle.current_velocity) + ", position: " + str(particle.current_position) + ", result: " + str(particle.current_result))
+    print("particle 1: velocity: " + str(particle.current_velocity) + ", position: " + str(particle.current_position) + ", result: " + str(particle.current_result))
     particle = parent_pop_bool.get_best_particle()
-    print("global best: velocity_strategy: " + str(particle.current_velocity) + ", position: " + str(particle.current_position) + ", result: " + str(particle.current_result))
+    print("global best: velocity: " + str(particle.current_velocity) + ", position: " + str(particle.current_position) + ", result: " + str(particle.current_result))
 
 
 
@@ -52,10 +52,10 @@ for i in range(0,100):
     #print(parent_pop.global_best_result)
     print("iteration: " + str(i))
     particle = parent_pop_real.particles[0]
-    print("particle 0: velocity_strategy: " + str(particle.current_velocity) + ", position: " + str(particle.current_position) + ", result: " + str(particle.current_result))
+    print("particle 0: velocity: " + str(particle.current_velocity) + ", position: " + str(particle.current_position) + ", result: " + str(particle.current_result))
     particle = parent_pop_real.particles[1]
-    print("particle 1: velocity_strategy: " + str(particle.current_velocity) + ", position: " + str(particle.current_position) + ", result: " + str(particle.current_result))
+    print("particle 1: velocity: " + str(particle.current_velocity) + ", position: " + str(particle.current_position) + ", result: " + str(particle.current_result))
     particle = parent_pop_real.get_best_particle()
-    print("global best: velocity_strategy: " + str(particle.current_velocity) + ", position: " + str(particle.current_position) + ", result: " + str(particle.current_result))
+    print("global best: velocity: " + str(particle.current_velocity) + ", position: " + str(particle.current_position) + ", result: " + str(particle.current_result))
 
 

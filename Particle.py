@@ -2,7 +2,7 @@ import abc
 import copy
 import random
 
-from PsoParams import PsoParams
+from PsoParams import PsoParams, NeuralBPSOParams
 from position_update_strategy.BooleanPSOPositionUpdateStrategy import BooleanPSOPositionUpdateStrategy
 from position_update_strategy.NeuralBPSOPositionUpdateStrategy import NeuralBPSOPositionUpdateStrategy
 from position_update_strategy.PositionUpdateStrategy import PositionUpdateStrategy
@@ -136,7 +136,7 @@ class RealPSOParticle(Particle):
 
 class NeuralBPSOParticle(Particle):
 
-    def __init__(self, parent_pop, problem, decoder, pso_params: PsoParams, velocity_strategy: NeuralBPSOVelocityStrategy,
+    def __init__(self, parent_pop, problem, decoder, pso_params: NeuralBPSOParams, velocity_strategy: NeuralBPSOVelocityStrategy,
                  position_update_strategy: NeuralBPSOPositionUpdateStrategy):
 
         if not isinstance(position_update_strategy, NeuralBPSOPositionUpdateStrategy):
