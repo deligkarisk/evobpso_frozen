@@ -7,7 +7,7 @@ from velocity_strategy.RealPSOVelocityStrategy import RealPSOStandardVelocityStr
 
 class TestRealPSOStandardVelocityStrategy(TestCase):
 
-    @patch('PsoParams.PsoParams')
+    @patch('pso_params.PsoParams.StandardPsoParams')
     @patch('random.uniform')
     def test_get_new_velocity(self, mock_random, mock_params):
         mock_random.return_value = 1

@@ -5,7 +5,7 @@ from velocity_strategy.BooleanPSOVelocityStrategy import BooleanPSOStandardVeloc
 
 class TestBooleanPSOStandardVelocityStrategy(TestCase):
 
-    @patch('PsoParams.PsoParams')
+    @patch('pso_params.PsoParams.StandardPsoParams')
     def test_update_velocity_local_factor_only(self, mock_params):
         current_velocity = [0b000000]
         current_position = [0b000000]
@@ -22,7 +22,7 @@ class TestBooleanPSOStandardVelocityStrategy(TestCase):
         assert returned_velocity == [0b111111]
 
 
-    @patch('PsoParams.PsoParams')
+    @patch('pso_params.PsoParams.StandardPsoParams')
     def test_update_velocity_global_factor_only(self, mock_params):
         current_velocity = [0b000000]
         current_position = [0b000000]

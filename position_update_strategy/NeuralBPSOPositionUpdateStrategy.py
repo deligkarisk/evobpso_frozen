@@ -1,7 +1,7 @@
 import abc
 from typing import List
 
-from neural_position_component_visitor.ComponentToPositionStandardVisitor import ComponentToPositionStandardVisitor
+from neural_component_to_position_visitor.ComponentToPositionStandardVisitor import ComponentToPositionStandardVisitor
 from position_update_strategy.PositionUpdateStrategy import PositionUpdateStrategy
 from velocity_component.VelocityComponent import VelocityComponent
 

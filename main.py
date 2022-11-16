@@ -1,5 +1,5 @@
 from Population import Population
-from PsoParams import PsoParams
+from pso_params.PsoParams import PsoParams, StandardPsoParams
 from Rastrigin import Rastrigin
 from Decoder import BinToRealDecoder, RealToRealDecoder
 from particle_factory.ParticleFactory import BooleanPSOParticleFactory, RealPSOParticleFactory
@@ -10,7 +10,7 @@ from velocity_strategy.RealPSOVelocityStrategy import RealPSOStandardVelocityStr
 
 n_bits = 32
 
-params = PsoParams(0.3, 0.3, 0.1, n_bits)
+params = StandardPsoParams(0.3, 0.3, 0.1, n_bits)
 velocity_strategy = BooleanPSOStandardVelocityStrategy()
 position_update_strategy = BooleanPSOStandardPositionUpdateStrategy()
 

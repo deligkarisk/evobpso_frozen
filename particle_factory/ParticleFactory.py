@@ -1,7 +1,7 @@
 import abc
 
 from Particle import BooleanPSOParticle, RealPSOParticle, NeuralBPSOParticle
-from PsoParams import PsoParams
+from pso_params.PsoParams import PsoParams
 from position_update_strategy.BooleanPSOPositionUpdateStrategy import BooleanPSOPositionUpdateStrategy
 from position_update_strategy.NeuralBPSOPositionUpdateStrategy import NeuralBPSOPositionUpdateStrategy
 from position_update_strategy.PositionUpdateStrategy import PositionUpdateStrategy
