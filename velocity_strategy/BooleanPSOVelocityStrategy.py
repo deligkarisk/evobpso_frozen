@@ -1,7 +1,6 @@
 import abc
-import random
 
-from utils import create_rnd_binary_vector, find_largest_size
+from utils.utils import create_rnd_binary_vector
 from velocity_strategy.VelocityStrategy import VelocityStrategy
 
 

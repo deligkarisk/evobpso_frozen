@@ -1,6 +1,6 @@
 from unittest import TestCase
 
-from Rastrigin import Rastrigin
+from problem.Rastrigin import Rastrigin
 
 
 class TestRastrigin(TestCase):

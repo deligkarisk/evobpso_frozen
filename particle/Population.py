@@ -1,7 +1,6 @@
 import copy
 
-from Particle import Particle, BooleanPSOParticle, RealPSOParticle
-from particle_factory.ParticleFactory import ParticleFactory
+from particle.ParticleFactory import ParticleFactory
 from position_update_strategy.PositionUpdateStrategy import PositionUpdateStrategy
 from velocity_strategy.VelocityStrategy import VelocityStrategy
 

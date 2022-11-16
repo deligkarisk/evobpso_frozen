@@ -1,7 +1,7 @@
 from unittest import TestCase
 from unittest.mock import Mock, patch
 
-from Particle import BooleanPSOParticle, Particle, RealPSOParticle, NeuralBPSOParticle
+from particle.Particle import BooleanPSOParticle, RealPSOParticle, NeuralBPSOParticle
 from neural_component_to_position_visitor.ComponentToPositionStandardVisitor import ComponentToPositionStandardVisitor
 from position_update_strategy.BooleanPSOPositionUpdateStrategy import BooleanPSOStandardPositionUpdateStrategy
 from position_update_strategy.NeuralBPSOPositionUpdateStrategy import NeuralBPSOStandardPositionUpdateStrategy
@@ -33,7 +33,7 @@ class TestBooleanPSOParticle(TestCase):
         with self.assertRaises(ValueError):
             particle = BooleanPSOParticle(parent_pop, problem, decoder, pso_params, velocity_strategy, position_update_strategy)
 
-    @patch("Particle.Particle.__init__")
+    @patch("particle.Particle.Particle.__init__")
     def test_initialization_with_boolean_velocity_and_position_should_call_the_parent_constructor(self, mock_particle):
         velocity_strategy = BooleanPSOStandardVelocityStrategy()
         position_update_strategy = BooleanPSOStandardPositionUpdateStrategy()
@@ -67,7 +67,7 @@ class TestRealPSOParticle(TestCase):
         with self.assertRaises(ValueError):
             particle = RealPSOParticle(parent_pop, problem, decoder, pso_params, velocity_strategy, position_update_strategy)
 
-    @patch("Particle.Particle.__init__")
+    @patch("particle.Particle.Particle.__init__")
     def test_initialization_with_real_velocity_and_position_should_call_the_parent_constructor(self, mock_particle):
         velocity_strategy = RealPSOStandardVelocityStrategy()
         position_update_strategy = RealPSOStandardPositionUpdateStrategy()
@@ -101,7 +101,7 @@ class TestNeuralBPSOParticle(TestCase):
         with self.assertRaises(ValueError):
             particle = NeuralBPSOParticle(parent_pop, problem, decoder, pso_params, velocity_strategy, position_update_strategy)
 
-    @patch("Particle.Particle.__init__")
+    @patch("particle.Particle.Particle.__init__")
     def test_initialization_with_boolean_velocity_and_position_should_call_the_parent_constructor(self, mock_particle):
         velocity_strategy = BooleanPSOStandardVelocityStrategy()
         position_update_strategy = BooleanPSOStandardPositionUpdateStrategy()
@@ -112,7 +112,7 @@ class TestNeuralBPSOParticle(TestCase):
         with self.assertRaises(ValueError):
             particle = NeuralBPSOParticle(parent_pop, problem, decoder, pso_params, velocity_strategy, position_update_strategy)
 
-    @patch("Particle.Particle.__init__")
+    @patch("particle.Particle.Particle.__init__")
     def test_initialization_with_real_velocity_and_position_should_call_the_parent_constructor(self, mock_particle):
         velocity_strategy = NeuralBPSOStandardVelocityStrategy()
         comp_to_pos_visitor = ComponentToPositionStandardVisitor()

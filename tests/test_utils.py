@@ -1,6 +1,6 @@
 from statistics import mean
 from unittest import TestCase
-from utils import create_rnd_binary_vector, find_largest_size, find_smallest_size
+from utils.utils import create_rnd_binary_vector, find_largest_size, find_smallest_size
 
 
 class Test(TestCase):
