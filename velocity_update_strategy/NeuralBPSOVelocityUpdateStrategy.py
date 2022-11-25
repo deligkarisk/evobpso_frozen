@@ -12,16 +12,13 @@ class NeuralBPSOVelocityStrategy(VelocityStrategy, abc.ABC):
 
 class NeuralBPSOStandardVelocityStrategy(NeuralBPSOVelocityStrategy):
 
-    def __init__(self, processor=None):
-        self.processor = processor
-
-    def get_new_velocity(self, current_velocity, current_position, pbest_position, gbest_position, params):
-
-        # check for singleton processor
-        if self.processor is None:
-            self.processor = VelocityComponentProcessor(params)
+    def __init__(self, params):
+        self.params = params
 
 
+    def get_new_velocity(self, current_velocity, current_position, pbest_position, gbest_position):
+
+        params = self.params
         rnd_vector_personal_partial = partial(create_rnd_binary_vector, params.c1, params.n_bits)
         personal_factor = self._create_factor(pbest_position, current_position, rnd_vector_personal_partial)
         rnd_vector_social_partial = partial(create_rnd_binary_vector, params.c2, params.n_bits)
@@ -41,17 +38,17 @@ class NeuralBPSOStandardVelocityStrategy(NeuralBPSOVelocityStrategy):
         # for the dimensions that both positions have, produce factor using the xor and "and" operations
         for current_index in range(0, smallest_size):
             factor = (best_position[current_index] ^ current_position[current_index]) & rnd_vector_partial()
-            velocity_component = VelocityComponentEvolve(data=factor, processor=self.processor)
+            velocity_component = VelocityComponentEvolve(data=factor)
             result.append(velocity_component)
 
         # subsequently, fill the rest with either 'Add' or 'Remove'.
         # this depends on whether the best (global or personal) is larger than the current position or vice versa
         for current_index in range(smallest_size, largest_size):
             if best_position_is_larger:
-                velocity_component = VelocityComponentAdd(data=best_position[current_index], processor=self.processor)
+                velocity_component = VelocityComponentAdd(data=best_position[current_index])
                 result.append(velocity_component)
             else:
-                velocity_component = VelocityComponentRemove(processor=self.processor)
+                velocity_component = VelocityComponentRemove()
                 result.append(velocity_component)
         return result
 
@@ -67,11 +64,11 @@ class NeuralBPSOStandardVelocityStrategy(NeuralBPSOVelocityStrategy):
         if p_size < g_size:
             diff = g_size - p_size
             for i in range(0, diff):
-                personal_factor.append(VelocityComponentRemove(self.processor))
+                personal_factor.append(VelocityComponentRemove())
         else:
             diff = p_size - g_size
             for i in range(0, diff):
-                global_factor.append(VelocityComponentRemove(self.processor))
+                global_factor.append(VelocityComponentRemove())
 
         return personal_factor, global_factor
 
@@ -85,7 +82,7 @@ class NeuralBPSOStandardVelocityStrategy(NeuralBPSOVelocityStrategy):
 
         merged_components = []
         for p_entry, g_entry in zip(personal_component, global_component):
-            merged_components.append(p_entry.merge(g_entry))
+            merged_components.append(p_entry.merge(g_entry, self.params))
 
         return merged_components
 

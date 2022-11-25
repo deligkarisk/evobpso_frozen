@@ -10,7 +10,7 @@ from velocity_update_strategy.NeuralBPSOVelocityUpdateStrategy import NeuralBPSO
 n_bits = 32
 
 params = NeuralBPSOParams(0.3, 0.3, 0.1, n_bits)
-velocity_strategy = NeuralBPSOStandardVelocityStrategy()
+velocity_strategy = NeuralBPSOStandardVelocityStrategy(params)
 position_component_visitor = ComponentToPositionStandardVisitor()
 position_update_strategy = NeuralBPSOStandardPositionUpdateStrategy(component_to_position_visitor=position_component_visitor)
 factory = NeuralBPSOParticleFactory()

@@ -1,41 +1,24 @@
 import abc
 import random
+from utils.utils import random_choice
 
 
 class VelocityComponent(abc.ABC):
 
     def __init__(self):
-        self.processor = None
         self.data = None
 
-    def merge(self, other):
+    def merge(self, other, params):
         raise NotImplementedError
 
     def convert_to_position(self, current_position, position_conversion_visitor):
         raise NotImplementedError
 
 
-class VelocityComponentProcessor:
-
-    def __init__(self, params):
-        self.params = params
-
-    def xor(self, personal_component: VelocityComponent, global_component: VelocityComponent):
-        result_data = personal_component.data ^ global_component.data
-        return VelocityComponentEvolve(data=result_data, processor=personal_component.processor)
-
-    def random_choice(self, personal_component: VelocityComponent, global_component: VelocityComponent):
-        if random.uniform(0, 1) < self.params.k:
-            return personal_component
-        else:
-            return global_component
-
-
 class VelocityComponentEvolve(VelocityComponent):
 
-    def __init__(self, data, processor):
+    def __init__(self, data):
         self.data = data
-        self.processor = processor
 
     def __eq__(self, other):
         if self.data == other.data and isinstance(self, type(other)):
@@ -43,24 +26,23 @@ class VelocityComponentEvolve(VelocityComponent):
         else:
             return False
 
-    def merge(self, other):
+    def merge(self, other, params):
         if (isinstance(other, VelocityComponentEvolve)):
-            return self.processor.xor(self, other)
+            result_data = self.data ^ other.data
+            return VelocityComponentEvolve(data=result_data)
         elif isinstance(other, VelocityComponentAdd) or isinstance(other, VelocityComponentRemove):
-            return self.processor.random_choice(self, other)
+            return random_choice(self, other, params.k)
 
     def convert_to_position(self, current_position, position_conversion_visitor):
         return position_conversion_visitor.do_for_component_evolve(self, current_position)
 
 
-
 class VelocityComponentRemove(VelocityComponent):
-    def __init__(self, processor):
+    def __init__(self):
         self.data = None
-        self.processor = processor
 
-    def merge(self, other):
-        return self.processor.random_choice(self, other)
+    def merge(self, other, params):
+        return random_choice(self, other, params.k)
 
     def __eq__(self, other):
         if isinstance(self, type(other)):
@@ -73,9 +55,8 @@ class VelocityComponentRemove(VelocityComponent):
 
 
 class VelocityComponentAdd(VelocityComponent):
-    def __init__(self, data, processor):
+    def __init__(self, data):
         self.data = data
-        self.processor = processor
 
     def __eq__(self, other):
         if self.data == other.data and isinstance(self, type(other)):
@@ -83,8 +64,8 @@ class VelocityComponentAdd(VelocityComponent):
         else:
             return False
 
-    def merge(self, other):
-        return self.processor.random_choice(self, other)
+    def merge(self, other, params):
+        return random_choice(self, other, params.k)
 
     def convert_to_position(self, current_position, position_conversion_visitor):
         return position_conversion_visitor.do_for_component_add(self)
