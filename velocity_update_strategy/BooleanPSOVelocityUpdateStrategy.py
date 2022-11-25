@@ -1,7 +1,7 @@
 import abc
 
 from utils.utils import create_rnd_binary_vector
-from velocity_strategy.VelocityStrategy import VelocityStrategy
+from velocity_update_strategy.VelocityUpdateStrategy import VelocityStrategy
 
 
 class BooleanPSOVelocityStrategy(VelocityStrategy, abc.ABC):

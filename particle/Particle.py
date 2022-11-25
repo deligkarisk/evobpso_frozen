@@ -7,11 +7,11 @@ from position_update_strategy.BooleanPSOPositionUpdateStrategy import BooleanPSO
 from position_update_strategy.NeuralBPSOPositionUpdateStrategy import NeuralBPSOPositionUpdateStrategy
 from position_update_strategy.PositionUpdateStrategy import PositionUpdateStrategy
 from position_update_strategy.RealPSOPositionUpdateStrategy import RealPSOPositionUpdateStrategy
-from velocity_strategy.BooleanPSOVelocityStrategy import BooleanPSOVelocityStrategy
-from velocity_strategy.NeuralBPSOVelocityStrategy import NeuralBPSOVelocityStrategy
+from velocity_update_strategy.BooleanPSOVelocityUpdateStrategy import BooleanPSOVelocityStrategy
+from velocity_update_strategy.NeuralBPSOVelocityUpdateStrategy import NeuralBPSOVelocityStrategy
 from utils.utils import create_rnd_binary_vector
-from velocity_strategy.RealPSOVelocityStrategy import RealPSOVelocityStrategy
-from velocity_strategy.VelocityStrategy import VelocityStrategy
+from velocity_update_strategy.RealPSOVelocityUpdateStrategy import RealPSOVelocityStrategy
+from velocity_update_strategy.VelocityUpdateStrategy import VelocityStrategy
 
 
 class Particle(abc.ABC):
@@ -63,7 +63,7 @@ class Particle(abc.ABC):
         self.personal_best_result = copy.deepcopy(self.current_result)
         self.personal_best_position = copy.deepcopy(self.current_position)
 
-    # velocity_strategy is chosen based on strategy pattern
+    # velocity_update_strategy is chosen based on strategy pattern
     def get_new_velocity(self):
         return self.velocity_strategy.get_new_velocity(
             self.current_velocity, self.current_position, self.personal_best_position, self.parent_pop.global_best_position, self.params)

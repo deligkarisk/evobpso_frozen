@@ -1,7 +1,7 @@
 from unittest import TestCase
 from unittest.mock import patch
 
-from velocity_strategy.BooleanPSOVelocityStrategy import BooleanPSOStandardVelocityStrategy
+from velocity_update_strategy.BooleanPSOVelocityUpdateStrategy import BooleanPSOStandardVelocityStrategy
 
 class TestBooleanPSOStandardVelocityStrategy(TestCase):
 

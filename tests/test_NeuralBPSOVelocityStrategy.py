@@ -4,7 +4,7 @@ from unittest.mock import patch
 
 from pso_params.PsoParams import PsoParams, StandardPsoParams, NeuralBPSOParams
 from velocity_component.VelocityComponent import VelocityComponentRemove, VelocityComponentAdd, VelocityComponentEvolve, VelocityComponentProcessor
-from velocity_strategy.NeuralBPSOVelocityStrategy import NeuralBPSOStandardVelocityStrategy
+from velocity_update_strategy.NeuralBPSOVelocityUpdateStrategy import NeuralBPSOStandardVelocityStrategy
 
 
 class TestNeuralBPSOStandardVelocityStrategy(TestCase):

@@ -2,7 +2,7 @@ from unittest import TestCase
 import random
 from unittest.mock import patch
 
-from velocity_strategy.RealPSOVelocityStrategy import RealPSOStandardVelocityStrategy
+from velocity_update_strategy.RealPSOVelocityUpdateStrategy import RealPSOStandardVelocityStrategy
 
 
 class TestRealPSOStandardVelocityStrategy(TestCase):
