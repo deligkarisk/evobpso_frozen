@@ -3,7 +3,7 @@ from functools import partial
 
 from utils.utils import find_largest_size, create_rnd_binary_vector, find_smallest_size, find_largest_index
 from velocity_update_strategy.VelocityUpdateStrategy import VelocityStrategy
-from velocity_component.VelocityComponent import VelocityComponentRemove, VelocityComponentAdd, VelocityComponentEvolve, VelocityComponentProcessor
+from velocity_component.VelocityComponent import VelocityComponentRemove, VelocityComponentAdd, VelocityComponentEvolve
 
 
 class NeuralBPSOVelocityStrategy(VelocityStrategy, abc.ABC):

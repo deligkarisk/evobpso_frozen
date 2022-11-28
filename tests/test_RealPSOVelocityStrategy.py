@@ -22,8 +22,8 @@ class TestRealPSOStandardVelocityStrategy(TestCase):
         mock_params.omega = 0
 
 
-        velocity_strategy = RealPSOStandardVelocityStrategy()
-        returned_velocity = velocity_strategy.get_new_velocity(current_velocity, current_position, personal_best_position, global_best_position, mock_params)
+        velocity_strategy = RealPSOStandardVelocityStrategy(mock_params)
+        returned_velocity = velocity_strategy.get_new_velocity(current_velocity, current_position, personal_best_position, global_best_position)
         assert returned_velocity == [2.0]
 
 

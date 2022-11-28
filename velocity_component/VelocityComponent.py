@@ -1,6 +1,6 @@
 import abc
 import random
-from utils.utils import random_choice
+from utils import utils
 
 
 class VelocityComponent(abc.ABC):
@@ -31,7 +31,7 @@ class VelocityComponentEvolve(VelocityComponent):
             result_data = self.data ^ other.data
             return VelocityComponentEvolve(data=result_data)
         elif isinstance(other, VelocityComponentAdd) or isinstance(other, VelocityComponentRemove):
-            return random_choice(self, other, params.k)
+            return utils.random_choice(self, other, params.k)
 
     def convert_to_position(self, current_position, position_conversion_visitor):
         return position_conversion_visitor.do_for_component_evolve(self, current_position)
@@ -42,7 +42,7 @@ class VelocityComponentRemove(VelocityComponent):
         self.data = None
 
     def merge(self, other, params):
-        return random_choice(self, other, params.k)
+        return utils.random_choice(self, other, params.k)
 
     def __eq__(self, other):
         if isinstance(self, type(other)):
@@ -65,7 +65,7 @@ class VelocityComponentAdd(VelocityComponent):
             return False
 
     def merge(self, other, params):
-        return random_choice(self, other, params.k)
+        return utils.random_choice(self, other, params.k)
 
     def convert_to_position(self, current_position, position_conversion_visitor):
         return position_conversion_visitor.do_for_component_add(self)

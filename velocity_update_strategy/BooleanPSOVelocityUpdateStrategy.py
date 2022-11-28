@@ -9,8 +9,12 @@ class BooleanPSOVelocityStrategy(VelocityStrategy, abc.ABC):
 
 
 class BooleanPSOStandardVelocityStrategy(BooleanPSOVelocityStrategy):
-    def get_new_velocity(self, current_velocity, current_position, pbest_position, gbest_position, params):
 
+    def __init__(self, params):
+        self.params = params
+
+    def get_new_velocity(self, current_velocity, current_position, pbest_position, gbest_position):
+        params = self.params
         omega_vector = create_rnd_binary_vector(params.omega, params.n_bits)
         c1_vector = create_rnd_binary_vector(params.c1, params.n_bits)
         c2_vector = create_rnd_binary_vector(params.c2, params.n_bits)

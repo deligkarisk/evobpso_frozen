@@ -6,38 +6,40 @@ from velocity_component.VelocityComponent import VelocityComponentEvolve, Veloci
 
 class TestVelocityComponentEvolve(TestCase):
 
-    @patch('velocity_component.VelocityComponent.VelocityComponentProcessor')
-    def test_merge_does_xor_when_both_are_evolve(self, mock_processor):
-        component_a = VelocityComponentEvolve(data=0b000111, processor=mock_processor)
-        component_b = VelocityComponentEvolve(data=0b100111, processor=mock_processor)
+    def test_merge_does_xor_when_both_are_evolve(self):
+        component_a = VelocityComponentEvolve(data=0b000111)
+        component_b = VelocityComponentEvolve(data=0b100111)
 
-        result_a = component_a.merge(component_b)
-        result_b = component_b.merge(component_a)
+        mock_params = Mock()
 
-        assert mock_processor.xor.call_count == 2
+        result_a = component_a.merge(component_b, mock_params)
+        result_b = component_b.merge(component_a, mock_params)
 
-    @patch('velocity_component.VelocityComponent.VelocityComponentProcessor')
-    def test_merge_does_random_choice_when_one_is_add(self, mock_processor):
-        component_a = VelocityComponentEvolve(data=0b000111, processor=mock_processor)
-        component_b = VelocityComponentAdd(data=0b100111, processor=mock_processor)
+        expected_result = VelocityComponentEvolve(data=0b100000)
+        assert expected_result == result_a
+        assert expected_result == result_b
 
-        result_a = component_a.merge(component_b)
+    @patch('utils.utils.random_choice')
+    def test_merge_does_random_choice_when_one_is_add(self, random_choice):
+        component_a = VelocityComponentEvolve(data=0b000111)
+        component_b = VelocityComponentAdd(data=0b100111)
+        mock_params = Mock()
+        mock_params.k = 1
+        result_a = component_a.merge(component_b, mock_params)
+        assert random_choice.call_count == 1
 
-        assert mock_processor.xor.call_count == 0
-        assert mock_processor.random_choice.call_count == 1
+    @patch('utils.utils.random_choice')
+    def test_merge_does_random_choice_when_one_is_remove(self, random_choice):
+        component_a = VelocityComponentEvolve(data=0b000111)
+        component_b = VelocityComponentRemove()
+        mock_params = Mock()
+        mock_params.k = 1
+        result_a = component_a.merge(component_b, mock_params)
 
-    @patch('velocity_component.VelocityComponent.VelocityComponentProcessor')
-    def test_merge_does_random_choice_when_one_is_remove(self, mock_processor):
-        component_a = VelocityComponentEvolve(data=0b000111, processor=mock_processor)
-        component_b = VelocityComponentRemove(processor=mock_processor)
-        result_a = component_a.merge(component_b)
+        assert random_choice.call_count == 1
 
-        assert mock_processor.xor.call_count == 0
-        assert mock_processor.random_choice.call_count == 1
-
-    @patch('velocity_component.VelocityComponent.VelocityComponentProcessor')
-    def test_get_new_position(self, mock_processor):
-        component = VelocityComponentEvolve(data=0b111000, processor=mock_processor)
+    def test_get_new_position(self):
+        component = VelocityComponentEvolve(data=0b111000)
         position_visitor = Mock()
         current_position = 0b0000001
         new_position = component.convert_to_position(current_position=current_position, position_conversion_visitor=position_visitor)
@@ -46,22 +48,25 @@ class TestVelocityComponentEvolve(TestCase):
 
 
 class TestVelocityComponentAdd(TestCase):
-    @patch('velocity_component.VelocityComponent.VelocityComponentProcessor')
-    def test_merge_does_always_random_choice(self, mock_processor):
-        component_a = VelocityComponentAdd(data=0b100111, processor=mock_processor)
-        component_b = VelocityComponentEvolve(data=0b100111, processor=mock_processor)
-        component_c = VelocityComponentAdd(data=0b100111, processor=mock_processor)
-        component_d = VelocityComponentRemove(processor=mock_processor)
 
-        result_1 = component_a.merge(component_b)
-        result_2 = component_a.merge(component_c)
-        result_3 = component_a.merge(component_d)
+    @patch('utils.utils.random_choice')
+    def test_merge_does_always_random_choice(self, random_choice):
+        component_a = VelocityComponentAdd(data=0b100111)
+        component_b = VelocityComponentEvolve(data=0b100111)
+        component_c = VelocityComponentAdd(data=0b100111)
+        component_d = VelocityComponentRemove()
 
-        assert mock_processor.random_choice.call_count == 3
+        mock_params = Mock()
+        mock_params.k = 1
 
-    @patch('velocity_component.VelocityComponent.VelocityComponentProcessor')
-    def test_get_new_position(self, mock_processor):
-        component = VelocityComponentAdd(data=0b111000, processor=mock_processor)
+        result_1 = component_a.merge(component_b, mock_params)
+        result_2 = component_a.merge(component_c, mock_params)
+        result_3 = component_a.merge(component_d, mock_params)
+
+        assert random_choice.call_count == 3
+
+    def test_get_new_position(self):
+        component = VelocityComponentAdd(data=0b111000)
         current_position = None
         position_visitor = Mock()
         new_position = component.convert_to_position(current_position=current_position, position_conversion_visitor=position_visitor)
@@ -69,22 +74,26 @@ class TestVelocityComponentAdd(TestCase):
 
 
 class TestVelocityComponentRemove(TestCase):
-    @patch('velocity_component.VelocityComponent.VelocityComponentProcessor')
-    def test_merge_does_always_random_choice(self, mock_processor):
-        component_a = VelocityComponentRemove(processor=mock_processor)
-        component_b = VelocityComponentAdd(data=0b100111, processor=mock_processor)
-        component_c = VelocityComponentEvolve(data=0b100111, processor=mock_processor)
-        component_d = VelocityComponentRemove(processor=mock_processor)
 
-        result_1 = component_a.merge(component_b)
-        result_2 = component_a.merge(component_c)
-        result_3 = component_a.merge(component_d)
 
-        assert mock_processor.random_choice.call_count == 3
+    @patch('utils.utils.random_choice')
+    def test_merge_does_always_random_choice(self, random_choice):
+        component_a = VelocityComponentRemove()
+        component_b = VelocityComponentAdd(data=0b100111)
+        component_c = VelocityComponentEvolve(data=0b100111)
+        component_d = VelocityComponentRemove()
 
-    @patch('velocity_component.VelocityComponent.VelocityComponentProcessor')
-    def test_get_new_position(self, mock_processor):
-        component = VelocityComponentRemove(processor=mock_processor)
+        mock_params = Mock()
+        mock_params.k = 1
+
+        result_1 = component_a.merge(component_b, mock_params)
+        result_2 = component_a.merge(component_c, mock_params)
+        result_3 = component_a.merge(component_d, mock_params)
+
+        assert random_choice.call_count == 3
+
+    def test_get_new_position(self):
+        component = VelocityComponentRemove()
         position_visitor = Mock()
         current_position = [0b0000001]
         new_position = component.convert_to_position(current_position=current_position, position_conversion_visitor=position_visitor)

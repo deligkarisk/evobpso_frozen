@@ -17,8 +17,8 @@ class TestBooleanPSOStandardVelocityStrategy(TestCase):
         mock_params.omega = 0
         mock_params.n_bits = 6
 
-        velocity_strategy = BooleanPSOStandardVelocityStrategy()
-        returned_velocity = velocity_strategy.get_new_velocity(current_velocity, current_position, personal_best_position, global_best_position, mock_params)
+        velocity_strategy = BooleanPSOStandardVelocityStrategy(mock_params)
+        returned_velocity = velocity_strategy.get_new_velocity(current_velocity, current_position, personal_best_position, global_best_position)
         assert returned_velocity == [0b111111]
 
 
@@ -34,6 +34,6 @@ class TestBooleanPSOStandardVelocityStrategy(TestCase):
         mock_params.omega = 0
         mock_params.n_bits = 6
 
-        velocity_strategy = BooleanPSOStandardVelocityStrategy()
-        returned_velocity = velocity_strategy.get_new_velocity(current_velocity, current_position, personal_best_position, global_best_position, mock_params)
+        velocity_strategy = BooleanPSOStandardVelocityStrategy(mock_params)
+        returned_velocity = velocity_strategy.get_new_velocity(current_velocity, current_position, personal_best_position, global_best_position)
         assert returned_velocity == [0b010101]
