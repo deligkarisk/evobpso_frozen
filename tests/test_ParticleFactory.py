@@ -1,12 +1,12 @@
 from unittest import TestCase
 from unittest.mock import patch, Mock
 
-from particle.ParticleFactory import BooleanPSOParticleFactory, RealPSOParticleFactory, NeuralBPSOParticleFactory
+from factory.ParticleFactory import BooleanPSOParticleFactory, RealPSOParticleFactory, NeuralBPSOParticleFactory
 
 
 class TestBooleanPSOParticleFactory(TestCase):
 
-    @patch("particle.Particle.BooleanPSOParticle.__init__", return_value=None)
+    @patch("particle.BooleanPSOParticle.BooleanPSOParticle.__init__", return_value=None)
     def test_make_particle_should_call_boolean_pso_constructor(self, mock_particle_init):
         velocity_strategy = Mock()
         position_update_strategy = Mock()
@@ -21,7 +21,7 @@ class TestBooleanPSOParticleFactory(TestCase):
 
 class TestRealPSOParticleFactory(TestCase):
 
-    @patch("particle.Particle.RealPSOParticle.__init__", return_value=None)
+    @patch("particle.RealPSOParticle.RealPSOParticle.__init__", return_value=None)
     def test_make_particle_should_call_real_pso_constructor(self, mock_particle_init):
         velocity_strategy = Mock()
         position_update_strategy = Mock()
@@ -35,7 +35,7 @@ class TestRealPSOParticleFactory(TestCase):
 
 class TestNeuralBPSOParticleFactory(TestCase):
 
-    @patch("particle.Particle.NeuralBPSOParticle.__init__", return_value=None)
+    @patch("particle.NeuralBPSOParticle.NeuralBPSOParticle.__init__", return_value=None)
     def test_make_particle_should_call_neural_bpso_constructor(self, mock_particle_init):
         velocity_strategy = Mock()
         position_update_strategy = Mock()

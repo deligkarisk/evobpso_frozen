@@ -1,6 +1,6 @@
 import copy
 
-from particle.ParticleFactory import ParticleFactory
+from factory.ParticleFactory import ParticleFactory
 from position_update_strategy.PositionUpdateStrategy import PositionUpdateStrategy
 from velocity_update_strategy.VelocityUpdateStrategy import VelocityStrategy
 

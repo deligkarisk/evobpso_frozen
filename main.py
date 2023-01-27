@@ -1,8 +1,8 @@
-from particle.Population import Population
+from population.Population import Population
 from pso_params.PsoParams import StandardPsoParams
 from problem.Rastrigin import Rastrigin
 from decoder.Decoder import BinToRealDecoder, RealToRealDecoder
-from particle.ParticleFactory import BooleanPSOParticleFactory, RealPSOParticleFactory
+from factory.ParticleFactory import BooleanPSOParticleFactory, RealPSOParticleFactory
 from position_update_strategy.BooleanPSOPositionUpdateStrategy import BooleanPSOStandardPositionUpdateStrategy
 from position_update_strategy.RealPSOPositionUpdateStrategy import RealPSOStandardPositionUpdateStrategy
 from velocity_update_strategy.BooleanPSOVelocityUpdateStrategy import BooleanPSOStandardVelocityStrategy

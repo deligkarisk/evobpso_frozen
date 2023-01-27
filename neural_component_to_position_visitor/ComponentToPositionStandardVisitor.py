@@ -1,5 +1,8 @@
 from velocity_component.VelocityComponent import VelocityComponentAdd, VelocityComponentEvolve, VelocityComponentRemove
 
+# The ComponentToPositionVisitor class implements the transitions from a component to a position.
+# For example, for the standard approach, an XOR operation is applied to the evolve component.
+
 
 class ComponentToPositionStandardVisitor:
 

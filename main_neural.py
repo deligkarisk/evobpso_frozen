@@ -1,9 +1,9 @@
-from particle.Population import Population
+from population.Population import Population
 from pso_params.PsoParams import NeuralBPSOParams
 from problem.Rastrigin import Rastrigin
 from decoder.Decoder import BinToRealDecoder
 from neural_component_to_position_visitor.ComponentToPositionStandardVisitor import ComponentToPositionStandardVisitor
-from particle.ParticleFactory import NeuralBPSOParticleFactory
+from factory.ParticleFactory import NeuralBPSOParticleFactory
 from position_update_strategy.NeuralBPSOPositionUpdateStrategy import NeuralBPSOStandardPositionUpdateStrategy
 from velocity_update_strategy.NeuralBPSOVelocityUpdateStrategy import NeuralBPSOStandardVelocityStrategy
 
