@@ -82,9 +82,9 @@ class NeuralBPSOStandardVelocityStrategy(NeuralBPSOVelocityStrategy):
 
         merged_components = []
         for p_entry, g_entry in zip(personal_factor, global_factor):
-            # if both factors/components are Evolve, then just XOR their data
+            # if both factors/components are Evolve, then just OR their data
             if (isinstance(personal_factor, VelocityComponentEvolve)) and isinstance(global_factor, VelocityComponentEvolve):
-                result_data = p_entry.data ^ g_entry.data
+                result_data = p_entry.data | g_entry.data
                 new_entry = VelocityComponentEvolve(data=result_data)
                 merged_components.append(new_entry)
                 # otherwise, just select one of the factors/components, either the personal or the global
