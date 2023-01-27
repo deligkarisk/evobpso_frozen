@@ -1,6 +1,7 @@
 import abc
 from functools import partial
 
+from utils import utils
 from utils.utils import find_largest_size, create_rnd_binary_vector, find_smallest_size, find_largest_index
 from velocity_update_strategy.VelocityUpdateStrategy import VelocityStrategy
 from velocity_component.VelocityComponent import VelocityComponentRemove, VelocityComponentAdd, VelocityComponentEvolve
@@ -15,7 +16,6 @@ class NeuralBPSOStandardVelocityStrategy(NeuralBPSOVelocityStrategy):
     def __init__(self, params):
         self.params = params
 
-
     def get_new_velocity(self, current_velocity, current_position, pbest_position, gbest_position):
 
         params = self.params
@@ -24,7 +24,7 @@ class NeuralBPSOStandardVelocityStrategy(NeuralBPSOVelocityStrategy):
         rnd_vector_social_partial = partial(create_rnd_binary_vector, params.c2, params.n_bits)
         global_factor = self._create_factor(gbest_position, current_position, rnd_vector_social_partial)
         personal_factor, global_factor = self._equalize_sizes(personal_factor, global_factor)
-        new_velocity = self._merge_personal_and_global_components(personal_factor, global_factor)
+        new_velocity = self._merge_personal_and_global_factors(personal_factor, global_factor)
         return new_velocity
 
     def _create_factor(self, best_position, current_position, rnd_vector_partial):
@@ -72,18 +72,23 @@ class NeuralBPSOStandardVelocityStrategy(NeuralBPSOVelocityStrategy):
 
         return personal_factor, global_factor
 
-    def _merge_personal_and_global_components(self, personal_component, global_component):
+    def _merge_personal_and_global_factors(self, personal_factor, global_factor):
         # this method merges the personal and global factors of the velocity equation.
         # it corresponds to the formula personal_factor + global_factor
         # where e.g. a factor is equal to (pbest - current_position) * rnd()
 
-        if len(personal_component) != len(global_component):
+        if len(personal_factor) != len(global_factor):
             raise ValueError('input components must have the same size')
 
         merged_components = []
-        for p_entry, g_entry in zip(personal_component, global_component):
-            merged_components.append(p_entry.merge(g_entry, self.params))
-
+        for p_entry, g_entry in zip(personal_factor, global_factor):
+            # if both factors/components are Evolve, then just XOR their data
+            if (isinstance(personal_factor, VelocityComponentEvolve)) and isinstance(global_factor, VelocityComponentEvolve):
+                result_data = p_entry.data ^ g_entry.data
+                new_entry = VelocityComponentEvolve(data=result_data)
+                merged_components.append(new_entry)
+                # otherwise, just select one of the factors/components, either the personal or the global
+            else:
+                new_entry = utils.random_choice(p_entry, g_entry, self.params.k)
+                merged_components.append(new_entry)
         return merged_components
-
-

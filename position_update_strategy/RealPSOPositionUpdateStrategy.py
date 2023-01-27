@@ -8,6 +8,7 @@ class RealPSOPositionUpdateStrategy(PositionUpdateStrategy, ABC):
     pass
 
 
+# The real pso standard position update algorithm adds the current position to the current velocity
 class RealPSOStandardPositionUpdateStrategy(RealPSOPositionUpdateStrategy):
 
     def get_new_position(self, current_position, current_velocity):

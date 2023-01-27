@@ -10,6 +10,9 @@ class NeuralBPSOPositionUpdateStrategy(PositionUpdateStrategy, abc.ABC):
     pass
 
 
+# In the NeuralBPSO the standard position update strategy is to either convert the component to a position, or to add None if the current
+# position vector is smaller than the current velocity vector. For conversion, from a velocity component to the position vector,
+# the visitor pattern is used, and the exact way of conversion is defined in the component to position visitor.
 class NeuralBPSOStandardPositionUpdateStrategy(NeuralBPSOPositionUpdateStrategy):
 
     def __init__(self, component_to_position_visitor):
