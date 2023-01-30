@@ -1,15 +1,15 @@
 import abc
 
 from particle.BooleanPSOParticle import BooleanPSOParticle
-from particle.NeuralBPSOParticle import NeuralBPSOParticle
+from particle.NeuralBooleanPSOParticle import NeuralBooleanPSOParticle
 from particle.RealPSOParticle import RealPSOParticle
 from pso_params.PsoParams import PsoParams, NeuralBPSOParams
 from position_update_strategy.BooleanPSOPositionUpdateStrategy import BooleanPSOPositionUpdateStrategy
-from position_update_strategy.NeuralBPSOPositionUpdateStrategy import NeuralBPSOPositionUpdateStrategy
+from position_update_strategy.NeuralBooleanPSOPositionUpdateStrategy import NeuralBooleanPSOPositionUpdateStrategy
 from position_update_strategy.PositionUpdateStrategy import PositionUpdateStrategy
 from position_update_strategy.RealPSOPositionUpdateStrategy import RealPSOPositionUpdateStrategy
 from velocity_update_strategy.BooleanPSOVelocityUpdateStrategy import BooleanPSOVelocityStrategy
-from velocity_update_strategy.NeuralBPSOVelocityUpdateStrategy import NeuralBPSOVelocityStrategy
+from velocity_update_strategy.NeuralBooleanPSOVelocityUpdateStrategy import NeuralBooleanPSOVelocityStrategy
 from velocity_update_strategy.RealPSOVelocityUpdateStrategy import RealPSOVelocityStrategy
 from velocity_update_strategy.VelocityUpdateStrategy import VelocityStrategy
 
@@ -36,6 +36,6 @@ class RealPSOParticleFactory(ParticleFactory):
 
 
 class NeuralBPSOParticleFactory(ParticleFactory):
-    def make_particle(self, parent_pop, problem, decoder, pso_params: NeuralBPSOParams, velocity_strategy: NeuralBPSOVelocityStrategy,
-                      position_update_strategy: NeuralBPSOPositionUpdateStrategy):
-        return NeuralBPSOParticle(parent_pop, problem, decoder, pso_params, velocity_strategy, position_update_strategy)
+    def make_particle(self, parent_pop, problem, decoder, pso_params: NeuralBPSOParams, velocity_strategy: NeuralBooleanPSOVelocityStrategy,
+                      position_update_strategy: NeuralBooleanPSOPositionUpdateStrategy):
+        return NeuralBooleanPSOParticle(parent_pop, problem, decoder, pso_params, velocity_strategy, position_update_strategy)

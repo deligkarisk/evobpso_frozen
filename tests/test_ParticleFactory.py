@@ -35,7 +35,7 @@ class TestRealPSOParticleFactory(TestCase):
 
 class TestNeuralBPSOParticleFactory(TestCase):
 
-    @patch("particle.NeuralBPSOParticle.NeuralBPSOParticle.__init__", return_value=None)
+    @patch("particle.NeuralBooleanPSOParticle.NeuralBooleanPSOParticle.__init__", return_value=None)
     def test_make_particle_should_call_neural_bpso_constructor(self, mock_particle_init):
         velocity_strategy = Mock()
         position_update_strategy = Mock()

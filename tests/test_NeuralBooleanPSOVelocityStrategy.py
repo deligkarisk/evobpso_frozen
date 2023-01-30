@@ -4,10 +4,10 @@ from unittest.mock import patch, Mock
 
 from pso_params.PsoParams import PsoParams, StandardPsoParams, NeuralBPSOParams
 from velocity_component.VelocityComponent import VelocityComponentRemove, VelocityComponentAdd, VelocityComponentEvolve
-from velocity_update_strategy.NeuralBPSOVelocityUpdateStrategy import NeuralBPSOStandardVelocityStrategy
+from velocity_update_strategy.NeuralBooleanPSOVelocityUpdateStrategy import NeuralBooleanPSOStandardVelocityStrategy
 
 
-class TestNeuralBPSOStandardVelocityStrategy(TestCase):
+class TestNeuralBooleanPSOStandardVelocityStrategy(TestCase):
 
 
     def test__create_component_when_best_position_longer_than_current(self):
@@ -18,9 +18,9 @@ class TestNeuralBPSOStandardVelocityStrategy(TestCase):
         current_position = [0b010000, 0b000001]
         mock_params = Mock()
 
-        velocity_strategy = NeuralBPSOStandardVelocityStrategy(mock_params)
-        result = velocity_strategy._create_factor(best_position=best_position, current_position=current_position,
-                                                  rnd_vector_partial=vector_rnd_all_ones)
+        velocity_strategy = NeuralBooleanPSOStandardVelocityStrategy(mock_params)
+        result = velocity_strategy._create_component(best_position=best_position, current_position=current_position,
+                                                     rnd_vector_partial=vector_rnd_all_ones)
 
         expected_result = [VelocityComponentEvolve(data=0b010001),
                            VelocityComponentEvolve(data=0b000001),
@@ -38,9 +38,9 @@ class TestNeuralBPSOStandardVelocityStrategy(TestCase):
 
         mock_params = Mock()
 
-        velocity_strategy = NeuralBPSOStandardVelocityStrategy(mock_params)
-        result = velocity_strategy._create_factor(best_position=best_position, current_position=current_position,
-                                                  rnd_vector_partial=vector_rnd_all_ones)
+        velocity_strategy = NeuralBooleanPSOStandardVelocityStrategy(mock_params)
+        result = velocity_strategy._create_component(best_position=best_position, current_position=current_position,
+                                                     rnd_vector_partial=vector_rnd_all_ones)
         expected_result = [{'operation': 'XOR', 'data': 0b101101}, {'operation': 'Remove', 'data': None}]
 
         expected_result = [VelocityComponentEvolve(data=0b101101),
@@ -64,7 +64,7 @@ class TestNeuralBPSOStandardVelocityStrategy(TestCase):
         expected_global_component = copy.deepcopy(global_component)
 
         mock_params = Mock()
-        velocity_strategy = NeuralBPSOStandardVelocityStrategy(mock_params)
+        velocity_strategy = NeuralBooleanPSOStandardVelocityStrategy(mock_params)
         updated_personal_component, updated_global_component = velocity_strategy._equalize_sizes(personal_component, global_component)
 
         assert expected_global_component == updated_global_component
@@ -77,7 +77,7 @@ class TestNeuralBPSOStandardVelocityStrategy(TestCase):
         gbest_position = [0b111111, 0b111111]
         params = NeuralBPSOParams(1, 0, 0, 6, k=1)
 
-        strategy = NeuralBPSOStandardVelocityStrategy(params)
+        strategy = NeuralBooleanPSOStandardVelocityStrategy(params)
 
         new_velocity = strategy.get_new_velocity(current_velocity, current_position, pbest_position, gbest_position)
         expected_velocity = []
@@ -94,7 +94,7 @@ class TestNeuralBPSOStandardVelocityStrategy(TestCase):
         params = NeuralBPSOParams(0, 1, 0, 6, k=0)
 
 
-        strategy = NeuralBPSOStandardVelocityStrategy(params)
+        strategy = NeuralBooleanPSOStandardVelocityStrategy(params)
 
         new_velocity = strategy.get_new_velocity(current_velocity, current_position, pbest_position, gbest_position)
         expected_velocity = []
