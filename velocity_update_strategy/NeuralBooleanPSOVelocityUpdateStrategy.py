@@ -85,7 +85,7 @@ class NeuralBooleanPSOStandardVelocityStrategy(NeuralBooleanPSOVelocityStrategy)
                 result_data = p_entry.data | g_entry.data
                 new_entry = VelocityComponentEvolve(data=result_data)
                 merged_components.append(new_entry)
-                # otherwise, just select one of the components, either the personal or the global
+            # otherwise, just select one of the components, either the personal or the global
             else:
                 new_entry = utils.random_choice(p_entry, g_entry, self.params.k)
                 merged_components.append(new_entry)

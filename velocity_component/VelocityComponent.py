@@ -3,6 +3,7 @@ import random
 from utils import utils
 
 
+# The velocity component class defines what components exist, and how to convert each velocity component to a position vector.
 class VelocityComponent(abc.ABC):
 
     def __init__(self):

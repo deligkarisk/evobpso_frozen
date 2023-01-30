@@ -1,7 +1,6 @@
 from unittest import TestCase
 from unittest.mock import Mock, patch
 
-from neural_component_to_position_visitor.ComponentToPositionStandardVisitor import ComponentToPositionStandardVisitor
 from particle.BooleanPSOParticle import BooleanPSOParticle
 from particle.NeuralBooleanPSOParticle import NeuralBooleanPSOParticle
 from particle.RealPSOParticle import RealPSOParticle
@@ -119,8 +118,7 @@ class TestNeuralBPSOParticle(TestCase):
 
     @patch("particle.Particle.Particle.__init__")
     def test_initialization_with_real_velocity_and_position_should_call_the_parent_constructor(self, mock_particle):
-        comp_to_pos_visitor = ComponentToPositionStandardVisitor()
-        position_update_strategy = NeuralBooleanPSOStandardPositionUpdateStrategy(component_to_position_visitor=comp_to_pos_visitor)
+        position_update_strategy = NeuralBooleanPSOStandardPositionUpdateStrategy()
         parent_pop = Mock()
         problem = Mock()
         decoder = Mock()

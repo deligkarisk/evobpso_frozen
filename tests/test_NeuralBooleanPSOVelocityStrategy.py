@@ -11,6 +11,8 @@ class TestNeuralBooleanPSOStandardVelocityStrategy(TestCase):
 
 
     def test__create_component_when_best_position_longer_than_current(self):
+        # This vector is composed of 1s, and it is necessary to set this for testing, in normal operations a rnd vector is created.
+        # It is representative to the c vectors in the standard boolean PSO formula.
         def vector_rnd_all_ones():
             return 0b111111
 
@@ -41,7 +43,6 @@ class TestNeuralBooleanPSOStandardVelocityStrategy(TestCase):
         velocity_strategy = NeuralBooleanPSOStandardVelocityStrategy(mock_params)
         result = velocity_strategy._create_component(best_position=best_position, current_position=current_position,
                                                      rnd_vector_partial=vector_rnd_all_ones)
-        expected_result = [{'operation': 'XOR', 'data': 0b101101}, {'operation': 'Remove', 'data': None}]
 
         expected_result = [VelocityComponentEvolve(data=0b101101),
                            VelocityComponentRemove()]
@@ -76,9 +77,7 @@ class TestNeuralBooleanPSOStandardVelocityStrategy(TestCase):
         pbest_position = [0b000000, 0b000000, 0b000111]
         gbest_position = [0b111111, 0b111111]
         params = NeuralBPSOParams(1, 0, 0, 6, k=1)
-
         strategy = NeuralBooleanPSOStandardVelocityStrategy(params)
-
         new_velocity = strategy.get_new_velocity(current_velocity, current_position, pbest_position, gbest_position)
         expected_velocity = []
         expected_velocity.append(VelocityComponentEvolve(data=0b010101))
