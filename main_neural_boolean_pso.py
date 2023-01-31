@@ -1,17 +1,19 @@
 from population.Population import Population
-from pso_params.PsoParams import NeuralBPSOParams
+from pso_params.PsoParams import NeuralBooleanPSOParams
 from problem.Rastrigin import Rastrigin
 from decoder.Decoder import BinToRealDecoder
-from factory.ParticleFactory import NeuralBPSOParticleFactory
+from factory.ParticleFactory import NeuralBooleanPSOParticleFactory
 from position_update_strategy.NeuralBooleanPSOPositionUpdateStrategy import NeuralBooleanPSOStandardPositionUpdateStrategy
-from velocity_update_strategy.NeuralBooleanPSOVelocityUpdateStrategy import NeuralBooleanPSOStandardVelocityStrategy
+from velocity_update_strategy.NeuralBooleanPSOVelocityUpdateStrategy import NeuralBooleanPSOStandardVelocityUpdateStrategy
+
+# This is an example of how to use the standard implementation of the neural boolean pso
 
 n_bits = 32
 
-params = NeuralBPSOParams(0.3, 0.3, 0.1, n_bits, 0.5)
-velocity_strategy = NeuralBooleanPSOStandardVelocityStrategy(params)
+params = NeuralBooleanPSOParams(0.3, 0.3, 0.1, n_bits, 0.5)
+velocity_strategy = NeuralBooleanPSOStandardVelocityUpdateStrategy(params)
 position_update_strategy = NeuralBooleanPSOStandardPositionUpdateStrategy()
-factory = NeuralBPSOParticleFactory()
+factory = NeuralBooleanPSOParticleFactory()
 
 decoder = BinToRealDecoder(n_bits)
 

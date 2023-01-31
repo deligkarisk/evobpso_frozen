@@ -8,7 +8,7 @@ from position_update_strategy.BooleanPSOPositionUpdateStrategy import BooleanPSO
 from position_update_strategy.NeuralBooleanPSOPositionUpdateStrategy import NeuralBooleanPSOStandardPositionUpdateStrategy
 from position_update_strategy.RealPSOPositionUpdateStrategy import RealPSOStandardPositionUpdateStrategy
 from velocity_update_strategy.BooleanPSOVelocityUpdateStrategy import BooleanPSOStandardVelocityStrategy
-from velocity_update_strategy.NeuralBooleanPSOVelocityUpdateStrategy import NeuralBooleanPSOStandardVelocityStrategy
+from velocity_update_strategy.NeuralBooleanPSOVelocityUpdateStrategy import NeuralBooleanPSOStandardVelocityUpdateStrategy
 from velocity_update_strategy.RealPSOVelocityUpdateStrategy import RealPSOStandardVelocityStrategy
 
 
@@ -123,6 +123,6 @@ class TestNeuralBPSOParticle(TestCase):
         problem = Mock()
         decoder = Mock()
         pso_params = Mock()
-        velocity_strategy = NeuralBooleanPSOStandardVelocityStrategy(pso_params)
+        velocity_strategy = NeuralBooleanPSOStandardVelocityUpdateStrategy(pso_params)
         particle = NeuralBooleanPSOParticle(parent_pop, problem, decoder, pso_params, velocity_strategy, position_update_strategy)
         assert mock_particle.called

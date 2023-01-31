@@ -1,7 +1,7 @@
 from unittest import TestCase
 from unittest.mock import patch, Mock
 
-from factory.ParticleFactory import BooleanPSOParticleFactory, RealPSOParticleFactory, NeuralBPSOParticleFactory
+from factory.ParticleFactory import BooleanPSOParticleFactory, RealPSOParticleFactory, NeuralBooleanPSOParticleFactory
 
 
 class TestBooleanPSOParticleFactory(TestCase):
@@ -43,6 +43,6 @@ class TestNeuralBPSOParticleFactory(TestCase):
         problem = Mock()
         decoder = Mock()
         pso_params = Mock()
-        particle_factory = NeuralBPSOParticleFactory()
+        particle_factory = NeuralBooleanPSOParticleFactory()
         particle_factory.make_particle(parent_pop, problem, decoder, pso_params, velocity_strategy, position_update_strategy)
         assert mock_particle_init.called

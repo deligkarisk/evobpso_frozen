@@ -7,11 +7,11 @@ from velocity_update_strategy.VelocityUpdateStrategy import VelocityStrategy
 from velocity_component.VelocityComponent import VelocityComponentRemove, VelocityComponentAdd, VelocityComponentEvolve
 
 
-class NeuralBooleanPSOVelocityStrategy(VelocityStrategy, abc.ABC):
+class NeuralBooleanPSOVelocityUpdateStrategy(VelocityStrategy, abc.ABC):
     pass
 
 
-class NeuralBooleanPSOStandardVelocityStrategy(NeuralBooleanPSOVelocityStrategy):
+class NeuralBooleanPSOStandardVelocityUpdateStrategy(NeuralBooleanPSOVelocityUpdateStrategy):
 
     def __init__(self, params):
         self.params = params
