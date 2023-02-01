@@ -6,7 +6,10 @@ from velocity_component.VelocityComponent import VelocityComponent, VelocityComp
 
 
 class NeuralBooleanPSOPositionUpdateStrategy(PositionUpdateStrategy, abc.ABC):
-    pass
+    @abc.abstractmethod
+    def get_new_position(self, current_position, current_velocity: List[VelocityComponent]):
+        raise NotImplementedError
+
 
 class NeuralBooleanPSOStandardPositionUpdateStrategy(NeuralBooleanPSOPositionUpdateStrategy):
 

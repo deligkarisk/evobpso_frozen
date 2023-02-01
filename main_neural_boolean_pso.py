@@ -1,5 +1,5 @@
 from population.Population import Population
-from pso_params.PsoParams import NeuralBooleanPSOParams
+from pso_params.PsoParams import BooleanPSOParams
 from problem.Rastrigin import Rastrigin
 from decoder.Decoder import BinToRealDecoder
 from factory.ParticleFactory import NeuralBooleanPSOParticleFactory
@@ -10,7 +10,7 @@ from velocity_update_strategy.NeuralBooleanPSOVelocityUpdateStrategy import Neur
 
 n_bits = 32
 
-params = NeuralBooleanPSOParams(0.3, 0.3, 0.1, n_bits, 0.5)
+params = BooleanPSOParams(0.3, 0.3, 0.1, n_bits, 0.5)
 velocity_strategy = NeuralBooleanPSOStandardVelocityUpdateStrategy(params)
 position_update_strategy = NeuralBooleanPSOStandardPositionUpdateStrategy()
 factory = NeuralBooleanPSOParticleFactory()

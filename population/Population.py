@@ -2,12 +2,12 @@ import copy
 
 from factory.ParticleFactory import ParticleFactory
 from position_update_strategy.PositionUpdateStrategy import PositionUpdateStrategy
-from velocity_update_strategy.VelocityUpdateStrategy import VelocityStrategy
+from velocity_update_strategy.VelocityUpdateStrategy import VelocityUpdateStrategy
 
 
 class Population:
 
-    def __init__(self, pop_size, problem, decoder, pso_params, velocity_strategy: VelocityStrategy,
+    def __init__(self, pop_size, problem, decoder, pso_params, velocity_strategy: VelocityUpdateStrategy,
                  position__update_strategy: PositionUpdateStrategy, particle_factory: ParticleFactory):
         self.particles = []
 

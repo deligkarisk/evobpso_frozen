@@ -5,5 +5,7 @@ import abc
 # and current velocity
 
 class PositionUpdateStrategy(abc.ABC):
+
+    @abc.abstractmethod
     def get_new_position(self, current_position, current_velocity):
         raise NotImplementedError

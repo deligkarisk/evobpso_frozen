@@ -1,70 +1,65 @@
 import abc
 import copy
 
+from initializer.Initializer import Initializer
 from position_update_strategy.PositionUpdateStrategy import PositionUpdateStrategy
+from problem.NeuralArchitecture import Problem
 from pso_params.PsoParams import PsoParams
-from velocity_update_strategy.VelocityUpdateStrategy import VelocityStrategy
+from velocity_update_strategy.VelocityUpdateStrategy import VelocityUpdateStrategy
 
 
 class Particle(abc.ABC):
 
-    def __init__(self, parent_pop, problem, decoder, pso_params: PsoParams, velocity_strategy: VelocityStrategy,
+    def __init__(self, parent_pop, decoder, problem: Problem, initializer: Initializer, pso_params: PsoParams,
+                 velocity_update_strategy: VelocityUpdateStrategy,
                  position_update_strategy: PositionUpdateStrategy):
-        # decoder is a required decoder that implements the method decode(). It is used to convert the positions from
-        # binary representation of bPSO to what is required by the Problem instance. If e.g. there is no conversion
-        # needed then the converter can return its input as it is.
-
         self.parent_pop = parent_pop
         self.decoder = decoder
-        self.params = pso_params
-        self.velocity_strategy = velocity_strategy
-        self.position_update_strategy = position_update_strategy
         self.problem = problem
+        self.initializer = initializer
+        self.params = pso_params
+        self.velocity_update_strategy = velocity_update_strategy
+        self.position_update_strategy = position_update_strategy
 
-        self.current_position = self.get_initial_positions()
-        self.current_velocity = self.get_initial_velocity()
+        self.current_position = self._get_initial_positions()
+        self.current_velocity = []  # past velocity information is not used, so no need to initialize here
 
-        self.current_result = self.get_current_position_result()
+        self.current_result = self._evaluate_position()
         self.personal_best_result = copy.deepcopy(self.current_result)
         self.personal_best_position = copy.deepcopy(self.current_position)
 
-    def get_initial_positions(self):
-        raise NotImplementedError
-
-    def get_initial_velocity(self):
-        raise NotImplementedError
-
     def iterate(self):
-        self.current_velocity = self.get_new_velocity()
-        self.current_position = self.get_new_position()
-        self.current_result = self.evaluate_position()
-        self.update_personal_best()
+        self.current_velocity = self._get_new_velocity()
+        self.current_position = self._get_new_position()
+        self.current_result = self._evaluate_position()
+        self._update_personal_best()
 
-    def evaluate_position(self):
-        return self.get_current_position_result()
+    def _get_initial_positions(self):
+        position = self.initializer.get_initial_position(self.params)
+        return position
 
-    def get_current_position_result(self):
-        decoded_position = self.decoder.decode(self.problem, self.current_position)
+    def _get_initial_velocity(self):
+        pass
+       # velocity = self.initializer.get_initial_velocity()
+       # return velocity
+
+    def _evaluate_position(self):
+        decoded_position = self.decoder.decode(self.current_position)
         return self.problem.evaluate(decoded_position)
 
-    def update_personal_best(self):
+    def _update_personal_best(self):
         if self.current_result < self.personal_best_result:
-            self.set_current_position_to_pbest()
+            self._set_current_position_to_pbest()
 
-    def set_current_position_to_pbest(self):
+    def _set_current_position_to_pbest(self):
         self.personal_best_result = copy.deepcopy(self.current_result)
         self.personal_best_position = copy.deepcopy(self.current_position)
 
     # velocity_update_strategy is chosen based on strategy pattern
-    def get_new_velocity(self):
-        return self.velocity_strategy.get_new_velocity(
+    def _get_new_velocity(self):
+        return self.velocity_update_strategy.get_new_velocity(
             self.current_velocity, self.current_position, self.personal_best_position, self.parent_pop.global_best_position)
 
     # position update is chosen based on the strategy pattern
-    def get_new_position(self):
+    def _get_new_position(self):
         return self.position_update_strategy.get_new_position(self.current_position, self.current_velocity)
-
-
-
-
-
