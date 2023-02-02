@@ -5,16 +5,18 @@ from initializer.Initializer import Initializer
 from position_update_strategy.PositionUpdateStrategy import PositionUpdateStrategy
 from problem.NeuralArchitecture import Problem
 from pso_params.PsoParams import PsoParams
+from validator.Validator import Validator
 from velocity_update_strategy.VelocityUpdateStrategy import VelocityUpdateStrategy
 
 
 class Particle(abc.ABC):
 
-    def __init__(self, parent_pop, decoder, problem: Problem, initializer: Initializer, pso_params: PsoParams,
+    def __init__(self, parent_pop, decoder, validator: Validator, problem: Problem, initializer: Initializer, pso_params: PsoParams,
                  velocity_update_strategy: VelocityUpdateStrategy,
                  position_update_strategy: PositionUpdateStrategy):
         self.parent_pop = parent_pop
         self.decoder = decoder
+        self.validator = validator
         self.problem = problem
         self.initializer = initializer
         self.params = pso_params
@@ -62,4 +64,7 @@ class Particle(abc.ABC):
 
     # position update is chosen based on the strategy pattern
     def _get_new_position(self):
-        return self.position_update_strategy.get_new_position(self.current_position, self.current_velocity)
+        new_position = self.position_update_strategy.get_new_position(self.current_position, self.current_velocity)
+        post_validation_position = self.validator.validate(new_position, self.params)
+        return post_validation_position
+
