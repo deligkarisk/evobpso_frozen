@@ -2,8 +2,6 @@ from unittest import TestCase
 from unittest.mock import Mock
 
 from decoder.DoNothingDecoder import DoNothingDecoder
-from decoder.PositionToNNDecoder import PositionToNNDecoder
-from evaluator.StandardNNEvaluator import StandardNNEvaluator
 from initializer.BinaryInitializer import BinaryInitializer
 from params.NeuralArchitectureParams import NeuralArchitectureParams
 from params.Params import Params
