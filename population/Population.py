@@ -1,19 +1,25 @@
 import copy
 
-from factory.ParticleFactory import ParticleFactory
+from initializer.Initializer import Initializer
+from particle.Particle import Particle
 from position_update_strategy.PositionUpdateStrategy import PositionUpdateStrategy
+from params.NeuralArchitectureParams import Problem
+from params.PsoParams import PsoParams
+from validator.Validator import Validator
 from velocity_update_strategy.VelocityUpdateStrategy import VelocityUpdateStrategy
 
 
 class Population:
 
-    def __init__(self, pop_size, problem, decoder, pso_params, velocity_strategy: VelocityUpdateStrategy,
-                 position__update_strategy: PositionUpdateStrategy, particle_factory: ParticleFactory):
+    def __init__(self, pop_size, decoder, validator: Validator, problem: Problem, initializer: Initializer, pso_params: PsoParams,
+                 velocity_update_strategy: VelocityUpdateStrategy,
+                 position__update_strategy: PositionUpdateStrategy):
+
         self.particles = []
 
-        for id in range(0, pop_size):
+        for i in range(0, pop_size):
             self.particles.append(
-                particle_factory.make_particle(self, problem, decoder, pso_params, velocity_strategy, position__update_strategy))
+                Particle(self, decoder, validator, problem, initializer, pso_params, velocity_update_strategy, position__update_strategy))
 
         best_particle = self.get_best_particle()
         self.global_best_position = copy.deepcopy(best_particle.personal_best_position)

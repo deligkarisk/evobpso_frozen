@@ -2,8 +2,8 @@ from unittest import TestCase
 from unittest.mock import patch
 
 from initializer.RealInitializer import RealInitializer
-from problem.NeuralArchitecture import NeuralArchitecture
-from pso_params.PsoParams import RealPSOParams
+from params.NeuralArchitectureParams import NeuralArchitectureParams
+from params.PsoParams import RealPSOParams
 
 
 class TestRealInitializer(TestCase):
@@ -11,7 +11,7 @@ class TestRealInitializer(TestCase):
     @patch('random.randint', return_value=100)
     def test_get_initial_position(self, mock_randint):
         params = RealPSOParams(0, 0, 0, 1, 3, 0)
-        architecture = NeuralArchitecture(2, 4, 2, 4, 50, 100)
+        architecture = NeuralArchitectureParams(2, 4, 2, 4, 50, 100)
         initializer = RealInitializer(architecture, params)
         new_position = initializer.get_initial_position()
         assert len(new_position) == 100

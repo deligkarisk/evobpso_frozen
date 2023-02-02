@@ -1,25 +1,24 @@
-import abc
 import copy
 
+from evaluator.Evaluator import Evaluator
 from initializer.Initializer import Initializer
+from params.Params import Params
 from position_update_strategy.PositionUpdateStrategy import PositionUpdateStrategy
-from problem.NeuralArchitecture import Problem
-from pso_params.PsoParams import PsoParams
 from validator.Validator import Validator
 from velocity_update_strategy.VelocityUpdateStrategy import VelocityUpdateStrategy
 
 
-class Particle(abc.ABC):
+class Particle:
 
-    def __init__(self, parent_pop, decoder, validator: Validator, problem: Problem, initializer: Initializer, pso_params: PsoParams,
+    def __init__(self, parent_pop, params: Params, decoder, validator: Validator, initializer: Initializer, evaluator: Evaluator,
                  velocity_update_strategy: VelocityUpdateStrategy,
                  position_update_strategy: PositionUpdateStrategy):
         self.parent_pop = parent_pop
+        self.params = params
         self.decoder = decoder
         self.validator = validator
-        self.problem = problem
         self.initializer = initializer
-        self.params = pso_params
+        self.evaluator = evaluator
         self.velocity_update_strategy = velocity_update_strategy
         self.position_update_strategy = position_update_strategy
 
@@ -37,7 +36,7 @@ class Particle(abc.ABC):
         self._update_personal_best()
 
     def _get_initial_positions(self):
-        position = self.initializer.get_initial_position(self.params)
+        position = self.initializer.get_initial_position()
         return position
 
     def _get_initial_velocity(self):
@@ -47,7 +46,7 @@ class Particle(abc.ABC):
 
     def _evaluate_position(self):
         decoded_position = self.decoder.decode(self.current_position)
-        return self.problem.evaluate(decoded_position)
+        return self.evaluator.evaluate(decoded_position)
 
     def _update_personal_best(self):
         if self.current_result < self.personal_best_result:

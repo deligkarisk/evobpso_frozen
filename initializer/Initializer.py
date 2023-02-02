@@ -1,14 +1,15 @@
 import abc
 
-from problem.NeuralArchitecture import NeuralArchitecture
-from pso_params.PsoParams import PsoParams
+from params.NeuralArchitectureParams import NeuralArchitectureParams
+from params.Params import Params
+from params.PsoParams import PsoParams
 
 
 class Initializer(abc.ABC):
 
-    def __init__(self, architecture: NeuralArchitecture, params: PsoParams) -> None:
-        self.architecture = architecture
-        self.params = params
+    def __init__(self, params: Params) -> None:
+        self.architecture = params.architecture_params
+        self.pso_params = params.pso_params
 
     @abc.abstractmethod
     def get_initial_position(self):

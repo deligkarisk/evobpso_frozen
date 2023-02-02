@@ -10,6 +10,6 @@ class RealInitializer(Initializer):
         num_layers = random.randint(self.architecture.min_layers, self.architecture.max_layers)
         position = []
         for i in range(0, num_layers):
-            position.append(random.uniform(self.params.min_value, self.params.max_value))
+            position.append(random.uniform(self.pso_params.min_value, self.pso_params.max_value))
         return position
 

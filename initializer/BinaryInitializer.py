@@ -11,6 +11,6 @@ class BinaryInitializer(Initializer):
         num_layers = random.randint(self.architecture.min_layers, self.architecture.max_layers)
         position = []
         for i in range(0, num_layers):
-            position.append(create_rnd_binary_vector(0.5, self.params.n_bits))
+            position.append(create_rnd_binary_vector(0.5, self.pso_params.n_bits))
         return position
 

@@ -2,7 +2,7 @@ import copy
 from unittest import TestCase
 from unittest.mock import patch, Mock
 
-from pso_params.PsoParams import PsoParams, StandardPsoParams, BooleanPSOParams
+from params.PsoParams import PsoParams, BooleanPSOParams
 from velocity_component.VelocityComponent import VelocityComponentRemove, VelocityComponentAdd, VelocityComponentEvolve
 from velocity_update_strategy.NeuralBooleanPSOVelocityUpdateStrategy import NeuralBooleanPSOStandardVelocityUpdateStrategy
 

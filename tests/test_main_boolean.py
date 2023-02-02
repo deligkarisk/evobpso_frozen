@@ -1,24 +1,34 @@
+from decoder.PositionToNNDecoder import PositionToNNDecoder
+from evaluator.StandardNNEvaluator import StandardNNEvaluator
+from initializer.BinaryInitializer import BinaryInitializer
+from params.Params import Params
 from population.Population import Population
-from pso_params.PsoParams import BooleanPSOParams
+from params.NeuralArchitectureParams import NeuralArchitectureParams
+from params.PsoParams import BooleanPSOParams
 from problem.Rastrigin import Rastrigin
-from decoder.Decoder import BinToRealDecoder
-from factory.ParticleFactory import NeuralBooleanPSOParticleFactory
 from position_update_strategy.NeuralBooleanPSOPositionUpdateStrategy import NeuralBooleanPSOStandardPositionUpdateStrategy
+from validator.DoNothingValidator import DoNothingValidator
 from velocity_update_strategy.NeuralBooleanPSOVelocityUpdateStrategy import NeuralBooleanPSOStandardVelocityUpdateStrategy
 
 # This is an example of how to use the standard implementation of the neural boolean pso
 
-n_bits = 32
-
-params = BooleanPSOParams(0.3, 0.3, 0.1, n_bits, 0.5)
-velocity_strategy = NeuralBooleanPSOStandardVelocityUpdateStrategy(params)
+pso_params = BooleanPSOParams(c1=0.3, c2=0.3, omega=0.1, n_bits=32, k=0.5)
+architecture = NeuralArchitectureParams(min_out_conv=2, max_out_conv=4,
+                                        min_kernel_conv=2, max_kernel_conv=4,
+                                        min_layers=10, max_layers=20)
+all_params = Params(pso_params=pso_params, architecture_params=architecture)
+decoder = PositionToNNDecoder()
+validator = DoNothingValidator()
+initializer = BinaryInitializer(params=all_params)
+evaluator = StandardNNEvaluator()
+velocity_strategy = NeuralBooleanPSOStandardVelocityUpdateStrategy(pso_params)
 position_update_strategy = NeuralBooleanPSOStandardPositionUpdateStrategy()
-factory = NeuralBooleanPSOParticleFactory()
 
-decoder = BinToRealDecoder(n_bits)
+
+
 
 problem = Rastrigin(dimensions=2)
-parent_pop_bool = Population(20, problem, decoder, params, velocity_strategy, position_update_strategy, factory)
+parent_pop_bool = Population(20, problem, decoder, pso_params, velocity_strategy, position_update_strategy, factory)
 
 print("--------------------------------- BOOLEAN PSO ---------------------------------")
 
