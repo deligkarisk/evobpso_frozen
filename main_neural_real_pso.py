@@ -30,7 +30,7 @@ for i in range(0,100):
     print("particle 0: velocity: " + str(particle.current_velocity) + ", position: " + str(particle.current_position) + ", result: " + str(particle.current_result))
     particle = parent_pop_bool.particles[1]
     print("particle 1: velocity: " + str(particle.current_velocity) + ", position: " + str(particle.current_position) + ", result: " + str(particle.current_result))
-    particle = parent_pop_bool.get_best_particle()
+    particle = parent_pop_bool._get_best_particle()
     print("global best: velocity: " + str(particle.current_velocity) + ", position: " + str(particle.current_position) + ", result: " + str(particle.current_result))
 
 
