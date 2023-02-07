@@ -1,5 +1,7 @@
 from unittest import TestCase
 
+from component_creator.StandardBooleanComponentCreator import StandardBooleanComponentCreator
+from component_data_calculator.StandardBoolenComponentDataCalculator import StandardBooleanComponentDataCalculator
 from decoder.DoNothingDecoder import DoNothingDecoder
 from evaluator.MockIncreasingEvaluator import MockIncreasingEvaluator
 from initializer.BinaryInitializer import BinaryInitializer
@@ -9,7 +11,7 @@ from params.PsoParams import BooleanPSOParams
 from population.Population import Population
 from position_update_strategy.NeuralBooleanPSOPositionUpdateStrategy import NeuralBooleanPSOStandardPositionUpdateStrategy
 from validator.DoNothingValidator import DoNothingValidator
-from velocity_update_strategy.NeuralBooleanPSOVelocityUpdateStrategy import NeuralBooleanPSOStandardVelocityUpdateStrategy
+from velocity_update_strategy.NeuralBooleanPSOVelocityUpdateStrategy import StandardVelocityUpdateStrategy
 
 
 class TestPopulation(TestCase):
@@ -24,7 +26,9 @@ class TestPopulation(TestCase):
         validator = DoNothingValidator()
         initializer = BinaryInitializer(params=all_params)
         mock_evaluator = MockIncreasingEvaluator()
-        velocity_strategy = NeuralBooleanPSOStandardVelocityUpdateStrategy(pso_params)
+        data_calculator = StandardBooleanComponentDataCalculator(params=all_params)
+        component_creator = StandardBooleanComponentCreator(data_calculator=data_calculator)
+        velocity_strategy = StandardVelocityUpdateStrategy(component_creator, all_params)
         position_update_strategy = NeuralBooleanPSOStandardPositionUpdateStrategy()
 
         population = Population(50, all_params, decoder, validator, initializer, mock_evaluator,

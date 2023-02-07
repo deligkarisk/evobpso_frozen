@@ -1,7 +1,7 @@
 from unittest import TestCase
 
 from position_update_strategy.NeuralBooleanPSOPositionUpdateStrategy import NeuralBooleanPSOStandardPositionUpdateStrategy
-from velocity_component.VelocityComponent import VelocityComponentEvolve, VelocityComponentRemove, VelocityComponentAdd
+from velocity_factor.VelocityFactor import VelocityFactorEvolve, VelocityFactorRemove, VelocityFactorAdd
 
 
 class TestNeuralBooleanPSOStandardPositionUpdateStrategy(TestCase):
@@ -10,9 +10,9 @@ class TestNeuralBooleanPSOStandardPositionUpdateStrategy(TestCase):
         strategy = NeuralBooleanPSOStandardPositionUpdateStrategy()
         current_position = [0b000111, 0b110000]
 
-        component_a = VelocityComponentEvolve(data=0b100111)
-        component_b = VelocityComponentRemove()
-        component_c = VelocityComponentAdd(data=0b100111)
+        component_a = VelocityFactorEvolve(data=0b100111)
+        component_b = VelocityFactorRemove()
+        component_c = VelocityFactorAdd(data=0b100111)
         current_velocity = [component_a, component_b, component_c]
         result = strategy.get_new_position(current_position=current_position, current_velocity=current_velocity)
         expected_result = [0b100000, 0b100111]
@@ -26,9 +26,9 @@ class TestNeuralBooleanPSOStandardPositionUpdateStrategy(TestCase):
         strategy = NeuralBooleanPSOStandardPositionUpdateStrategy()
         current_position = [0b000111]
 
-        component_a = VelocityComponentEvolve(data=0b100111)
-        component_b = VelocityComponentEvolve(data=0b000000)
-        component_c = VelocityComponentAdd(data=0b100111)
+        component_a = VelocityFactorEvolve(data=0b100111)
+        component_b = VelocityFactorEvolve(data=0b000000)
+        component_c = VelocityFactorAdd(data=0b100111)
         current_velocity = [component_a, component_b, component_c]
         with self.assertRaises(Exception):
             result = strategy.get_new_position(current_position=current_position, current_velocity=current_velocity)

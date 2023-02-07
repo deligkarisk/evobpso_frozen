@@ -2,18 +2,18 @@ import abc
 from typing import List
 
 from position_update_strategy.PositionUpdateStrategy import PositionUpdateStrategy
-from velocity_component.VelocityComponent import VelocityComponent, VelocityComponentEvolve, VelocityComponentAdd, VelocityComponentRemove
+from velocity_factor.VelocityFactor import VelocityFactor, VelocityFactorEvolve, VelocityFactorAdd, VelocityFactorRemove
 
 
 class NeuralBooleanPSOPositionUpdateStrategy(PositionUpdateStrategy, abc.ABC):
     @abc.abstractmethod
-    def get_new_position(self, current_position, current_velocity: List[VelocityComponent]):
+    def get_new_position(self, current_position, current_velocity: List[VelocityFactor]):
         raise NotImplementedError
 
 
 class NeuralBooleanPSOStandardPositionUpdateStrategy(NeuralBooleanPSOPositionUpdateStrategy):
 
-    def get_new_position(self, current_position, current_velocity: List[VelocityComponent]):
+    def get_new_position(self, current_position, current_velocity: List[VelocityFactor]):
         new_position = []
         for i in range(0, len(current_velocity)):
             current_position_placeholder = current_position[i] if i < len(current_position) else None
@@ -24,13 +24,13 @@ class NeuralBooleanPSOStandardPositionUpdateStrategy(NeuralBooleanPSOPositionUpd
 
     def _update_to_position(self, current_velocity, current_position):
 
-        if isinstance(current_velocity, VelocityComponentEvolve):
+        if isinstance(current_velocity, VelocityFactorEvolve):
             if current_position is  None:
                 raise Exception("Attempt to XOR a velocity component with an empty position.")
             updated_position = current_position ^ current_velocity.data
-        elif isinstance(current_velocity, VelocityComponentAdd):
+        elif isinstance(current_velocity, VelocityFactorAdd):
             updated_position = current_velocity.data
-        elif isinstance(current_velocity, VelocityComponentRemove):
+        elif isinstance(current_velocity, VelocityFactorRemove):
             updated_position = None
         else:
             raise Exception("Unknown velocity component during position update.")

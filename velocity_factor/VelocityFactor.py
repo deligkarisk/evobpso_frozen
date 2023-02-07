@@ -4,7 +4,7 @@ from utils import utils
 
 
 # The velocity component class defines what components exist, and how to convert each velocity component to a position vector.
-class VelocityComponent(abc.ABC):
+class VelocityFactor(abc.ABC):
 
     def __init__(self):
         self.data = None
@@ -13,7 +13,7 @@ class VelocityComponent(abc.ABC):
         raise NotImplementedError
 
 
-class VelocityComponentEvolve(VelocityComponent):
+class VelocityFactorEvolve(VelocityFactor):
 
     def __init__(self, data):
         self.data = data
@@ -28,7 +28,7 @@ class VelocityComponentEvolve(VelocityComponent):
         return position_conversion_visitor.do_for_component_evolve(self, current_position)
 
 
-class VelocityComponentRemove(VelocityComponent):
+class VelocityFactorRemove(VelocityFactor):
     def __init__(self):
         self.data = None
 
@@ -42,7 +42,7 @@ class VelocityComponentRemove(VelocityComponent):
         return position_conversion_visitor.do_for_component_remove(self)
 
 
-class VelocityComponentAdd(VelocityComponent):
+class VelocityFactorAdd(VelocityFactor):
     def __init__(self, data):
         self.data = data
 

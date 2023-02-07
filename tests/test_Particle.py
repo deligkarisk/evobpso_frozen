@@ -1,6 +1,8 @@
 from unittest import TestCase
 from unittest.mock import Mock
 
+from component_creator.StandardBooleanComponentCreator import StandardBooleanComponentCreator
+from component_data_calculator.StandardBoolenComponentDataCalculator import StandardBooleanComponentDataCalculator
 from decoder.DoNothingDecoder import DoNothingDecoder
 from initializer.BinaryInitializer import BinaryInitializer
 from params.NeuralArchitectureParams import NeuralArchitectureParams
@@ -9,7 +11,7 @@ from params.PsoParams import BooleanPSOParams
 from particle.Particle import Particle
 from position_update_strategy.NeuralBooleanPSOPositionUpdateStrategy import NeuralBooleanPSOStandardPositionUpdateStrategy
 from validator.DoNothingValidator import DoNothingValidator
-from velocity_update_strategy.NeuralBooleanPSOVelocityUpdateStrategy import NeuralBooleanPSOStandardVelocityUpdateStrategy
+from velocity_update_strategy.NeuralBooleanPSOVelocityUpdateStrategy import StandardVelocityUpdateStrategy
 
 
 class TestParticle(TestCase):
@@ -26,7 +28,9 @@ class TestParticle(TestCase):
         initializer = BinaryInitializer(params=all_params)
         mock_evaluator = Mock()
         mock_evaluator.evaluate.return_value = 100
-        velocity_strategy = NeuralBooleanPSOStandardVelocityUpdateStrategy(pso_params)
+        data_calculator = StandardBooleanComponentDataCalculator(params=all_params)
+        component_creator = StandardBooleanComponentCreator(data_calculator=data_calculator)
+        velocity_strategy = StandardVelocityUpdateStrategy(component_creator, all_params)
         position_update_strategy = NeuralBooleanPSOStandardPositionUpdateStrategy()
         mock_population = Mock()
         mock_population.global_best_position = [11020303, 3042323]

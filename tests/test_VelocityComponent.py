@@ -1,13 +1,13 @@
 from unittest import TestCase
 from unittest.mock import patch, Mock
 
-from velocity_component.VelocityComponent import VelocityComponentEvolve, VelocityComponentAdd, VelocityComponentRemove
+from velocity_factor.VelocityFactor import VelocityFactorEvolve, VelocityFactorAdd, VelocityFactorRemove
 
 
 class TestVelocityComponentEvolve(TestCase):
 
     def test_get_new_position(self):
-        component = VelocityComponentEvolve(data=0b111000)
+        component = VelocityFactorEvolve(data=0b111000)
         position_visitor = Mock()
         current_position = 0b0000001
         new_position = component.convert_to_position(current_position=current_position, position_conversion_visitor=position_visitor)
@@ -18,7 +18,7 @@ class TestVelocityComponentEvolve(TestCase):
 class TestVelocityComponentAdd(TestCase):
 
     def test_get_new_position(self):
-        component = VelocityComponentAdd(data=0b111000)
+        component = VelocityFactorAdd(data=0b111000)
         current_position = None
         position_visitor = Mock()
         new_position = component.convert_to_position(current_position=current_position, position_conversion_visitor=position_visitor)
@@ -28,7 +28,7 @@ class TestVelocityComponentAdd(TestCase):
 class TestVelocityComponentRemove(TestCase):
 
     def test_get_new_position(self):
-        component = VelocityComponentRemove()
+        component = VelocityFactorRemove()
         position_visitor = Mock()
         current_position = [0b0000001]
         new_position = component.convert_to_position(current_position=current_position, position_conversion_visitor=position_visitor)

@@ -4,7 +4,7 @@ from functools import partial
 from utils import utils
 from utils.utils import find_largest_size, create_rnd_binary_vector, find_smallest_size, find_largest_index
 from velocity_update_strategy.VelocityUpdateStrategy import VelocityUpdateStrategy
-from velocity_component.VelocityComponent import VelocityComponentRemove, VelocityComponentAdd, VelocityComponentEvolve
+from velocity_factor.VelocityFactor import VelocityFactorRemove, VelocityFactorAdd, VelocityFactorEvolve
 
 
 class NeuralRealPSOVelocityUpdateStrategy(VelocityUpdateStrategy, abc.ABC):

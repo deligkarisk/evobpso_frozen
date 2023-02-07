@@ -4,7 +4,7 @@ from params.PsoParams import BooleanPSOParams, RealPSOParams
 from problem.Rastrigin import Rastrigin
 from decoder.Decoder import BinToRealDecoder
 from position_update_strategy.NeuralBooleanPSOPositionUpdateStrategy import NeuralBooleanPSOStandardPositionUpdateStrategy
-from velocity_update_strategy.NeuralBooleanPSOVelocityUpdateStrategy import NeuralBooleanPSOStandardVelocityUpdateStrategy
+from velocity_update_strategy.NeuralBooleanPSOVelocityUpdateStrategy import StandardVelocityUpdateStrategy
 from velocity_update_strategy.NeuralRealPSOVelocityUpdateStrategy import NeuralRealPSOStandardVelocityUpdateStrategy
 
 # This is an example of how to use the standard implementation of the neural real pso

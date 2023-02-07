@@ -4,52 +4,23 @@ from functools import partial
 from utils import utils
 from utils.utils import find_largest_size, create_rnd_binary_vector, find_smallest_size, find_largest_index
 from velocity_update_strategy.VelocityUpdateStrategy import VelocityUpdateStrategy
-from velocity_component.VelocityComponent import VelocityComponentRemove, VelocityComponentAdd, VelocityComponentEvolve
+from velocity_factor.VelocityFactor import VelocityFactorRemove, VelocityFactorAdd, VelocityFactorEvolve
 
 
-class NeuralBooleanPSOVelocityUpdateStrategy(VelocityUpdateStrategy, abc.ABC):
-    pass
-
-
-class NeuralBooleanPSOStandardVelocityUpdateStrategy(NeuralBooleanPSOVelocityUpdateStrategy):
-
-    def __init__(self, params):
-        self.params = params
+class StandardVelocityUpdateStrategy(VelocityUpdateStrategy):
 
     def get_new_velocity(self, current_velocity, current_position, pbest_position, gbest_position):
 
-        params = self.params
-        rnd_vector_personal_partial = partial(create_rnd_binary_vector, params.c1, params.n_bits)
-        personal_factor = self._create_component(pbest_position, current_position, rnd_vector_personal_partial)
-        rnd_vector_social_partial = partial(create_rnd_binary_vector, params.c2, params.n_bits)
-        global_factor = self._create_component(gbest_position, current_position, rnd_vector_social_partial)
-        personal_factor, global_factor = self._equalize_sizes(personal_factor, global_factor)
-        new_velocity = self._merge_personal_and_global_component(personal_factor, global_factor)
+        pso_params = self.params.pso_params
+        #rnd_vector_personal_partial = partial(create_rnd_binary_vector, pso_params.c1, pso_params.n_bits)
+        personal_component = self.component_creator.create_component(pbest_position, current_position, pso_params.c1 )
+        #personal_component = self._create_component(pbest_position, current_position, rnd_vector_personal_partial)
+        #rnd_vector_social_partial = partial(create_rnd_binary_vector, pso_params.c2, pso_params.n_bits)
+        global_component = self.component_creator.create_component(gbest_position, current_position, pso_params.c2 )
+        #global_component = self._create_component(gbest_position, current_position, rnd_vector_social_partial)
+        personal_component, global_component = self._equalize_sizes(personal_component, global_component)
+        new_velocity = self._merge_personal_and_global_component(personal_component, global_component)
         return new_velocity
-
-    def _create_component(self, best_position, current_position, rnd_vector_partial):
-        # creates the social and personal components of the velocity equation.
-        largest_size = find_largest_size(best_position, current_position)
-        smallest_size = find_smallest_size(best_position, current_position)
-        best_position_is_larger = find_largest_index(best_position, current_position) == 0
-        result = []
-
-        # for the dimensions that both positions have, produce component using the xor and "and" operations
-        for current_index in range(0, smallest_size):
-            component = (best_position[current_index] ^ current_position[current_index]) & rnd_vector_partial()
-            velocity_component = VelocityComponentEvolve(data=component)
-            result.append(velocity_component)
-
-        # subsequently, fill the rest with either 'Add' or 'Remove'.
-        # this depends on whether the best (global or personal) is larger than the current position or vice versa
-        for current_index in range(smallest_size, largest_size):
-            if best_position_is_larger:
-                velocity_component = VelocityComponentAdd(data=best_position[current_index])
-                result.append(velocity_component)
-            else:
-                velocity_component = VelocityComponentRemove()
-                result.append(velocity_component)
-        return result
 
     def _equalize_sizes(self, personal_component, global_component):
         # this method equalizes the sizes of the two lists of components, by adding Remove components in the shortest list
@@ -63,11 +34,11 @@ class NeuralBooleanPSOStandardVelocityUpdateStrategy(NeuralBooleanPSOVelocityUpd
         if p_size < g_size:
             diff = g_size - p_size
             for i in range(0, diff):
-                personal_component.append(VelocityComponentRemove())
+                personal_component.append(VelocityFactorRemove())
         else:
             diff = p_size - g_size
             for i in range(0, diff):
-                global_component.append(VelocityComponentRemove())
+                global_component.append(VelocityFactorRemove())
 
         return personal_component, global_component
 
@@ -78,15 +49,16 @@ class NeuralBooleanPSOStandardVelocityUpdateStrategy(NeuralBooleanPSOVelocityUpd
         if len(personal_component) != len(global_component):
             raise ValueError('input components must have the same size')
 
+        pso_params = self.params.pso_params
         merged_components = []
         for p_entry, g_entry in zip(personal_component, global_component):
             # if both components are Evolve, then just OR their data
-            if (isinstance(personal_component, VelocityComponentEvolve)) and isinstance(global_component, VelocityComponentEvolve):
+            if (isinstance(personal_component, VelocityFactorEvolve)) and isinstance(global_component, VelocityFactorEvolve):
                 result_data = p_entry.data | g_entry.data
-                new_entry = VelocityComponentEvolve(data=result_data)
+                new_entry = VelocityFactorEvolve(data=result_data)
                 merged_components.append(new_entry)
             # otherwise, just select one of the components, either the personal or the global
             else:
-                new_entry = utils.random_choice(p_entry, g_entry, self.params.k)
+                new_entry = utils.random_choice(p_entry, g_entry, pso_params.k)
                 merged_components.append(new_entry)
         return merged_components
