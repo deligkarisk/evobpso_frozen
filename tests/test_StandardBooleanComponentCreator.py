@@ -20,11 +20,12 @@ class TestStandardBooleanComponentCreator(TestCase):
         best_position = [0b000001, 0b000000, 0b000111]
         current_position = [0b010000, 0b000001]
         data_calculator = StandardBooleanComponentDataCalculator(params=params)
+        data_calculator.calculate = Mock(return_value=0b111000)
         component_creator = StandardBooleanComponentCreator(data_calculator=data_calculator)
         new_component = component_creator.create_component(best_position=best_position, current_position=current_position, c_factor=1)
 
-        expected_result = [VelocityFactorEvolve(data=0b010001),
-                           VelocityFactorEvolve(data=0b000001),
+        expected_result = [VelocityFactorEvolve(data=0b111000),
+                           VelocityFactorEvolve(data=0b111000),
                            VelocityFactorAdd(data=0b000111)]
 
         assert new_component == expected_result
@@ -40,10 +41,11 @@ class TestStandardBooleanComponentCreator(TestCase):
         best_position = [0b111101]
         current_position = [0b010000, 0b000001]
         data_calculator = StandardBooleanComponentDataCalculator(params=params)
+        data_calculator.calculate = Mock(return_value=0b111000)
         component_creator = StandardBooleanComponentCreator(data_calculator=data_calculator)
         new_component = component_creator.create_component(best_position=best_position, current_position=current_position, c_factor=1)
 
-        expected_result = [VelocityFactorEvolve(data=0b101101),
+        expected_result = [VelocityFactorEvolve(data=0b111000),
                            VelocityFactorRemove()]
 
         assert new_component == expected_result
@@ -59,10 +61,11 @@ class TestStandardBooleanComponentCreator(TestCase):
         best_position = [0b111101, 0b010101]
         current_position = [0b010000, 0b000001]
         data_calculator = StandardBooleanComponentDataCalculator(params=params)
+        data_calculator.calculate = Mock(return_value=0b111000)
         component_creator = StandardBooleanComponentCreator(data_calculator=data_calculator)
         new_component = component_creator.create_component(best_position=best_position, current_position=current_position, c_factor=1)
 
-        expected_result = [VelocityFactorEvolve(data=0b101101),
-                           VelocityFactorEvolve(data=0b010100)]
+        expected_result = [VelocityFactorEvolve(data=0b111000),
+                           VelocityFactorEvolve(data=0b111000)]
 
         assert new_component == expected_result
