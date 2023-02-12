@@ -1,13 +1,13 @@
 from unittest import TestCase
 
-from position_update_strategy.NeuralBooleanPSOPositionUpdateStrategy import NeuralBooleanPSOStandardPositionUpdateStrategy
+from position_update_strategy.StandardPositionUpdateStrategy import StandardPositionUpdateStrategy
 from velocity_factor.VelocityFactor import VelocityFactorEvolve, VelocityFactorRemove, VelocityFactorAdd
 
 
 class TestNeuralBooleanPSOStandardPositionUpdateStrategy(TestCase):
 
     def test_get_new_position_valid_case(self):
-        strategy = NeuralBooleanPSOStandardPositionUpdateStrategy()
+        strategy = StandardPositionUpdateStrategy()
         current_position = [0b000111, 0b110000]
 
         component_a = VelocityFactorEvolve(data=0b100111)
@@ -23,7 +23,7 @@ class TestNeuralBooleanPSOStandardPositionUpdateStrategy(TestCase):
         # result in an exception. In summary, when there is an Evolve velocity component, there must always be a current position
         # to XOR with (for the specific dimension).
 
-        strategy = NeuralBooleanPSOStandardPositionUpdateStrategy()
+        strategy = StandardPositionUpdateStrategy()
         current_position = [0b000111]
 
         component_a = VelocityFactorEvolve(data=0b100111)

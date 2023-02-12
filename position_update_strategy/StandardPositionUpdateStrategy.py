@@ -5,13 +5,7 @@ from position_update_strategy.PositionUpdateStrategy import PositionUpdateStrate
 from velocity_factor.VelocityFactor import VelocityFactor, VelocityFactorEvolve, VelocityFactorAdd, VelocityFactorRemove
 
 
-class NeuralBooleanPSOPositionUpdateStrategy(PositionUpdateStrategy, abc.ABC):
-    @abc.abstractmethod
-    def get_new_position(self, current_position, current_velocity: List[VelocityFactor]):
-        raise NotImplementedError
-
-
-class NeuralBooleanPSOStandardPositionUpdateStrategy(NeuralBooleanPSOPositionUpdateStrategy):
+class StandardPositionUpdateStrategy(PositionUpdateStrategy):
 
     def get_new_position(self, current_position, current_velocity: List[VelocityFactor]):
         new_position = []

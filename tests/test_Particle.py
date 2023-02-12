@@ -9,29 +9,29 @@ from params.NeuralArchitectureParams import NeuralArchitectureParams
 from params.Params import Params
 from params.PsoParams import BooleanPSOParams
 from particle.Particle import Particle
-from position_update_strategy.NeuralBooleanPSOPositionUpdateStrategy import NeuralBooleanPSOStandardPositionUpdateStrategy
-from validator.DoNothingValidator import DoNothingValidator
-from velocity_update_strategy.NeuralBooleanPSOVelocityUpdateStrategy import StandardVelocityUpdateStrategy
+from position_update_strategy.StandardPositionUpdateStrategy import StandardPositionUpdateStrategy
+from position_validator.DoNothingValidator import DoNothingPositionValidator
+from velocity_update_strategy.StandardVelocityUpdateStrategy import StandardVelocityUpdateStrategy
 
 
 class TestParticle(TestCase):
 
 
     def test_iterate(self):
-        pso_params = BooleanPSOParams(c1=0.3, c2=0.3, omega=0.1, n_bits=32, k=0.5)
+        pso_params = BooleanPSOParams(c1=0.3, c2=0.3, n_bits=32, k=0.5)
         architecture = NeuralArchitectureParams(min_out_conv=2, max_out_conv=4,
                                                 min_kernel_conv=2, max_kernel_conv=4,
                                                 min_layers=10, max_layers=20)
         all_params = Params(pso_params=pso_params, architecture_params=architecture)
         decoder = DoNothingDecoder()
-        validator = DoNothingValidator()
+        validator = DoNothingPositionValidator()
         initializer = BinaryInitializer(params=all_params)
         mock_evaluator = Mock()
         mock_evaluator.evaluate.return_value = 100
         data_calculator = StandardBooleanComponentDataCalculator(params=all_params)
         component_creator = StandardBooleanComponentCreator(data_calculator=data_calculator)
         velocity_strategy = StandardVelocityUpdateStrategy(component_creator, all_params)
-        position_update_strategy = NeuralBooleanPSOStandardPositionUpdateStrategy()
+        position_update_strategy = StandardPositionUpdateStrategy()
         mock_population = Mock()
         mock_population.global_best_position = [11020303, 3042323]
 

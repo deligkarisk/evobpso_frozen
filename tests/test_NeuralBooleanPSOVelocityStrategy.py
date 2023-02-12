@@ -7,7 +7,7 @@ from component_data_calculator.StandardBoolenComponentDataCalculator import Stan
 from params.Params import Params
 from params.PsoParams import PsoParams, BooleanPSOParams
 from velocity_factor.VelocityFactor import VelocityFactorRemove, VelocityFactorAdd, VelocityFactorEvolve
-from velocity_update_strategy.NeuralBooleanPSOVelocityUpdateStrategy import StandardVelocityUpdateStrategy
+from velocity_update_strategy.StandardVelocityUpdateStrategy import StandardVelocityUpdateStrategy
 
 
 class TestNeuralBooleanPSOStandardVelocityStrategy(TestCase):
@@ -18,7 +18,7 @@ class TestNeuralBooleanPSOStandardVelocityStrategy(TestCase):
         pbest_position = [0b000000, 0b000000, 0b000111]
         gbest_position = [0b111111, 0b111111]
 
-        pso_params = BooleanPSOParams(1, 0, 0, 6, k=1)
+        pso_params = BooleanPSOParams(1, 0, 6, k=1)
         architecture_params = Mock()
         params = Params(pso_params, architecture_params)
         data_calculator = StandardBooleanComponentDataCalculator(params=params)
@@ -37,7 +37,7 @@ class TestNeuralBooleanPSOStandardVelocityStrategy(TestCase):
         current_position = [0b010101, 0b000000]
         pbest_position = [0b000000, 0b000000, 0b000111]
         gbest_position = [0b111101]
-        pso_params = BooleanPSOParams(0, 1, 0, 6, k=0)
+        pso_params = BooleanPSOParams(0, 1, 6, k=0)
         architecture_params = Mock()
         params = Params(pso_params, architecture_params)
 
