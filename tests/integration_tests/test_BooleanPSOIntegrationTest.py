@@ -35,6 +35,6 @@ class TestBooleanPSOIntegrationTest(TestCase):
         validator = StandardBooleanPSOPositionValidator()
         initializer = BinaryInitializer(params=all_params)
         parent_pop = Population(pop_size=20, params=all_params, decoder=decoder, validator=validator, initializer=initializer,
-                                evaluator=evaluator, velocity_update_strategy=velocity_strategy, position__update_strategy=position_update_strategy)
+                                evaluator=evaluator, velocity_update_strategy=velocity_strategy, position_update_strategy=position_update_strategy)
 
 

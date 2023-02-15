@@ -6,7 +6,6 @@ from initializer.Initializer import Initializer
 from params.Params import Params
 from particle.Particle import Particle
 from position_update_strategy.PositionUpdateStrategy import PositionUpdateStrategy
-from params.PsoParams import PsoParams
 from position_validator.PositionValidator import PositionValidator
 from velocity_update_strategy.VelocityUpdateStrategy import VelocityUpdateStrategy
 
@@ -16,7 +15,7 @@ class Population:
     def __init__(self, pop_size, params: Params, decoder: Decoder, validator: PositionValidator, initializer: Initializer,
                  evaluator: Evaluator,
                  velocity_update_strategy: VelocityUpdateStrategy,
-                 position__update_strategy: PositionUpdateStrategy):
+                 position_update_strategy: PositionUpdateStrategy):
 
         self.particles = []
 
