@@ -12,7 +12,7 @@ from velocity_update_strategy.VelocityUpdateStrategy import VelocityUpdateStrate
 
 class Population:
 
-    def __init__(self, pop_size, params: Params, decoder: Decoder, validator: PositionValidator, initializer: Initializer,
+    def __init__(self, pop_size, params: Params, validator: PositionValidator, initializer: Initializer,
                  evaluator: Evaluator,
                  velocity_update_strategy: VelocityUpdateStrategy,
                  position_update_strategy: PositionUpdateStrategy):
@@ -21,7 +21,7 @@ class Population:
 
         for i in range(0, pop_size):
             self.particles.append(
-                Particle(self, params, decoder, validator, initializer, evaluator, velocity_update_strategy, position__update_strategy))
+                Particle(self, params, validator, initializer, evaluator, velocity_update_strategy, position_update_strategy))
 
         best_particle = self._get_best_particle()
         self.global_best_position = copy.deepcopy(best_particle.personal_best_position)

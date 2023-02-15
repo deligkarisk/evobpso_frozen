@@ -10,12 +10,11 @@ from velocity_update_strategy.VelocityUpdateStrategy import VelocityUpdateStrate
 
 class Particle:
 
-    def __init__(self, parent_pop, params: Params, decoder, validator: PositionValidator, initializer: Initializer, evaluator: Evaluator,
+    def __init__(self, parent_pop, params: Params, validator: PositionValidator, initializer: Initializer, evaluator: Evaluator,
                  velocity_update_strategy: VelocityUpdateStrategy,
                  position_update_strategy: PositionUpdateStrategy):
         self.parent_pop = parent_pop
         self.params = params
-        self.decoder = decoder
         self.validator = validator
         self.initializer = initializer
         self.evaluator = evaluator
@@ -45,8 +44,7 @@ class Particle:
        # return velocity
 
     def _evaluate_position(self):
-        decoded_position = self.decoder.decode(self.current_position)
-        return self.evaluator.evaluate(decoded_position)
+        return self.evaluator.evaluate(self.current_position)
 
     def _update_personal_best(self):
         if self.current_result < self.personal_best_result:

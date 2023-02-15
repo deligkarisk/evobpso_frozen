@@ -31,7 +31,7 @@ class TestPopulation(TestCase):
         velocity_strategy = StandardVelocityUpdateStrategy(component_creator, all_params)
         position_update_strategy = StandardPositionUpdateStrategy()
 
-        population = Population(50, all_params, decoder, validator, initializer, mock_evaluator,
+        population = Population(50, all_params, validator, initializer, mock_evaluator,
                                 velocity_strategy, position_update_strategy)
 
         # some basic initial checks

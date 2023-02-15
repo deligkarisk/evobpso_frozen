@@ -36,7 +36,7 @@ class TestParticle(TestCase):
         mock_population.global_best_position = [11020303, 3042323]
 
 
-        particle = Particle(mock_population, all_params, decoder, validator, initializer, mock_evaluator,
+        particle = Particle(mock_population, all_params, validator, initializer, mock_evaluator,
                             velocity_strategy, position_update_strategy)
 
         # some quick initial tests

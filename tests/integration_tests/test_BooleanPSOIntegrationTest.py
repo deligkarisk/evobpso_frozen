@@ -26,15 +26,13 @@ class TestBooleanPSOIntegrationTest(TestCase):
         component_creator = StandardBooleanComponentCreator(data_calculator=data_calculator)
         velocity_strategy = StandardVelocityUpdateStrategy(component_creator=component_creator, params=all_params)
         position_update_strategy = StandardPositionUpdateStrategy()
-
-
         decoder = PositionToNNDecoder()
-        evaluator = StandardNNEvaluator()
-
-
+        evaluator = StandardNNEvaluator(decoder=decoder)
         validator = StandardBooleanPSOPositionValidator()
         initializer = BinaryInitializer(params=all_params)
-        parent_pop = Population(pop_size=20, params=all_params, decoder=decoder, validator=validator, initializer=initializer,
+        parent_pop = Population(pop_size=20, params=all_params, validator=validator, initializer=initializer,
                                 evaluator=evaluator, velocity_update_strategy=velocity_strategy, position_update_strategy=position_update_strategy)
 
+        for i in range(0, 1000):
+            parent_pop.iterate()
 
