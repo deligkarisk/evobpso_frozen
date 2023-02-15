@@ -50,3 +50,7 @@ def random_choice(choice_a, choice_b, k):
         return choice_a
     else:
         return choice_b
+
+
+def extract_integer_from_bits(number, start_index, length):
+    return (number >> start_index) & ((1 << length) - 1)
