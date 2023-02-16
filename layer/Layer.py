@@ -9,10 +9,14 @@ class ConvLayer:
 
 
 class MaxPooling:
-    def __init__(self, pooling_size) -> None:
-        self.pooling_size = pooling_size
+    def __init__(self) -> None:
+        pass
+
 
 
 class AvgPooling:
-    def __init__(self, pooling_size) -> None:
-        self.pooling_size = pooling_size
+    def __init__(self) -> None:
+        pass
+
+
+

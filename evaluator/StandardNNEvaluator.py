@@ -10,7 +10,7 @@ class StandardNNEvaluator(Evaluator):
 
 
         # First, rescale inputs
-        inputs = keras.Input(shape=(180, 180, 3))
+        input = keras.Input(shape=(180, 180, 3))
         x = layers.Rescaling(1./255)(input)
         # Add the subsequent layers
         for layer in decoded_position:
