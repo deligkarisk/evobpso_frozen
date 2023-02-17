@@ -1,9 +1,9 @@
-from decoder.Decoder import Decoder
+from architecture_decoder.ArchitectureDecoder import ArchitectureDecoder
 from layer.Layer import ConvLayer, MaxPooling, AvgPooling
 from utils.utils import extract_integer_from_subset_of_bits
 
 
-class PositionToNNDecoder(Decoder):
+class StandardArchitectureDecoder(ArchitectureDecoder):
 
     def decode(self, encoded_position):
 

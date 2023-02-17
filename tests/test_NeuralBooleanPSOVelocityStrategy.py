@@ -4,7 +4,7 @@ from unittest.mock import patch, Mock
 
 from component_creator.StandardBooleanComponentCreator import StandardBooleanComponentCreator
 from component_data_calculator.StandardBoolenComponentDataCalculator import StandardBooleanComponentDataCalculator
-from params.Params import Params
+from params.OptimizationParams import OptimizationParams
 from params.PsoParams import PsoParams, BooleanPSOParams
 from velocity_factor.VelocityFactor import VelocityFactorRemove, VelocityFactorAdd, VelocityFactorEvolve
 from velocity_update_strategy.StandardVelocityUpdateStrategy import StandardVelocityUpdateStrategy
@@ -20,7 +20,7 @@ class TestNeuralBooleanPSOStandardVelocityStrategy(TestCase):
 
         pso_params = BooleanPSOParams(1, 0, 6, k=1)
         architecture_params = Mock()
-        params = Params(pso_params, architecture_params)
+        params = OptimizationParams(pso_params, architecture_params)
         data_calculator = StandardBooleanComponentDataCalculator(params=params)
         component_creator = StandardBooleanComponentCreator(data_calculator=data_calculator)
 
@@ -39,7 +39,7 @@ class TestNeuralBooleanPSOStandardVelocityStrategy(TestCase):
         gbest_position = [0b111101]
         pso_params = BooleanPSOParams(0, 1, 6, k=0)
         architecture_params = Mock()
-        params = Params(pso_params, architecture_params)
+        params = OptimizationParams(pso_params, architecture_params)
 
         data_calculator = StandardBooleanComponentDataCalculator(params=params)
         component_creator = StandardBooleanComponentCreator(data_calculator=data_calculator)

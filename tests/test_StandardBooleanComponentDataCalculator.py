@@ -2,7 +2,7 @@ from unittest import TestCase
 from unittest.mock import Mock
 
 from component_data_calculator.StandardBoolenComponentDataCalculator import StandardBooleanComponentDataCalculator
-from params.Params import Params
+from params.OptimizationParams import OptimizationParams
 
 
 class TestStandardBooleanComponentDataCalculator(TestCase):
@@ -11,7 +11,7 @@ class TestStandardBooleanComponentDataCalculator(TestCase):
         pso_params = Mock()
         architecture_params = Mock()
         pso_params.n_bits = 8
-        params = Params(pso_params, architecture_params)
+        params = OptimizationParams(pso_params, architecture_params)
 
         best_position_data = 0b01010111
         current_position_data = 0b11111111
@@ -24,7 +24,7 @@ class TestStandardBooleanComponentDataCalculator(TestCase):
         pso_params = Mock()
         architecture_params = Mock()
         pso_params.n_bits = 8
-        params = Params(pso_params, architecture_params)
+        params = OptimizationParams(pso_params, architecture_params)
 
         best_position_data = 0b01010111
         current_position_data = 0b11111111

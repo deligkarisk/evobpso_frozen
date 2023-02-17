@@ -1,6 +1,6 @@
 from unittest import TestCase
 
-from decoder.PositionToNNDecoder import PositionToNNDecoder
+from architecture_decoder.StandardArchitectureDecoder import StandardArchitectureDecoder
 from layer.Layer import AvgPooling, MaxPooling, ConvLayer
 
 
@@ -22,7 +22,7 @@ class TestPositionToNNDecoder(TestCase):
         kernel_size_third_dim = 2  # binary is zero, adding two as the minimum kernel size is two.
         pooling_layers_third_dim = 0  # no pooling layer after the third convolutional layer.
 
-        decoder = PositionToNNDecoder()
+        decoder = StandardArchitectureDecoder()
         returned_architecture = decoder.decode(position)
 
         assert len(returned_architecture) == 8  # Conv, Pooling, Pooling, Conv, Pooling, Pooling, Pooling, Conv

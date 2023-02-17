@@ -1,11 +1,11 @@
 import abc
 
-from params.Params import Params
+from params.OptimizationParams import OptimizationParams
 
 
 class ComponentDataCalculator(abc.ABC):
 
-    def __init__(self, params: Params) -> None:
+    def __init__(self, params: OptimizationParams) -> None:
         self.params = params
         super().__init__()
 

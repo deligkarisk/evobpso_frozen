@@ -2,11 +2,11 @@ from unittest import TestCase
 
 from component_creator.StandardBooleanComponentCreator import StandardBooleanComponentCreator
 from component_data_calculator.StandardBoolenComponentDataCalculator import StandardBooleanComponentDataCalculator
-from decoder.DoNothingDecoder import DoNothingDecoder
+from architecture_decoder.DoNothingDecoder import DoNothingDecoder
 from evaluator.MockIncreasingEvaluator import MockIncreasingEvaluator
 from initializer.BinaryInitializer import BinaryInitializer
 from params.NeuralArchitectureParams import NeuralArchitectureParams
-from params.Params import Params
+from params.OptimizationParams import OptimizationParams
 from params.PsoParams import BooleanPSOParams
 from population.Population import Population
 from position_update_strategy.StandardPositionUpdateStrategy import StandardPositionUpdateStrategy
@@ -21,7 +21,7 @@ class TestPopulation(TestCase):
         architecture = NeuralArchitectureParams(min_out_conv=2, max_out_conv=4,
                                                 min_kernel_conv=2, max_kernel_conv=4,
                                                 min_layers=10, max_layers=20)
-        all_params = Params(pso_params=pso_params, architecture_params=architecture)
+        all_params = OptimizationParams(pso_params=pso_params, architecture_params=architecture)
         decoder = DoNothingDecoder()
         validator = DoNothingPositionValidator()
         initializer = BinaryInitializer(params=all_params)

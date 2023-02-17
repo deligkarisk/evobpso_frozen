@@ -1,12 +1,12 @@
 import abc
 
 from component_creator.ComponentCreator import ComponentCreator
-from params.Params import Params
+from params.OptimizationParams import OptimizationParams
 
 
 class VelocityUpdateStrategy(abc.ABC):
 
-    def __init__(self, component_creator: ComponentCreator, params: Params) -> None:
+    def __init__(self, component_creator: ComponentCreator, params: OptimizationParams) -> None:
         self.component_creator = component_creator
         self.params = params
         super().__init__()

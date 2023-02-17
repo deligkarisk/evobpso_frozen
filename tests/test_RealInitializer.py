@@ -3,7 +3,7 @@ from unittest.mock import patch
 
 from initializer.RealInitializer import RealInitializer
 from params.NeuralArchitectureParams import NeuralArchitectureParams
-from params.Params import Params
+from params.OptimizationParams import OptimizationParams
 from params.PsoParams import RealPSOParams
 
 
@@ -13,7 +13,7 @@ class TestRealInitializer(TestCase):
     def test_get_initial_position(self, mock_randint):
         pso_params = RealPSOParams(0, 0, 0, 1, 3, 0)
         architecture = NeuralArchitectureParams(2, 4, 2, 4, 50, 100)
-        params = Params(pso_params=pso_params, architecture_params=architecture)
+        params = OptimizationParams(pso_params=pso_params, architecture_params=architecture)
         initializer = RealInitializer(params)
         new_position = initializer.get_initial_position()
         assert len(new_position) == 100

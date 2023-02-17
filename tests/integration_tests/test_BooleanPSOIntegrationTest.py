@@ -2,11 +2,13 @@ from unittest import TestCase
 
 from component_creator.StandardBooleanComponentCreator import StandardBooleanComponentCreator
 from component_data_calculator.StandardBoolenComponentDataCalculator import StandardBooleanComponentDataCalculator
-from decoder.PositionToNNDecoder import PositionToNNDecoder
+from architecture_decoder.StandardArchitectureDecoder import StandardArchitectureDecoder
 from evaluator.StandardNNEvaluator import StandardNNEvaluator
 from initializer.BinaryInitializer import BinaryInitializer
+from model_creator.TensorflowModelCreator import TensorflowModelCreator
+from params.FixedArchitectureParams import FixedArchitectureParams
 from params.NeuralArchitectureParams import NeuralArchitectureParams
-from params.Params import Params
+from params.OptimizationParams import OptimizationParams
 from params.PsoParams import PsoParams, BooleanPSOParams
 from population.Population import Population
 from position_update_strategy.StandardPositionUpdateStrategy import StandardPositionUpdateStrategy
@@ -19,15 +21,16 @@ class TestBooleanPSOIntegrationTest(TestCase):
     def test_runs_without_errors(self):
 
         pso_params = BooleanPSOParams(c1=0.5, c2=0.5, n_bits=8, k=0.5)
-        architecture = NeuralArchitectureParams(min_out_conv=8, max_out_conv=64, min_kernel_conv=2, max_kernel_conv=8, min_layers=8, max_layers=32)
-        all_params = Params(pso_params=pso_params, architecture_params=architecture)
-
+        optimizable_architecture_params = NeuralArchitectureParams(min_out_conv=8, max_out_conv=64, min_kernel_conv=2, max_kernel_conv=8, min_layers=8, max_layers=32)
+        all_params = OptimizationParams(pso_params=pso_params, architecture_params=optimizable_architecture_params)
+        fixed_architecture_params = FixedArchitectureParams(conv_stride=1, activation_function='relu', pool_layer_kernel_size=2, pool_layer_stride=2)
         data_calculator = StandardBooleanComponentDataCalculator(params=all_params)
         component_creator = StandardBooleanComponentCreator(data_calculator=data_calculator)
         velocity_strategy = StandardVelocityUpdateStrategy(component_creator=component_creator, params=all_params)
         position_update_strategy = StandardPositionUpdateStrategy()
-        decoder = PositionToNNDecoder()
-        evaluator = StandardNNEvaluator(decoder=decoder)
+        decoder = StandardArchitectureDecoder()
+        model_creator = TensorflowModelCreator(fixed_architecture_params=fixed_architecture_params)
+        evaluator = StandardNNEvaluator(architecture_decoder=decoder, model_creator=model_creator)
         validator = StandardBooleanPSOPositionValidator()
         initializer = BinaryInitializer(params=all_params)
         parent_pop = Population(pop_size=20, params=all_params, validator=validator, initializer=initializer,

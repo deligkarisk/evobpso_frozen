@@ -1,9 +1,9 @@
 import copy
 
-from decoder.Decoder import Decoder
+from architecture_decoder.ArchitectureDecoder import ArchitectureDecoder
 from evaluator.Evaluator import Evaluator
 from initializer.Initializer import Initializer
-from params.Params import Params
+from params.OptimizationParams import OptimizationParams
 from particle.Particle import Particle
 from position_update_strategy.PositionUpdateStrategy import PositionUpdateStrategy
 from position_validator.PositionValidator import PositionValidator
@@ -12,7 +12,7 @@ from velocity_update_strategy.VelocityUpdateStrategy import VelocityUpdateStrate
 
 class Population:
 
-    def __init__(self, pop_size, params: Params, validator: PositionValidator, initializer: Initializer,
+    def __init__(self, pop_size, params: OptimizationParams, validator: PositionValidator, initializer: Initializer,
                  evaluator: Evaluator,
                  velocity_update_strategy: VelocityUpdateStrategy,
                  position_update_strategy: PositionUpdateStrategy):

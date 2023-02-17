@@ -1,13 +1,13 @@
 import abc
 
 from params.NeuralArchitectureParams import NeuralArchitectureParams
-from params.Params import Params
+from params.OptimizationParams import OptimizationParams
 from params.PsoParams import PsoParams
 
 
 class Initializer(abc.ABC):
 
-    def __init__(self, params: Params) -> None:
+    def __init__(self, params: OptimizationParams) -> None:
         self.architecture = params.architecture_params
         self.pso_params = params.pso_params
 

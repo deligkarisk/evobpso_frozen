@@ -1,7 +1,7 @@
 import abc
 
 from component_data_calculator.ComponentDataCalculator import ComponentDataCalculator
-from params.Params import Params
+from params.OptimizationParams import OptimizationParams
 
 
 class ComponentCreator(abc.ABC):

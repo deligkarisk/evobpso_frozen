@@ -1,7 +1,7 @@
-from decoder.Decoder import Decoder
+from architecture_decoder.ArchitectureDecoder import ArchitectureDecoder
 
 
-class BinToRealDecoder(Decoder):
+class BinToRealDecoder(ArchitectureDecoder):
 
     def __init__(self, n_bits):
         self.n_bits = n_bits

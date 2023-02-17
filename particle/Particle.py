@@ -2,7 +2,7 @@ import copy
 
 from evaluator.Evaluator import Evaluator
 from initializer.Initializer import Initializer
-from params.Params import Params
+from params.OptimizationParams import OptimizationParams
 from position_update_strategy.PositionUpdateStrategy import PositionUpdateStrategy
 from position_validator.PositionValidator import PositionValidator
 from velocity_update_strategy.VelocityUpdateStrategy import VelocityUpdateStrategy
@@ -10,7 +10,7 @@ from velocity_update_strategy.VelocityUpdateStrategy import VelocityUpdateStrate
 
 class Particle:
 
-    def __init__(self, parent_pop, params: Params, validator: PositionValidator, initializer: Initializer, evaluator: Evaluator,
+    def __init__(self, parent_pop, params: OptimizationParams, validator: PositionValidator, initializer: Initializer, evaluator: Evaluator,
                  velocity_update_strategy: VelocityUpdateStrategy,
                  position_update_strategy: PositionUpdateStrategy):
         self.parent_pop = parent_pop
