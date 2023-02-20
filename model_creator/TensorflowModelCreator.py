@@ -7,7 +7,7 @@ from tensorflow.keras import layers
 class TensorflowModelCreator(ModelCreator):
     def create_model(self, architecture):
 
-        input = keras.Input(shape=(180, 180, 3))
+        input = keras.Input(shape=self.fixed_architecture_params.input_shape)
         x = layers.Rescaling(1. / 255)(input)
 
         for layer in architecture:
@@ -25,14 +25,15 @@ class TensorflowModelCreator(ModelCreator):
                                         strides=self.fixed_architecture_params.pool_layer_stride,
                                         padding=self.fixed_architecture_params.padding)(x)
 
+        x = layers.Flatten()(x)
+        outputs = layers.Dense(self.fixed_architecture_params.dense_layer_units, activation="softmax")(x)
+        model = keras.Model(inputs=input, outputs=outputs)
+        return model
 
-            outputs = layers.Dense(10, activation="softmax")(x)
-            model = keras.Model(inputs=inputs, outputs=outputs)
 
 
 
 
-        raise NotImplementedError
 
 
 
