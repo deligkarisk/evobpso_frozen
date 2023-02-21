@@ -21,9 +21,9 @@ class TestBooleanPSOIntegrationTest(TestCase):
     def test_runs_without_errors(self):
 
         num_of_classes = 10
-        image_input_shape = (180, 180, 3)
+        image_input_shape = (28, 28, 1)
 
-        pso_params = BooleanPSOParams(c1=0.5, c2=0.5, n_bits=8, k=0.5)
+        pso_params = BooleanPSOParams(c1=0.5, c2=0.5, n_bits=15, k=0.5)
         optimizable_architecture_params = NeuralArchitectureParams(min_out_conv=8, max_out_conv=64, min_kernel_conv=2, max_kernel_conv=8, min_layers=8, max_layers=32)
         all_params = OptimizationParams(pso_params=pso_params, architecture_params=optimizable_architecture_params)
         fixed_architecture_params = FixedArchitectureParams(input_shape=image_input_shape, conv_stride=1, activation_function='relu',

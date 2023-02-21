@@ -4,7 +4,7 @@ from architecture_decoder.StandardArchitectureDecoder import StandardArchitectur
 from layer.Layer import AvgPooling, MaxPooling, ConvLayer
 
 
-class TestPositionToNNDecoder(TestCase):
+class TestStandardArchitectureDecoder(TestCase):
     def test_decode(self):
         position = []
         position.append(0b110011100000010)

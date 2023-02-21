@@ -2,6 +2,7 @@ from layer.Layer import ConvLayer, MaxPooling, AvgPooling
 from model_creator.ModelCreator import ModelCreator
 from tensorflow import keras
 from tensorflow.keras import layers
+import tensorflow as tf
 
 
 class TensorflowModelCreator(ModelCreator):
@@ -21,7 +22,7 @@ class TensorflowModelCreator(ModelCreator):
                                         strides=self.fixed_architecture_params.pool_layer_stride,
                                         padding=self.fixed_architecture_params.padding)(x)
             elif isinstance(layer, AvgPooling):
-                x = layers.AvgPooling2D(pool_size=self.fixed_architecture_params.pool_layer_kernel_size,
+                x = layers.AveragePooling2D(pool_size=self.fixed_architecture_params.pool_layer_kernel_size,
                                         strides=self.fixed_architecture_params.pool_layer_stride,
                                         padding=self.fixed_architecture_params.padding)(x)
 
