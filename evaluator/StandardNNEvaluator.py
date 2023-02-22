@@ -11,8 +11,9 @@ class StandardNNEvaluator(Evaluator):
         decoded_architecture = self.architecture_decoder.decode(position)
         architecture_model = self.model_creator.create_model(architecture=decoded_architecture)
         architecture_model.compile(loss='sparse_categorical_crossentropy', optimizer='rmsprop', metrics=['accuracy'])
-        (x_train, y_train), (x_test, y_test) = data_load_utils.load_mnist_data()
-        history = architecture_model.fit(x_train, y_train, epochs=20, batch_size=32)
+        (x_train, y_train), (x_val, y_val), (x_test, y_test) = self.data_loader()
+        history = architecture_model.fit(x_train, y_train, epochs=10, batch_size=512,
+                                         validation_data=(x_val, y_val))
         loss = history.history["loss"]
         val_loss = history.history["val_loss"]
         epochs = range(1, len(loss) + 1)
@@ -23,7 +24,7 @@ class StandardNNEvaluator(Evaluator):
         plt.ylabel("Loss")
         plt.legend()
         plt.show()
-        print("ok")
+
 
 
 

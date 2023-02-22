@@ -9,3 +9,5 @@ datasets/mnist_rotation_back_image_new
 datasets/mnist_rotation_new
 datasets/rectangles
 datasets/rectangles_images
+
+data_samples

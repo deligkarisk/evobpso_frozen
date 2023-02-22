@@ -1,5 +1,6 @@
 from unittest import TestCase
 
+import utils.data_load_utils
 from component_creator.StandardBooleanComponentCreator import StandardBooleanComponentCreator
 from component_data_calculator.StandardBoolenComponentDataCalculator import StandardBooleanComponentDataCalculator
 from architecture_decoder.StandardArchitectureDecoder import StandardArchitectureDecoder
@@ -23,6 +24,8 @@ class TestBooleanPSOIntegrationTest(TestCase):
         num_of_classes = 10
         image_input_shape = (28, 28, 1)
 
+        data_loader = utils.data_load_utils.load_mnist_data
+
         pso_params = BooleanPSOParams(c1=0.5, c2=0.5, n_bits=15, k=0.5)
         optimizable_architecture_params = NeuralArchitectureParams(min_out_conv=8, max_out_conv=64, min_kernel_conv=2, max_kernel_conv=8, min_layers=8, max_layers=32)
         all_params = OptimizationParams(pso_params=pso_params, architecture_params=optimizable_architecture_params)
@@ -35,7 +38,7 @@ class TestBooleanPSOIntegrationTest(TestCase):
         position_update_strategy = StandardPositionUpdateStrategy()
         decoder = StandardArchitectureDecoder()
         model_creator = TensorflowModelCreator(fixed_architecture_params=fixed_architecture_params)
-        evaluator = StandardNNEvaluator(architecture_decoder=decoder, model_creator=model_creator)
+        evaluator = StandardNNEvaluator(architecture_decoder=decoder, model_creator=model_creator, data_loader= data_loader)
         validator = StandardBooleanPSOPositionValidator()
         initializer = BinaryInitializer(params=all_params)
         parent_pop = Population(pop_size=20, params=all_params, validator=validator, initializer=initializer,
