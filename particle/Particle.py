@@ -21,18 +21,21 @@ class Particle:
         self.velocity_update_strategy = velocity_update_strategy
         self.position_update_strategy = position_update_strategy
 
-        self.current_position = self._get_initial_positions()
-        self.current_velocity = []  # past velocity information is not used, so no need to initialize here
+    def iterate(self, first_iter):
 
-        self.current_result = self._evaluate_position()
-        self.personal_best_result = copy.deepcopy(self.current_result)
-        self.personal_best_position = copy.deepcopy(self.current_position)
-
-    def iterate(self):
-        self.current_velocity = self._get_new_velocity()
-        self.current_position = self._get_new_position()
-        self.current_result = self._evaluate_position()
-        self._update_personal_best()
+        if first_iter:
+            self.current_position = self._get_initial_positions()
+            self.current_velocity = []  # past velocity information is not used, so no need to initialize here
+            current_result, evaluation_data = self._evaluate_position()
+            self.current_result = current_result
+            self._set_current_position_to_pbest()
+        else:
+            self.current_velocity = self._get_new_velocity()
+            self.current_position = self._get_new_position()
+            current_result, evaluation_data = self._evaluate_position()
+            self.current_result = current_result
+            self._update_personal_best()
+        return evaluation_data
 
     def _get_initial_positions(self):
         position = self.initializer.get_initial_position()
@@ -44,7 +47,8 @@ class Particle:
        # return velocity
 
     def _evaluate_position(self):
-        return self.evaluator.evaluate(self.current_position)
+        fitness_value, evaluation_data = self.evaluator.evaluate(self.current_position)
+        return fitness_value, evaluation_data
 
     def _update_personal_best(self):
         if self.current_result < self.personal_best_result:

@@ -10,7 +10,7 @@ from params.OptimizationParams import OptimizationParams
 from params.PsoParams import BooleanPSOParams
 from population.Population import Population
 from position_update_strategy.StandardPositionUpdateStrategy import StandardPositionUpdateStrategy
-from position_validator.DoNothingValidator import DoNothingPositionValidator
+from position_validator.DoNothingPositionValidator import DoNothingPositionValidator
 from velocity_update_strategy.StandardVelocityUpdateStrategy import StandardVelocityUpdateStrategy
 
 
@@ -36,9 +36,12 @@ class TestPopulation(TestCase):
 
         # some basic initial checks
         assert len(population.particles) == 50
+
+        population.iterate(first_iter=True)
+
         assert population.global_best_result == population.particles[0].current_result
 
-        population.iterate()
+        population.iterate(first_iter=False)
 
         # due to the use of the increasing evaluator we know that there is no best particle at this iteration.
         assert population.global_best_result == population.particles[0].personal_best_result
@@ -50,7 +53,7 @@ class TestPopulation(TestCase):
 
         # in the next iteration, the evaluator should start from -200, so we will have a new global minimum
         mock_evaluator.count = -200
-        population.iterate()
+        population.iterate(first_iter=False)
 
         assert population.global_best_result == population.particles[0].current_result
         assert population.global_best_result == -199

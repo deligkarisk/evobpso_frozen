@@ -9,7 +9,8 @@ class MockIncreasingEvaluator(Evaluator):
 
     def evaluate(self, position):
         self.count += 1
-        return self.count
+        dummy_results = {}
+        return self.count, dummy_results
 
 
 
