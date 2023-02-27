@@ -19,6 +19,8 @@ class StandardNNEvaluator(Evaluator):
                                    optimizer=self.training_params.optimizer,
                                    metrics=self.training_params.metrics)
         (x_train, y_train), (x_val, y_val), (x_test, y_test) = self.data_loader()
+        print('evaluating model of size: ' + str(len(architecture_model.layers)))
+        architecture_model.summary()
         history = architecture_model.fit(x_train, y_train, epochs=self.training_params.epochs, batch_size=self.training_params.batch_size,
                                          validation_data=(x_val, y_val))
 

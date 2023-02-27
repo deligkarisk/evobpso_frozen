@@ -2,6 +2,7 @@ import os
 import pickle
 import time
 from pathlib import Path
+import tensorflow as tf
 
 import utils.data_load_utils
 from architecture_decoder.StandardArchitectureDecoder import StandardArchitectureDecoder
@@ -25,17 +26,16 @@ def test_runs_without_errors():
     start_time = time.time()
     num_of_classes = 10
     image_input_shape = (28, 28, 1)
-    population_size = 10
+    population_size = 20
     iterations = 10
     results_folder = os.path.join(utils.data_load_utils.get_project_root(), 'test_tmp_results')
-    pso_params = BooleanPSOParams(c1=0.5, c2=0.5, n_bits=15, k=0.5)
-    optimizable_architecture_params = NeuralArchitectureParams(min_out_conv=8, max_out_conv=64, min_kernel_conv=2,
-                                                               max_kernel_conv=8, min_layers=3, max_layers=20)
+    pso_params = BooleanPSOParams(c1=0.5, c2=0.5, n_bits=14, k=0.5)
+    optimizable_architecture_params = NeuralArchitectureParams(min_layers=2, max_layers=8)
     all_params = OptimizationParams(pso_params=pso_params, architecture_params=optimizable_architecture_params)
     fixed_architecture_params = FixedArchitectureParams(input_shape=image_input_shape, conv_stride=1, activation_function='relu',
                                                         pool_layer_kernel_size=2, pool_layer_stride=2,
                                                         padding='same', dense_layer_units=num_of_classes)
-    training_params = TrainingParams(batch_size=128, epochs=10, loss='sparse_categorical_crossentropy',
+    training_params = TrainingParams(batch_size=32, epochs=1, loss='sparse_categorical_crossentropy',
                                      optimizer='rmsprop', metrics=['accuracy'])
     data_loader = utils.data_load_utils.load_mnist_data
     data_calculator = StandardBooleanComponentDataCalculator(params=all_params)
@@ -62,7 +62,7 @@ def test_runs_without_errors():
     print("oK")
 
     end_time = time.time()
-    elapsed_time = ((end_time - start_time)/60)/60
+    elapsed_time = ((end_time - start_time) / 60) / 60
     print("Runtime: " + str(elapsed_time) + " hours.")
 
     Path(results_folder).mkdir(parents=True, exist_ok=True)
@@ -78,5 +78,24 @@ def test_runs_without_errors():
     filename = os.path.join(results_folder, 'population.pickle')
     with open(filename, 'wb') as handle:
         pickle.dump(population, handle, protocol=pickle.HIGHEST_PROTOCOL)
+
+
+
+physical_devices = tf.config.list_physical_devices('GPU')
+print(physical_devices)
+tf.config.set_visible_devices(physical_devices[0], 'GPU')
+
+gpus = tf.config.list_physical_devices('GPU')
+if gpus:
+    try:
+        # Currently, memory growth needs to be the same across GPUs
+        for gpu in gpus:
+            tf.config.experimental.set_memory_growth(gpu, True)
+        logical_gpus = tf.config.list_logical_devices('GPU')
+        print(len(gpus), "Physical GPUs,", len(logical_gpus), "Logical GPUs")
+    except RuntimeError as e:
+        # Memory growth must be set before GPUs have been initialized
+        print(e)
+
 
 test_runs_without_errors()

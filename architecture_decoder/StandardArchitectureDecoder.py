@@ -11,16 +11,16 @@ class StandardArchitectureDecoder(ArchitectureDecoder):
 
         for encoded_layer in encoded_position:
             # first nine bits represent the number of filters
-            filters = extract_integer_from_subset_of_bits(encoded_layer, 0, 9) + 1 # filters minimum value is one
+            filters = extract_integer_from_subset_of_bits(encoded_layer, 0, 8) + 1 # filters minimum value is one
 
             # subsequent three bits represent the kernel size
-            kernel_size = extract_integer_from_subset_of_bits(encoded_layer, 9, 3) + 2  # kernel size minimum value is two
+            kernel_size = extract_integer_from_subset_of_bits(encoded_layer, 8, 3) + 2  # kernel size minimum value is two
 
             # subsequent two bits represent the number of pooling layers
-            pooling_layers = extract_integer_from_subset_of_bits(encoded_layer, 12, 2)
+            pooling_layers = extract_integer_from_subset_of_bits(encoded_layer, 11, 2)
 
             # subsequent bit represents the pooling type
-            pooling_type = extract_integer_from_subset_of_bits(encoded_layer, 14, 1)
+            pooling_type = extract_integer_from_subset_of_bits(encoded_layer, 13, 1)
 
             decoded_position.append(ConvLayer(filters=filters, kernel_size=kernel_size))
 

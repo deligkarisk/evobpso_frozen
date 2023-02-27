@@ -18,9 +18,7 @@ class TestParticle(TestCase):
 
     def test_iterate(self):
         pso_params = BooleanPSOParams(c1=0.3, c2=0.3, n_bits=32, k=0.5)
-        architecture = NeuralArchitectureParams(min_out_conv=2, max_out_conv=4,
-                                                min_kernel_conv=2, max_kernel_conv=4,
-                                                min_layers=10, max_layers=20)
+        architecture = NeuralArchitectureParams(min_layers=10, max_layers=20)
         all_params = OptimizationParams(pso_params=pso_params, architecture_params=architecture)
         validator = DoNothingPositionValidator()
         initializer = BinaryInitializer(params=all_params)
