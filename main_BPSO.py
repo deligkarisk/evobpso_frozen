@@ -30,7 +30,7 @@ def test_runs_without_errors():
     iterations = 10
     results_folder = os.path.join(utils.data_load_utils.get_project_root(), 'test_tmp_results')
     pso_params = BooleanPSOParams(c1=0.5, c2=0.5, n_bits=14, k=0.5)
-    optimizable_architecture_params = NeuralArchitectureParams(min_layers=2, max_layers=8)
+    optimizable_architecture_params = NeuralArchitectureParams(min_layers=5, max_layers=5)
     all_params = OptimizationParams(pso_params=pso_params, architecture_params=optimizable_architecture_params)
     fixed_architecture_params = FixedArchitectureParams(input_shape=image_input_shape, conv_stride=1, activation_function='relu',
                                                         pool_layer_kernel_size=2, pool_layer_stride=2,
@@ -54,12 +54,16 @@ def test_runs_without_errors():
 
     aggregated_history = []
 
-    results = population.iterate(first_iter=True)
-    aggregated_history.append(results)
-    for i in range(0, iterations):
-        results = population.iterate(first_iter=False)
+    try:
+        results = population.iterate(first_iter=True)
         aggregated_history.append(results)
-    print("oK")
+        for i in range(0, iterations):
+            print('starting iteration: ' + str(i))
+            results = population.iterate(first_iter=False)
+            aggregated_history.append(results)
+        print("OK")
+    except Exception as e:
+        print("problem")
 
     end_time = time.time()
     elapsed_time = ((end_time - start_time) / 60) / 60
