@@ -20,6 +20,22 @@ from population.Population import Population
 from position_update_strategy.StandardPositionUpdateStrategy import StandardPositionUpdateStrategy
 from position_validator.DoNothingPositionValidator import DoNothingPositionValidator
 from velocity_update_strategy.StandardVelocityUpdateStrategy import StandardVelocityUpdateStrategy
+import random
+import numpy.random
+
+
+def set_seed(seed: int = 13) -> None:
+    random.seed(seed)
+    numpy.random.seed(seed)
+    tf.random.set_seed(seed)
+    tf.experimental.numpy.random.seed(seed)
+    tf.random.set_seed(seed)
+    # When running on the CuDNN backend, two further options must be set
+    os.environ['TF_CUDNN_DETERMINISTIC'] = '1'
+    os.environ['TF_DETERMINISTIC_OPS'] = '1'
+    # Set a fixed value for the hash seed
+    os.environ["PYTHONHASHSEED"] = str(seed)
+    print(f"Random seed set as {seed}")
 
 
 def test_runs_without_errors():
@@ -30,12 +46,12 @@ def test_runs_without_errors():
     iterations = 10
     results_folder = os.path.join(utils.data_load_utils.get_project_root(), 'test_tmp_results')
     pso_params = BooleanPSOParams(c1=0.5, c2=0.5, n_bits=14, k=0.5)
-    optimizable_architecture_params = NeuralArchitectureParams(min_layers=5, max_layers=5)
+    optimizable_architecture_params = NeuralArchitectureParams(min_layers=6, max_layers=6)
     all_params = OptimizationParams(pso_params=pso_params, architecture_params=optimizable_architecture_params)
     fixed_architecture_params = FixedArchitectureParams(input_shape=image_input_shape, conv_stride=1, activation_function='relu',
                                                         pool_layer_kernel_size=2, pool_layer_stride=2,
                                                         padding='same', dense_layer_units=num_of_classes)
-    training_params = TrainingParams(batch_size=32, epochs=1, loss='sparse_categorical_crossentropy',
+    training_params = TrainingParams(batch_size=64, epochs=1, loss='sparse_categorical_crossentropy',
                                      optimizer='rmsprop', metrics=['accuracy'])
     data_loader = utils.data_load_utils.load_mnist_data
     data_calculator = StandardBooleanComponentDataCalculator(params=all_params)
@@ -84,22 +100,10 @@ def test_runs_without_errors():
         pickle.dump(population, handle, protocol=pickle.HIGHEST_PROTOCOL)
 
 
+set_seed(15)
 
 physical_devices = tf.config.list_physical_devices('GPU')
 print(physical_devices)
 tf.config.set_visible_devices(physical_devices[0], 'GPU')
-
-gpus = tf.config.list_physical_devices('GPU')
-if gpus:
-    try:
-        # Currently, memory growth needs to be the same across GPUs
-        for gpu in gpus:
-            tf.config.experimental.set_memory_growth(gpu, True)
-        logical_gpus = tf.config.list_logical_devices('GPU')
-        print(len(gpus), "Physical GPUs,", len(logical_gpus), "Logical GPUs")
-    except RuntimeError as e:
-        # Memory growth must be set before GPUs have been initialized
-        print(e)
-
 
 test_runs_without_errors()

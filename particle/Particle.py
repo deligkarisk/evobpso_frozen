@@ -41,11 +41,6 @@ class Particle:
         position = self.initializer.get_initial_position()
         return position
 
-    def _get_initial_velocity(self):
-        pass
-       # velocity = self.initializer.get_initial_velocity()
-       # return velocity
-
     def _evaluate_position(self):
         fitness_value, evaluation_data = self.evaluator.evaluate(self.current_position)
         return fitness_value, evaluation_data
