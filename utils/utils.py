@@ -1,4 +1,7 @@
+import os
 import random
+import numpy
+import tensorflow as tf
 
 
 def create_rnd_binary_vector(prob, n_bits):
@@ -54,3 +57,17 @@ def random_choice(choice_a, choice_b, k):
 
 def extract_integer_from_subset_of_bits(number, start_index, length):
     return (number >> start_index) & ((1 << length) - 1)
+
+
+def set_seed(seed: int = 13) -> None:
+    random.seed(seed)
+    numpy.random.seed(seed)
+    tf.random.set_seed(seed)
+    tf.experimental.numpy.random.seed(seed)
+    tf.random.set_seed(seed)
+    # When running on the CuDNN backend, two further options must be set
+    os.environ['TF_CUDNN_DETERMINISTIC'] = '1'
+    os.environ['TF_DETERMINISTIC_OPS'] = '1'
+    # Set a fixed value for the hash seed
+    os.environ["PYTHONHASHSEED"] = str(seed)
+    print(f"Random seed set as {seed}")

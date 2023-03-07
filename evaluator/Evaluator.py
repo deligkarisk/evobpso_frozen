@@ -14,5 +14,5 @@ class Evaluator(abc.ABC):
         self.training_params = training_params
 
     @abc.abstractmethod
-    def evaluate(self, position):
+    def evaluate(self, position, save_model_folder):
         raise NotImplementedError

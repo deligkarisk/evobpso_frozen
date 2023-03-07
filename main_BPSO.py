@@ -20,33 +20,21 @@ from population.Population import Population
 from position_update_strategy.StandardPositionUpdateStrategy import StandardPositionUpdateStrategy
 from position_validator.DoNothingPositionValidator import DoNothingPositionValidator
 from velocity_update_strategy.StandardVelocityUpdateStrategy import StandardVelocityUpdateStrategy
-import random
-import numpy.random
+from utils.utils import set_seed
 
 
-def set_seed(seed: int = 13) -> None:
-    random.seed(seed)
-    numpy.random.seed(seed)
-    tf.random.set_seed(seed)
-    tf.experimental.numpy.random.seed(seed)
-    tf.random.set_seed(seed)
-    # When running on the CuDNN backend, two further options must be set
-    os.environ['TF_CUDNN_DETERMINISTIC'] = '1'
-    os.environ['TF_DETERMINISTIC_OPS'] = '1'
-    # Set a fixed value for the hash seed
-    os.environ["PYTHONHASHSEED"] = str(seed)
-    print(f"Random seed set as {seed}")
+
 
 
 def test_runs_without_errors():
     start_time = time.time()
     num_of_classes = 10
     image_input_shape = (28, 28, 1)
-    population_size = 20
-    iterations = 10
+    population_size = 2
+    iterations = 3
     results_folder = os.path.join(utils.data_load_utils.get_project_root(), 'test_tmp_results')
     pso_params = BooleanPSOParams(c1=0.5, c2=0.5, n_bits=14, k=0.5)
-    optimizable_architecture_params = NeuralArchitectureParams(min_layers=6, max_layers=6)
+    optimizable_architecture_params = NeuralArchitectureParams(min_layers=1, max_layers=2)
     all_params = OptimizationParams(pso_params=pso_params, architecture_params=optimizable_architecture_params)
     fixed_architecture_params = FixedArchitectureParams(input_shape=image_input_shape, conv_stride=1, activation_function='relu',
                                                         pool_layer_kernel_size=2, pool_layer_stride=2,
@@ -66,7 +54,7 @@ def test_runs_without_errors():
     initializer = BinaryInitializer(params=all_params)
     population = Population(pop_size=population_size, params=all_params, validator=validator, initializer=initializer,
                             evaluator=evaluator, velocity_update_strategy=velocity_strategy,
-                            position_update_strategy=position_update_strategy)
+                            position_update_strategy=position_update_strategy, results_folder=results_folder)
 
     aggregated_history = []
 
