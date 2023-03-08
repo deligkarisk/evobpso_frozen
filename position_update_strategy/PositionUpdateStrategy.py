@@ -6,6 +6,9 @@ import abc
 
 class PositionUpdateStrategy(abc.ABC):
 
+    def __init__(self, optimization_params):
+        self.optimization_params = optimization_params
+
     @abc.abstractmethod
     def get_new_position(self, current_position, current_velocity):
         raise NotImplementedError

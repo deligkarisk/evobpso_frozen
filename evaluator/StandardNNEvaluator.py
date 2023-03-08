@@ -3,7 +3,7 @@ from evaluator.Evaluator import Evaluator
 
 class StandardNNEvaluator(Evaluator):
 
-    def evaluate(self, position, save_model_folder):
+    def evaluate(self, position, save_model_folder=None):
 
         decoded_architecture = self.architecture_decoder.decode(position)
         architecture_model = self.model_creator.create_model(architecture=decoded_architecture)
@@ -15,7 +15,8 @@ class StandardNNEvaluator(Evaluator):
         history = architecture_model.fit(x_train, y_train, epochs=self.training_params.epochs, batch_size=self.training_params.batch_size,
                                          validation_data=(x_val, y_val))
 
-        architecture_model.save(save_model_folder)
+        if (save_model_folder != None):
+            architecture_model.save(save_model_folder)
 
         evaluation_result = history.history['val_loss'][-1]
 

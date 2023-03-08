@@ -25,7 +25,7 @@ class Particle:
         self.velocity_update_strategy = velocity_update_strategy
         self.position_update_strategy = position_update_strategy
 
-    def iterate(self, first_iter, save_model_folder):
+    def iterate(self, first_iter, save_model_folder=None):
 
         if first_iter:
             self.current_position = self._get_initial_positions()

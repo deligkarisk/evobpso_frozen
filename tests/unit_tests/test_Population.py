@@ -1,4 +1,5 @@
 from unittest import TestCase
+from unittest.mock import Mock
 
 from component_creator.StandardBooleanComponentCreator import StandardBooleanComponentCreator
 from component_data_calculator.StandardBoolenComponentDataCalculator import StandardBooleanComponentDataCalculator
@@ -12,24 +13,27 @@ from population.Population import Population
 from position_update_strategy.StandardPositionUpdateStrategy import StandardPositionUpdateStrategy
 from position_validator.DoNothingPositionValidator import DoNothingPositionValidator
 from velocity_update_strategy.StandardVelocityUpdateStrategy import StandardVelocityUpdateStrategy
+from velocity_update_strategy.component_merge_strategy.StandardComponentMergeStrategy import StandardComponentMergeStrategy
 
 
 class TestPopulation(TestCase):
 
     def test_iterate(self):
-        pso_params = BooleanPSOParams(c1=0.3, c2=0.3, n_bits=32, k=0.5)
+        pso_params = BooleanPSOParams(pop_size=50, iters=10, c1=0.3, c2=0.3, n_bits=32, k=0.5, mutation_prob=0)
         architecture = NeuralArchitectureParams(min_layers=10, max_layers=20)
-        all_params = OptimizationParams(pso_params=pso_params, architecture_params=architecture)
+        training_params = Mock()
+        optimization_params = OptimizationParams(pso_params=pso_params, architecture_params=architecture, training_params=training_params)
         decoder = DoNothingDecoder()
         validator = DoNothingPositionValidator()
-        initializer = BinaryInitializer(params=all_params)
+        initializer = BinaryInitializer(params=optimization_params)
         mock_evaluator = MockIncreasingEvaluator()
-        data_calculator = StandardBooleanComponentDataCalculator(params=all_params)
+        data_calculator = StandardBooleanComponentDataCalculator(params=optimization_params)
         component_creator = StandardBooleanComponentCreator(data_calculator=data_calculator)
-        velocity_strategy = StandardVelocityUpdateStrategy(component_creator, all_params)
-        position_update_strategy = StandardPositionUpdateStrategy()
+        component_merger = StandardComponentMergeStrategy()
+        velocity_strategy = StandardVelocityUpdateStrategy(component_creator, component_merger, optimization_params)
+        position_update_strategy = StandardPositionUpdateStrategy(optimization_params)
 
-        population = Population(50, all_params, validator, initializer, mock_evaluator,
+        population = Population(optimization_params, validator, initializer, mock_evaluator,
                                 velocity_strategy, position_update_strategy)
 
         # some basic initial checks

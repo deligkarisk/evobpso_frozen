@@ -11,7 +11,8 @@ class TestStandardBooleanComponentDataCalculator(TestCase):
         pso_params = Mock()
         architecture_params = Mock()
         pso_params.n_bits = 8
-        params = OptimizationParams(pso_params, architecture_params)
+        training_params = Mock()
+        params = OptimizationParams(pso_params, architecture_params, training_params)
 
         best_position_data = 0b01010111
         current_position_data = 0b11111111
@@ -24,7 +25,8 @@ class TestStandardBooleanComponentDataCalculator(TestCase):
         pso_params = Mock()
         architecture_params = Mock()
         pso_params.n_bits = 8
-        params = OptimizationParams(pso_params, architecture_params)
+        training_params = Mock()
+        params = OptimizationParams(pso_params, architecture_params, training_params)
 
         best_position_data = 0b01010111
         current_position_data = 0b11111111

@@ -7,7 +7,7 @@ from tensorflow.python.framework.tensor_shape import Dimension
 
 from layer.Layer import ConvLayer, MaxPooling
 from model_creator.TensorflowModelCreator import TensorflowModelCreator
-from params.FixedArchitectureParams import FixedArchitectureParams
+from params.FixedArchitectureProperties import FixedArchitectureProperties
 
 
 class TestTensorflowModelCreator(TestCase):

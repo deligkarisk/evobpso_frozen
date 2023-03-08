@@ -9,7 +9,7 @@ from architecture_decoder.StandardArchitectureDecoder import StandardArchitectur
 from evaluator.StandardNNEvaluator import StandardNNEvaluator
 from initializer.BinaryInitializer import BinaryInitializer
 from model_creator.TensorflowModelCreator import TensorflowModelCreator
-from params.FixedArchitectureParams import FixedArchitectureParams
+from params.FixedArchitectureProperties import FixedArchitectureProperties
 from params.NeuralArchitectureParams import NeuralArchitectureParams
 from params.OptimizationParams import OptimizationParams
 from params.PsoParams import PsoParams, BooleanPSOParams
@@ -35,9 +35,9 @@ class TestBooleanPSOIntegrationTest(TestCase):
         optimizable_architecture_params = NeuralArchitectureParams(min_out_conv=8, max_out_conv=64, min_kernel_conv=2,
                                                                    max_kernel_conv=8, min_layers=3, max_layers=8)
         all_params = OptimizationParams(pso_params=pso_params, architecture_params=optimizable_architecture_params)
-        fixed_architecture_params = FixedArchitectureParams(input_shape=image_input_shape, conv_stride=1, activation_function='relu',
-                                                            pool_layer_kernel_size=2, pool_layer_stride=2,
-                                                            padding='same', dense_layer_units=num_of_classes)
+        fixed_architecture_params = FixedArchitectureProperties(input_shape=image_input_shape, conv_stride=1, activation_function='relu',
+                                                                pool_layer_kernel_size=2, pool_layer_stride=2,
+                                                                padding='same', dense_layer_units=num_of_classes)
         training_params = TrainingParams(batch_size=128, epochs=3, loss='sparse_categorical_crossentropy',
                                          optimizer='rmsprop', metrics=['accuracy'])
         data_calculator = StandardBooleanComponentDataCalculator(params=all_params)

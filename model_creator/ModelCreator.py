@@ -1,12 +1,12 @@
 import abc
 
-from params.FixedArchitectureParams import FixedArchitectureParams
+from params.FixedArchitectureProperties import FixedArchitectureProperties
 
 
 class ModelCreator(abc.ABC):
 
-    def __init__(self, fixed_architecture_params: FixedArchitectureParams) -> None:
-        self.fixed_architecture_params = fixed_architecture_params
+    def __init__(self, fixed_architecture_properties: FixedArchitectureProperties) -> None:
+        self.fixed_architecture_properties = fixed_architecture_properties
 
     @abc.abstractmethod
     def create_model(self, architecture):

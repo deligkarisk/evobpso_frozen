@@ -15,7 +15,8 @@ class TestStandardBooleanComponentCreator(TestCase):
         pso_params.c1 = 1
         pso_params.c2 = 1
         pso_params.n_bits = 8
-        params = OptimizationParams(pso_params, architecture_params)
+        training_params = Mock()
+        params = OptimizationParams(pso_params, architecture_params, training_params)
 
         best_position = [0b000001, 0b000000, 0b000111]
         current_position = [0b010000, 0b000001]
@@ -36,7 +37,8 @@ class TestStandardBooleanComponentCreator(TestCase):
         pso_params.c1 = 1
         pso_params.c2 = 1
         pso_params.n_bits = 8
-        params = OptimizationParams(pso_params, architecture_params)
+        training_params = Mock()
+        params = OptimizationParams(pso_params, architecture_params, training_params)
 
         best_position = [0b111101]
         current_position = [0b010000, 0b000001]
@@ -56,7 +58,8 @@ class TestStandardBooleanComponentCreator(TestCase):
         pso_params.c1 = 1
         pso_params.c2 = 1
         pso_params.n_bits = 8
-        params = OptimizationParams(pso_params, architecture_params)
+        training_params = Mock()
+        params = OptimizationParams(pso_params, architecture_params, training_params)
 
         best_position = [0b111101, 0b010101]
         current_position = [0b010000, 0b000001]
