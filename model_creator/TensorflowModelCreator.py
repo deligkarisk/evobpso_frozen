@@ -9,7 +9,7 @@ class TensorflowModelCreator(ModelCreator):
     def create_model(self, architecture):
 
         input = keras.Input(shape=self.fixed_architecture_properties.input_shape)
-        x = layers.Rescaling(1. / 255)(input)
+        x = input
 
         for layer in architecture:
             if isinstance(layer, ConvLayer):

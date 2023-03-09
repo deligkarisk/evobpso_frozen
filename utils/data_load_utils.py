@@ -3,10 +3,15 @@ from pathlib import Path
 from keras.datasets import mnist
 import os
 import numpy as np
-
+import tensorflow as tf
 
 def load_mnist_data():
     (x_train, y_train), (x_test, y_test) = mnist.load_data()
+    x_train = x_train / x_train.max()
+    x_test = x_test / x_test.max()
+
+    y_train = tf.keras.utils.to_categorical(y_train)
+    y_test = tf.keras.utils.to_categorical(y_test)
 
     (x_train, y_train), (x_valid, y_valid) = split_train_to_train_and_valid(x_train=x_train, y_train=y_train)
 
@@ -26,8 +31,14 @@ def load_mnist_background_images():
     x_train = np.reshape(x_train, (-1, 28, 28))
     x_test = np.reshape(x_test, (-1, 28, 28))
 
+    x_train = x_train / x_train.max()
+    x_test = x_test / x_test.max()
+
     y_train = train[:, -1]
     y_test = test[:, -1]
+
+    y_train = tf.keras.utils.to_categorical(y_train)
+    y_test = tf.keras.utils.to_categorical(y_test)
 
     (x_train, y_train), (x_valid, y_valid) = split_train_to_train_and_valid(x_train=x_train, y_train=y_train)
 
@@ -47,8 +58,14 @@ def load_mnist_background_random():
     x_train = np.reshape(x_train, (-1, 28, 28))
     x_test = np.reshape(x_test, (-1, 28, 28))
 
+    x_train = x_train / x_train.max()
+    x_test = x_test / x_test.max()
+
     y_train = train[:, -1]
     y_test = test[:, -1]
+
+    y_train = tf.keras.utils.to_categorical(y_train)
+    y_test = tf.keras.utils.to_categorical(y_test)
 
     (x_train, y_train), (x_valid, y_valid) = split_train_to_train_and_valid(x_train=x_train, y_train=y_train)
 
@@ -68,8 +85,14 @@ def load_mnist_rotation():
     x_train = np.reshape(x_train, (-1, 28, 28))
     x_test = np.reshape(x_test, (-1, 28, 28))
 
+    x_train = x_train / x_train.max()
+    x_test = x_test / x_test.max()
+
     y_train = train[:, -1]
     y_test = test[:, -1]
+
+    y_train = tf.keras.utils.to_categorical(y_train)
+    y_test = tf.keras.utils.to_categorical(y_test)
 
     (x_train, y_train), (x_valid, y_valid) = split_train_to_train_and_valid(x_train=x_train, y_train=y_train)
 
@@ -89,8 +112,14 @@ def load_mnist_rotation_background():
     x_train = np.reshape(x_train, (-1, 28, 28))
     x_test = np.reshape(x_test, (-1, 28, 28))
 
+    x_train = x_train / x_train.max()
+    x_test = x_test / x_test.max()
+
     y_train = train[:, -1]
     y_test = test[:, -1]
+
+    y_train = tf.keras.utils.to_categorical(y_train)
+    y_test = tf.keras.utils.to_categorical(y_test)
 
     (x_train, y_train), (x_valid, y_valid) = split_train_to_train_and_valid(x_train=x_train, y_train=y_train)
 
@@ -110,8 +139,14 @@ def load_rectangles():
     x_train = np.reshape(x_train, (-1, 28, 28))
     x_test = np.reshape(x_test, (-1, 28, 28))
 
+    x_train = x_train / x_train.max()
+    x_test = x_test / x_test.max()
+
     y_train = train[:, -1]
     y_test = test[:, -1]
+
+    y_train = tf.keras.utils.to_categorical(y_train)
+    y_test = tf.keras.utils.to_categorical(y_test)
 
     (x_train, y_train), (x_valid, y_valid) = split_train_to_train_and_valid(x_train=x_train, y_train=y_train)
 
@@ -131,8 +166,14 @@ def load_rectangles_images():
     x_train = np.reshape(x_train, (-1, 28, 28))
     x_test = np.reshape(x_test, (-1, 28, 28))
 
+    x_train = x_train / x_train.max()
+    x_test = x_test / x_test.max()
+
     y_train = train[:, -1]
     y_test = test[:, -1]
+
+    y_train = tf.keras.utils.to_categorical(y_train)
+    y_test = tf.keras.utils.to_categorical(y_test)
 
     (x_train, y_train), (x_valid, y_valid) = split_train_to_train_and_valid(x_train=x_train, y_train=y_train)
 
@@ -154,8 +195,14 @@ def load_convex_data():
     x_train = np.reshape(x_train, (-1, 28, 28))
     x_test = np.reshape(x_test, (-1, 28, 28))
 
+    x_train = x_train / x_train.max()
+    x_test = x_test / x_test.max()
+
     y_train = train[:, -1]
     y_test = test[:, -1]
+
+    y_train = tf.keras.utils.to_categorical(y_train)
+    y_test = tf.keras.utils.to_categorical(y_test)
 
     (x_train, y_train), (x_valid, y_valid) = split_train_to_train_and_valid(x_train=x_train, y_train=y_train)
 

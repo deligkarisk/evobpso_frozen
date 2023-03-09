@@ -13,14 +13,16 @@ from position_update_strategy.StandardPositionUpdateStrategy import StandardPosi
 from position_validator.DoNothingPositionValidator import DoNothingPositionValidator
 from utils.filesystem_utils import save_object
 from velocity_update_strategy.StandardVelocityUpdateStrategy import StandardVelocityUpdateStrategy
+from velocity_update_strategy.component_merge_strategy.StandardComponentMergeStrategy import StandardComponentMergeStrategy
 
 
 class StandardBPSORunner:
     def __init__(self, optimization_params, architecture_properties, data_loader, results_folder) -> None:
         data_calculator = StandardBooleanComponentDataCalculator(params=optimization_params)
         component_creator = StandardBooleanComponentCreator(data_calculator=data_calculator)
-        velocity_strategy = StandardVelocityUpdateStrategy(component_creator=component_creator, params=optimization_params)
-        position_update_strategy = StandardPositionUpdateStrategy()
+        component_merger = StandardComponentMergeStrategy()
+        velocity_strategy = StandardVelocityUpdateStrategy(component_creator=component_creator, component_merger=component_merger, params=optimization_params)
+        position_update_strategy = StandardPositionUpdateStrategy(optimization_params=optimization_params)
         decoder = StandardArchitectureDecoder()
         model_creator = TensorflowModelCreator(fixed_architecture_properties=architecture_properties)
         evaluator = StandardNNEvaluator(architecture_decoder=decoder, model_creator=model_creator,
