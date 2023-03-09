@@ -17,6 +17,7 @@ class Particle:
         self.current_position = None
         self.current_velocity = None
         self.result_history = []
+        self.position_history = []
         self.parent_pop = parent_pop
         self.params = params
         self.validator = validator
@@ -32,6 +33,7 @@ class Particle:
             self.current_velocity = []  # past velocity information is not used, so no need to initialize here
             current_result = self._evaluate_position(save_model_folder)
             self.result_history.append(current_result)
+            self.position_history.append(copy.deepcopy(self.current_position))
             self.current_result = current_result
             self._set_current_position_to_pbest()
         else:
@@ -39,6 +41,7 @@ class Particle:
             self.current_position = self._get_new_position()
             current_result = self._evaluate_position(save_model_folder)
             self.result_history.append(current_result)
+            self.position_history.append(copy.deepcopy(self.current_position))
             self.current_result = current_result
             self._update_personal_best()
         return current_result
@@ -48,7 +51,7 @@ class Particle:
         return position
 
     def _evaluate_position(self, save_model_folder):
-        fitness_value = self.evaluator.evaluate(self.current_position, save_model_folder)
+        fitness_value = self.evaluator.evaluate_for_train(self.current_position, save_model_folder)
         return fitness_value
 
     def _update_personal_best(self):

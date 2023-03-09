@@ -45,6 +45,6 @@ print('max pixel value: ' + str(x_train.max()))
 history = model.fit(x_train, y_train, epochs=10, batch_size=64,
                     validation_data=(x_val, y_val), shuffle=True)
 
-score = model.evaluate(x_test, y_test, verbose=0)
+score = model.evaluate_for_train(x_test, y_test, verbose=0)
 predictions = model.predict(x_test, batch_size=64)
 print('\n', 'Test accuracy:', score[1])

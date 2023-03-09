@@ -1,3 +1,4 @@
+import copy
 import os
 import time
 from pathlib import Path
@@ -25,12 +26,12 @@ class StandardBPSORunner:
         position_update_strategy = StandardPositionUpdateStrategy(optimization_params=optimization_params)
         decoder = StandardArchitectureDecoder()
         model_creator = TensorflowModelCreator(fixed_architecture_properties=architecture_properties)
-        evaluator = StandardNNEvaluator(architecture_decoder=decoder, model_creator=model_creator,
+        self.evaluator = StandardNNEvaluator(architecture_decoder=decoder, model_creator=model_creator,
                                         training_params=optimization_params.training_params, data_loader=data_loader)
         validator = DoNothingPositionValidator()
         initializer = BinaryInitializer(params=optimization_params)
         self.population = Population(params=optimization_params, validator=validator, initializer=initializer,
-                                     evaluator=evaluator, velocity_update_strategy=velocity_strategy,
+                                     evaluator=self.evaluator, velocity_update_strategy=velocity_strategy,
                                      position_update_strategy=position_update_strategy, results_folder=results_folder)
         self.iterations = optimization_params.pso_params.iters
         self.results_folder = results_folder
@@ -53,8 +54,11 @@ class StandardBPSORunner:
         elapsed_time = ((end_time - start_time) / 60) / 60
         print("Runtime: " + str(elapsed_time) + " hours.")
 
-        results_to_save = {'elapsed_time': elapsed_time,
-                           'results_history': aggregated_history,
-                           'population': self.population}
+        results = {'optimization_elapsed_time': elapsed_time,
+                           'optimization_results_history': aggregated_history,
+                           'optimization_population': self.population}
 
-        save_object(results_to_save, os.path.join(self.results_folder, 'run_results.pickle'))
+        return results
+
+
+

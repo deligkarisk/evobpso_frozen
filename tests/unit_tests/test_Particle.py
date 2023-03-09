@@ -36,7 +36,7 @@ class TestParticle(TestCase):
         particle = Particle(mock_population, optimization_params, validator, initializer, mock_evaluator,
                             velocity_strategy, position_update_strategy)
 
-        mock_evaluator.evaluate.return_value = 100
+        mock_evaluator.evaluate_for_train.return_value = 100
 
         particle.iterate(first_iter=True)
 
@@ -46,7 +46,7 @@ class TestParticle(TestCase):
         assert particle.personal_best_result == particle.current_result
 
         # in the next iteration, the particle finds a better solution
-        mock_evaluator.evaluate.return_value = 51.5
+        mock_evaluator.evaluate_for_train.return_value = 51.5
         old_position = particle.current_position
         particle.iterate(first_iter=False)
 
@@ -55,7 +55,7 @@ class TestParticle(TestCase):
         assert particle.current_position != old_position
 
         # subsequently, in the next iteration, the particle finds a worse solution
-        mock_evaluator.evaluate.return_value = 114.9
+        mock_evaluator.evaluate_for_train.return_value = 114.9
         old_position = particle.current_position
         particle.iterate(first_iter=False)
 

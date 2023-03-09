@@ -23,6 +23,7 @@ class Population:
         self.particles = []
         self.global_best_position = None
         self.global_best_result = None
+        self.global_best_result_history = []
         self.iter_number = -1  # used to track internally the iter number
         self.results_folder = results_folder
         self.pop_size = params.pso_params.pop_size
@@ -47,6 +48,7 @@ class Population:
                 particle_evaluation_data = self.particles[i].iterate(first_iter=False, save_model_folder=save_folder)
                 current_iteration_results['Particle_' + str(i)] = particle_evaluation_data
             self._update_pop_best()
+        self.global_best_result_history.append(copy.deepcopy(self.global_best_result))
         return current_iteration_results
 
     def _update_pop_best(self):

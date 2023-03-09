@@ -1,3 +1,4 @@
+import copy
 import os
 import pickle
 from pathlib import Path
@@ -22,13 +23,17 @@ dataset_names = ['mnist', 'mnist_bg', 'mnist_bg_rnd', 'mnist_rot', 'mnist_bg_rot
 data_loaders = [load_mnist_data, load_mnist_background_images, load_mnist_background_random, load_mnist_rotation,
                 load_mnist_rotation_background, load_rectangles, load_rectangles_images, load_convex_data]
 
+
+num_classes = [10, 10, 10, 10, 10, 2, 2, 2]
+
 # Output folder
-results_folder = '/home/kosmas-deligkaris/DeepBPSOResults'
+results_base_folder = '/home/kosmas-deligkaris/DeepBPSOResults'
 
 for i in range(0, len(dataset_names)):
     print('analyzing dataset: ' + dataset_names[i])
-    results_folder = os.path.join(results_folder, experiment_name, dataset_names[i])
+    results_folder = os.path.join(results_base_folder, experiment_name, dataset_names[i])
     data_loader = data_loaders[i]
+    num_classes_in_dataset = num_classes[i]
 
     Path(results_folder).mkdir(parents=True, exist_ok=True)
 
@@ -44,7 +49,7 @@ for i in range(0, len(dataset_names)):
                                                                 pool_layer_kernel_size=pool_layer_kernel_size,
                                                                 pool_layer_stride=pool_layers_stride,
                                                                 padding=padding,
-                                                                dense_layer_units=num_classes)
+                                                                dense_layer_units=num_classes_in_dataset)
 
     params_to_save = {'optimization_params': optimization_params, 'fixed_architecture_properties': fixed_architecture_properties,
                       'training_params': training_params}
@@ -55,4 +60,15 @@ for i in range(0, len(dataset_names)):
                                 data_loader=data_loader,
                                 results_folder=results_folder)
 
-    runner.run()
+    run_results = runner.run()
+
+    best_position = copy.deepcopy(run_results['optimization_population'].global_best_position)
+    evaluator = runner.evaluator
+    evaluator.training_params.epochs = best_solution_training_epochs
+    best_position_test_results = evaluator.evaluate_for_test(best_position, os.path.join(results_folder, 'best_model'))
+
+    run_results['best_position_test_results'] = best_position_test_results
+
+    save_object(run_results, os.path.join(results_folder, 'run_results.pickle'))
+
+    print('ok')
