@@ -2,7 +2,7 @@ from unittest import TestCase
 from unittest.mock import Mock
 
 from keras.engine.input_layer import InputLayer
-from keras.layers import Rescaling, Conv2D, MaxPooling2D, Flatten, Dense
+from keras.layers import Rescaling, Conv2D, MaxPooling2D, Flatten, Dense, BatchNormalization, Activation
 from tensorflow.python.framework.tensor_shape import Dimension
 
 from layer.Layer import ConvLayer, MaxPooling
@@ -32,28 +32,34 @@ class TestTensorflowModelCreator(TestCase):
 
         assert isinstance(model.layers[0], InputLayer)
         assert isinstance(model.layers[1], Conv2D)
-        assert isinstance(model.layers[2], MaxPooling2D)
-        assert isinstance(model.layers[3], Conv2D)
+        assert isinstance(model.layers[2], BatchNormalization)
+        assert isinstance(model.layers[3], Activation)
         assert isinstance(model.layers[4], MaxPooling2D)
         assert isinstance(model.layers[5], Conv2D)
-        assert isinstance(model.layers[6], Flatten)
-        assert isinstance(model.layers[7], Dense)
+        assert isinstance(model.layers[6], BatchNormalization)
+        assert isinstance(model.layers[7], Activation)
+        assert isinstance(model.layers[8], MaxPooling2D)
+        assert isinstance(model.layers[9], Conv2D)
+        assert isinstance(model.layers[10], BatchNormalization)
+        assert isinstance(model.layers[11], Activation)
+        assert isinstance(model.layers[12], Flatten)
+        assert isinstance(model.layers[13], Dense)
 
         assert model.layers[1].filters == 32
         assert model.layers[1].kernel_size == (3, 3)
         assert model.layers[1].padding == 'same'
-        assert model.layers[2].pool_size == (2, 2)
-        assert model.layers[2].strides == (4, 4)
-        assert model.layers[2].padding == 'same'
-        assert model.layers[3].filters == 64
-        assert model.layers[3].kernel_size == (6, 6)
-        assert model.layers[3].padding == 'same'
         assert model.layers[4].pool_size == (2, 2)
         assert model.layers[4].strides == (4, 4)
-        assert model.layers[5].kernel_size == (9, 9)
+        assert model.layers[4].padding == 'same'
+        assert model.layers[5].filters == 64
+        assert model.layers[5].kernel_size == (6, 6)
         assert model.layers[5].padding == 'same'
-        assert model.layers[5].filters == 128
-        assert model.layers[5].strides == (2, 2)
-        assert model.layers[5].padding == 'same'
-        assert model.layers[7].output_shape == (None, mock_architecture_params.dense_layer_units)
+        assert model.layers[8].pool_size == (2, 2)
+        assert model.layers[8].strides == (4, 4)
+        assert model.layers[9].kernel_size == (9, 9)
+        assert model.layers[9].padding == 'same'
+        assert model.layers[9].filters == 128
+        assert model.layers[9].strides == (2, 2)
+        assert model.layers[9].padding == 'same'
+        assert model.layers[13].output_shape == (None, mock_architecture_params.dense_layer_units)
 

@@ -7,13 +7,15 @@ from statistics import mean
 import matplotlib.pyplot as plt
 import seaborn as sns
 
-
+from utils.plot_utils import plot_scattered_boxplots
 
 run_times = 10
 # Experiment name
 experiment_name = 'first_trial'
-dataset_names = ['mnist', 'mnist_bg', 'mnist_bg_rnd', 'mnist_rot', 'mnist_bg_rot', 'rectangle', 'rect_images',
-                 'convex']  # Give a meaningful name, it will be used as a sub-folder for saving data
+dataset_names = ['mnist','mnist_rot', 'mnist_bg_rnd', 'mnist_bg', 'mnist_bg_rot', 'rectangle', 'rect_images',
+                 'convex']  # Subfolders for loading data from
+dataset_labels = ['MNIST', 'MNIST-RD', 'MNIST-RB', 'MNIST-BI', 'MNIST-RD+BI', 'Rectangles', 'Rectangles-I',
+                 'Convex']  #
 num_classes = [10, 10, 10, 10, 10, 2, 2, 2]
 
 # Output folder
@@ -34,6 +36,7 @@ Path(results_folder).mkdir(parents=True, exist_ok=True)
 
 for k in range(0, len(dataset_names)):
     dataset = dataset_names[k]
+    dataset_label = dataset_labels[k]
     dataset_test_error = []
     dataset_test_accuracy = []
     for i in range(0, run_times):
@@ -47,10 +50,10 @@ for k in range(0, len(dataset_names)):
         test_error = round(100 - test_accuracy, 2)
         dataset_test_error.append(test_error)
         dataset_test_accuracy.append(test_accuracy)
-    test_error_all[dataset] = dataset_test_error
-    test_accuracy_all[dataset] = dataset_test_accuracy
-    test_error_mean[dataset] = mean(dataset_test_error)
-    test_error_best[dataset] = min(dataset_test_error)
+    test_error_all[dataset_label] = dataset_test_error
+    test_accuracy_all[dataset_label] = dataset_test_accuracy
+    test_error_mean[dataset_label] = mean(dataset_test_error)
+    test_error_best[dataset_label] = min(dataset_test_error)
 
 
 test_error_results = pd.DataFrame.from_records([test_error_mean, test_error_best])
@@ -68,21 +71,9 @@ filename = os.path.join(results_folder, 'test_accuracy_individual_runs_standard_
 test_accuracy_individual_runs.to_csv(filename, index=True)
 
 
-
-test_ = test_accuracy_individual_runs.melt(var_name='dataset',value_name='test_error')
-plot(test_accuracy_individual_runs)
-print(data_df.head())
-sns.boxplot(x="dataset",
-            y="test_error",
-            data=data_df,
-            showfliers=False)
-sns.stripplot(x="dataset",
-              y="test_error",
-              data=data_df)
-
-#ax = test_accuracy_individual_runs[['mnist', 'mnist_bg']].plot(kind='box', title='boxplot')
-
-# Display the plot
+filename = os.path.join(results_folder, 'test_accuracy_boxplots.pdf')
+fig = plot_scattered_boxplots(test_accuracy_individual_runs, var_name='Dataset', value_name='Accuracy', fig_size=(10, 5))
+fig.savefig(filename, format='pdf', dpi=1200)
 plt.show()
 
 

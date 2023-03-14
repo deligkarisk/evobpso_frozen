@@ -15,9 +15,10 @@ class TensorflowModelCreator(ModelCreator):
             if isinstance(layer, ConvLayer):
                 x = layers.Conv2D(filters=layer.filters,
                                   kernel_size=layer.kernel_size,
-                                  activation=self.fixed_architecture_properties.activation_function,
                                   padding=self.fixed_architecture_properties.padding,
                                   strides=self.fixed_architecture_properties.conv_stride)(x)
+                x = layers.BatchNormalization()(x)
+                x = layers.Activation(activation=self.fixed_architecture_properties.activation_function)(x)
             elif isinstance(layer, MaxPooling):
                 x = layers.MaxPooling2D(pool_size=self.fixed_architecture_properties.pool_layer_kernel_size,
                                         strides=self.fixed_architecture_properties.pool_layer_stride,
