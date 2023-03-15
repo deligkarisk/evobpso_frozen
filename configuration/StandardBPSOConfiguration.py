@@ -17,7 +17,7 @@ from velocity_update_strategy.StandardVelocityUpdateStrategy import StandardVelo
 from velocity_update_strategy.component_merge_strategy.StandardComponentMergeStrategy import StandardComponentMergeStrategy
 
 
-class StandardBPSORunner:
+class StandardBPSOConfiguration:
     def __init__(self, optimization_params, architecture_properties, data_loader, results_folder) -> None:
         data_calculator = StandardBooleanComponentDataCalculator(params=optimization_params)
         component_creator = StandardBooleanComponentCreator(data_calculator=data_calculator)
@@ -35,8 +35,6 @@ class StandardBPSORunner:
                                      position_update_strategy=position_update_strategy, results_folder=results_folder)
         self.iterations = optimization_params.pso_params.iters
         self.results_folder = results_folder
-
-        Path(self.results_folder).mkdir(parents=True, exist_ok=True)
 
     def run(self):
         start_time = time.time()

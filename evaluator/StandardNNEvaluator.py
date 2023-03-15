@@ -12,7 +12,7 @@ class StandardNNEvaluator(Evaluator):
                                    metrics=self.training_params.metrics)
         (x_train, y_train), (x_val, y_val), (x_test, y_test) = self.data_loader()
         print('evaluating model of size: ' + str(len(architecture_model.layers)))
-        history = architecture_model.fit(x_train, y_train, epochs=self.training_params.epochs, batch_size=self.training_params.batch_size,
+        history = architecture_model.fit(x_train, y_train, epochs=self.training_params.train_eval_epochs, batch_size=self.training_params.batch_size,
                                          validation_data=(x_val, y_val))
 
         if (save_model_folder != None):
@@ -31,15 +31,13 @@ class StandardNNEvaluator(Evaluator):
         (x_train, y_train), (x_val, y_val), (x_test, y_test) = self.data_loader()
         print('testing model of size: ' + str(len(architecture_model.layers)))
 
-        history = architecture_model.fit(x_train, y_train, epochs=self.training_params.epochs, batch_size=self.training_params.batch_size,
+        history = architecture_model.fit(x_train, y_train, epochs=self.training_params.train_eval_epochs, batch_size=self.training_params.batch_size,
                                          validation_data=(x_val, y_val))
 
         evaluation_result = architecture_model.evaluate(x_test, y_test)
 
         if (save_model_folder != None):
             architecture_model.save(save_model_folder)
-
-        #evaluation_result = history.history['val_loss'][-1]
 
         return evaluation_result
 

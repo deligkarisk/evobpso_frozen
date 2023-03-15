@@ -2,6 +2,12 @@ import os
 import pickle
 
 
+def save_params(optimization_params, fixed_architecture_properties, training_params, filename):
+    params_to_save = {'optimization_params': optimization_params, 'fixed_architecture_properties': fixed_architecture_properties,
+                      'training_params': training_params}
+    save_object(params_to_save, filename)
+
+
 def save_object(object, filename):
     with open(filename, 'wb') as handle:
         pickle.dump(object, handle, protocol=pickle.HIGHEST_PROTOCOL)
