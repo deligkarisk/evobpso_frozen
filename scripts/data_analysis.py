@@ -1,3 +1,4 @@
+import copy
 import os
 import pickle
 from pathlib import Path
@@ -7,7 +8,7 @@ from statistics import mean
 import matplotlib.pyplot as plt
 import seaborn as sns
 
-from utils.plot_utils import plot_scattered_boxplots
+from utils.plot_utils import plot_scattered_boxplots, plot_gbest_convergence
 
 run_times = 10
 # Experiment name
@@ -22,13 +23,13 @@ num_classes = [10, 10, 10, 10, 10, 2, 2, 2]
 results_base_folder = '/home/kosmas-deligkaris/DeepBPSOResults'
 results_folder = os.path.join(results_base_folder, experiment_name, 'analysis_results')
 
-test_error_mean = {}
-test_error_best = {}
-means_accuracy = {}
-bests_accuracy = {}
+test_error_mean_all = {}
+test_error_best_all = {}
+means_accuracy_all = {}
+bests_accuracy_all = {}
 test_error_all = {}
 test_accuracy_all = {}
-results_all_datasets = {}
+global_best_history_all = {}
 
 Path(results_folder).mkdir(parents=True, exist_ok=True)
 
@@ -39,6 +40,7 @@ for k in range(0, len(dataset_names)):
     dataset_label = dataset_labels[k]
     dataset_test_error = []
     dataset_test_accuracy = []
+    dataset_global_best_history = []
     for i in range(0, run_times):
         results_base_folder_run = os.path.join(results_base_folder, experiment_name, 'run_' + str(i), dataset_names[k])
 
@@ -50,13 +52,17 @@ for k in range(0, len(dataset_names)):
         test_error = round(100 - test_accuracy, 2)
         dataset_test_error.append(test_error)
         dataset_test_accuracy.append(test_accuracy)
+        current_run_global_best_history = copy.deepcopy(population.global_best_result_history)
+        dataset_global_best_history.append(current_run_global_best_history)
+
     test_error_all[dataset_label] = dataset_test_error
     test_accuracy_all[dataset_label] = dataset_test_accuracy
-    test_error_mean[dataset_label] = mean(dataset_test_error)
-    test_error_best[dataset_label] = min(dataset_test_error)
+    test_error_mean_all[dataset_label] = mean(dataset_test_error)
+    test_error_best_all[dataset_label] = min(dataset_test_error)
+    global_best_history_all[dataset_label] = dataset_global_best_history
 
 
-test_error_results = pd.DataFrame.from_records([test_error_mean, test_error_best])
+test_error_results = pd.DataFrame.from_records([test_error_mean_all, test_error_best_all])
 test_error_results.index = ['test_error_mean', 'test_error_best']
 filename = os.path.join(results_folder, 'test_error_standard_bpso.csv')
 test_error_results.to_csv(filename, index=True)
@@ -76,7 +82,10 @@ fig = plot_scattered_boxplots(test_accuracy_individual_runs, var_name='Dataset',
 fig.savefig(filename, format='pdf', dpi=1200)
 plt.show()
 
-
-
+for dataset in dataset_labels:
+    dataset_gbest_history = global_best_history_all[dataset]
+    fig = plot_gbest_convergence(dataset_gbest_history, dataset, (6, 6))
+    filename = os.path.join(results_folder, 'gbest_convergence_' + dataset + '.pdf')
+    fig.savefig(filename, format='pdf', dpi=1200)
 
 

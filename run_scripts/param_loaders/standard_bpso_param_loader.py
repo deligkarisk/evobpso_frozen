@@ -8,7 +8,7 @@ from params.TrainingParams import TrainingParams
 def load_standard_bpso_params(num_classes_in_dataset):
 # Basic PSO parameters
     population_size = 2
-    iterations = 2
+    iterations = 10
     c1 = 0.5
     c2 = 0.5
     n_bits = 14
