@@ -7,7 +7,7 @@ from params.TrainingParams import TrainingParams
 
 def load_standard_bpso_params(num_classes_in_dataset):
 # Basic PSO parameters
-    population_size = 2
+    population_size = 5
     iterations = 10
     c1 = 0.5
     c2 = 0.5
@@ -17,7 +17,7 @@ def load_standard_bpso_params(num_classes_in_dataset):
 
     # Particle initialization parameters
     min_layers = 1
-    max_layers = 2
+    max_layers = 3
 
     # Training parameters
     train_eval_epochs = 1  # Number of epochs to run during the optimization procedure

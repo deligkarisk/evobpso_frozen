@@ -80,12 +80,16 @@ test_accuracy_individual_runs.to_csv(filename, index=True)
 filename = os.path.join(results_folder, 'test_accuracy_boxplots.pdf')
 fig = plot_scattered_boxplots(test_accuracy_individual_runs, var_name='Dataset', value_name='Accuracy', fig_size=(10, 5))
 fig.savefig(filename, format='pdf', dpi=1200)
+fig.savefig(filename, format='jpg', dpi=1200)
+
 plt.show()
 
 for dataset in dataset_labels:
     dataset_gbest_history = global_best_history_all[dataset]
-    fig = plot_gbest_convergence(dataset_gbest_history, dataset, (6, 6))
+    fig = plot_gbest_convergence(dataset_gbest_history, dataset, (8, 5))
     filename = os.path.join(results_folder, 'gbest_convergence_' + dataset + '.pdf')
     fig.savefig(filename, format='pdf', dpi=1200)
+    fig.savefig(filename, format='jpg', dpi=1200)
+
 
 
