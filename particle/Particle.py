@@ -51,7 +51,7 @@ class Particle:
         return position
 
     def _evaluate_position(self, save_model_folder):
-        fitness_value = self.evaluator.evaluate_for_train(self.current_position, save_model_folder)
+        fitness_value = self.evaluator.evaluate_for_train(self.current_position, save_model_folder=None)
         return fitness_value
 
     def _update_personal_best(self):

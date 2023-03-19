@@ -19,7 +19,7 @@ param_loader_partial = load_standard_bpso_params
 config_class = StandardBPSOConfiguration
 
 run_times = 10
-experiment_name = 'first_trial'
+experiment_name = 'standard_bpso_small_datasets'
 dataset_names = ['mnist', 'mnist_bg', 'mnist_bg_rnd', 'mnist_rot', 'mnist_bg_rot', 'rectangle', 'rect_images',
                  'convex']  # Give a meaningful name, it will be used as a sub-folder for saving data
 data_loaders = [load_mnist_data, load_mnist_background_images, load_mnist_background_random, load_mnist_rotation,

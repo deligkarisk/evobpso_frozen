@@ -7,7 +7,7 @@ from params.TrainingParams import TrainingParams
 
 def load_standard_bpso_params(num_classes_in_dataset):
 # Basic PSO parameters
-    population_size = 5
+    population_size = 20
     iterations = 10
     c1 = 0.5
     c2 = 0.5
@@ -17,11 +17,11 @@ def load_standard_bpso_params(num_classes_in_dataset):
 
     # Particle initialization parameters
     min_layers = 1
-    max_layers = 3
+    max_layers = 8
 
     # Training parameters
     train_eval_epochs = 1  # Number of epochs to run during the optimization procedure
-    best_solution_training_epochs = 1  # Number of epochs to run for the global best position
+    best_solution_training_epochs = 100  # Number of epochs to run for the global best position
     batch_size = 64
     optimizer = 'adam'
     loss = 'categorical_crossentropy'
