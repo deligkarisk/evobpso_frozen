@@ -1,10 +1,10 @@
 from unittest import TestCase
 from unittest.mock import patch, Mock
 
-from initializer.RealInitializer import RealInitializer
-from params.NeuralArchitectureParams import NeuralArchitectureParams
-from params.OptimizationParams import OptimizationParams
-from params.PsoParams import RealPSOParams
+from evobpso.initializer.RealInitializer import RealInitializer
+from evobpso.params.NeuralArchitectureParams import NeuralArchitectureParams
+from evobpso.params.OptimizationParams import OptimizationParams
+from evobpso.params.PsoParams import RealPSOParams
 
 
 class TestRealInitializer(TestCase):

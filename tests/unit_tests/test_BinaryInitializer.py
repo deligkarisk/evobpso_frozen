@@ -1,16 +1,15 @@
 from unittest import TestCase
 from unittest.mock import patch, Mock
 
-from initializer.BinaryInitializer import BinaryInitializer
-from params.NeuralArchitectureParams import NeuralArchitectureParams
-from params.OptimizationParams import OptimizationParams
-from params.PsoParams import BooleanPSOParams
+from evobpso.initializer.BinaryInitializer import BinaryInitializer
+from evobpso.params.NeuralArchitectureParams import NeuralArchitectureParams
+from evobpso.params.OptimizationParams import OptimizationParams
 
 
 class TestBinaryInitializer(TestCase):
 
     @patch('random.randint', return_value=4)
-    @patch('initializer.BinaryInitializer.create_rnd_binary_vector')
+    @patch('evobpso.initializer.BinaryInitializer.create_rnd_binary_vector')
     def test_get_initial_position(self, mock_rnd_vector_function, mock_rand):
         pso_params = Mock()
         training_params = Mock()

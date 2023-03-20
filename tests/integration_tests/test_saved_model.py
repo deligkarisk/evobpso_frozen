@@ -17,7 +17,7 @@ num_of_classes = 10
 image_input_shape = (28, 28, 1)
 
 set_seed(15)
-model = tf.keras.models.load_model('/home/kosmas-deligkaris/repositories/DeepbPSO/test_tmp_results/iter_1/particle_0')
+model = tf.keras.models.load_model('//test_tmp_results/iter_1/particle_0')
 
 model.summary()
 

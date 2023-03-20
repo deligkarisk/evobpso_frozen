@@ -1,6 +1,6 @@
 from statistics import mean
 from unittest import TestCase
-from utils.utils import create_rnd_binary_vector, find_largest_size, find_smallest_size, extract_integer_from_subset_of_bits
+from evobpso.utils.utils import create_rnd_binary_vector, find_largest_size, find_smallest_size, extract_integer_from_subset_of_bits
 
 
 class Test(TestCase):

@@ -5,9 +5,8 @@ from keras.engine.input_layer import InputLayer
 from keras.layers import Rescaling, Conv2D, MaxPooling2D, Flatten, Dense, BatchNormalization, Activation
 from tensorflow.python.framework.tensor_shape import Dimension
 
-from layer.Layer import ConvLayer, MaxPooling
-from model_creator.TensorflowModelCreator import TensorflowModelCreator
-from params.FixedArchitectureProperties import FixedArchitectureProperties
+from evobpso.layer.Layer import ConvLayer, MaxPooling
+from evobpso.model_creator.TensorflowModelCreator import TensorflowModelCreator
 
 
 class TestTensorflowModelCreator(TestCase):

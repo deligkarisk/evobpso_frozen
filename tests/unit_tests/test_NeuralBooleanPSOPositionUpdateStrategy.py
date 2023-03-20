@@ -2,8 +2,8 @@ from unittest import TestCase
 from unittest.mock import Mock, patch
 import unittest.mock as mock
 
-from position_update_strategy.StandardPositionUpdateStrategy import StandardPositionUpdateStrategy
-from velocity_factor.VelocityFactor import VelocityFactorEvolve, VelocityFactorRemove, VelocityFactorAdd
+from evobpso.position_update_strategy.StandardPositionUpdateStrategy import StandardPositionUpdateStrategy
+from evobpso.velocity_factor.VelocityFactor import VelocityFactorEvolve, VelocityFactorRemove, VelocityFactorAdd
 
 
 class TestNeuralBooleanPSOStandardPositionUpdateStrategy(TestCase):
@@ -25,7 +25,7 @@ class TestNeuralBooleanPSOStandardPositionUpdateStrategy(TestCase):
 
 
 
-    @patch('position_update_strategy.StandardPositionUpdateStrategy.create_rnd_binary_vector', return_value=0b111000)
+    @patch('evobpso.position_update_strategy.StandardPositionUpdateStrategy.create_rnd_binary_vector', return_value=0b111000)
     def test_get_new_position_valid_case_with_mutation(self, mock_rnd_binary_vector_creator):
         optimization_params = Mock()
         optimization_params.pso_params.n_bits = 6

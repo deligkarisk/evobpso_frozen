@@ -1,7 +1,7 @@
 from unittest import TestCase
 
-from architecture_decoder.StandardArchitectureDecoder import StandardArchitectureDecoder
-from layer.Layer import AvgPooling, MaxPooling, ConvLayer
+from evobpso.architecture_decoder.StandardArchitectureDecoder import StandardArchitectureDecoder
+from evobpso.layer.Layer import AvgPooling, MaxPooling, ConvLayer
 
 
 class TestStandardArchitectureDecoder(TestCase):

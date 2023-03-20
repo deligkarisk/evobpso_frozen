@@ -1,8 +1,8 @@
 from unittest import TestCase
 from unittest.mock import Mock
 
-from component_data_calculator.StandardBoolenComponentDataCalculator import StandardBooleanComponentDataCalculator
-from params.OptimizationParams import OptimizationParams
+from evobpso.component_data_calculator.StandardBoolenComponentDataCalculator import StandardBooleanComponentDataCalculator
+from evobpso.params.OptimizationParams import OptimizationParams
 
 
 class TestStandardBooleanComponentDataCalculator(TestCase):

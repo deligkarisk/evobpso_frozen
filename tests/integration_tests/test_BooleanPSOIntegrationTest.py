@@ -1,25 +1,24 @@
+import os
 import pickle
 from unittest import TestCase
 
-import os
-import utils.data_load_utils
-from component_creator.StandardBooleanComponentCreator import StandardBooleanComponentCreator
-from component_data_calculator.StandardBoolenComponentDataCalculator import StandardBooleanComponentDataCalculator
-from architecture_decoder.StandardArchitectureDecoder import StandardArchitectureDecoder
-from evaluator.StandardNNEvaluator import StandardNNEvaluator
-from initializer.BinaryInitializer import BinaryInitializer
-from model_creator.TensorflowModelCreator import TensorflowModelCreator
-from params.FixedArchitectureProperties import FixedArchitectureProperties
-from params.NeuralArchitectureParams import NeuralArchitectureParams
-from params.OptimizationParams import OptimizationParams
-from params.PsoParams import PsoParams, BooleanPSOParams
-from params.TrainingParams import TrainingParams
-from population.Population import Population
-from position_update_strategy.StandardPositionUpdateStrategy import StandardPositionUpdateStrategy
-from position_validator.DoNothingPositionValidator import DoNothingPositionValidator
-from position_validator.StandardBooleanPSOPositionValidator import StandardBooleanPSOPositionValidator
-from velocity_update_strategy.StandardVelocityUpdateStrategy import StandardVelocityUpdateStrategy
-from velocity_update_strategy.component_merge_strategy.StandardComponentMergeStrategy import StandardComponentMergeStrategy
+from evobpso.architecture_decoder.StandardArchitectureDecoder import StandardArchitectureDecoder
+from evobpso.component_creator.StandardBooleanComponentCreator import StandardBooleanComponentCreator
+from evobpso.component_data_calculator.StandardBoolenComponentDataCalculator import StandardBooleanComponentDataCalculator
+from evobpso.evaluator.StandardNNEvaluator import StandardNNEvaluator
+from evobpso.initializer.BinaryInitializer import BinaryInitializer
+from evobpso.model_creator.TensorflowModelCreator import TensorflowModelCreator
+from evobpso.params.FixedArchitectureProperties import FixedArchitectureProperties
+from evobpso.params.NeuralArchitectureParams import NeuralArchitectureParams
+from evobpso.params.OptimizationParams import OptimizationParams
+from evobpso.params.PsoParams import BooleanPSOParams
+from evobpso.params.TrainingParams import TrainingParams
+from evobpso.population.Population import Population
+from evobpso.position_update_strategy.StandardPositionUpdateStrategy import StandardPositionUpdateStrategy
+from evobpso.position_validator.DoNothingPositionValidator import DoNothingPositionValidator
+from evobpso.utils import data_load_utils
+from evobpso.velocity_update_strategy.StandardVelocityUpdateStrategy import StandardVelocityUpdateStrategy
+from evobpso.velocity_update_strategy.component_merge_strategy.StandardComponentMergeStrategy import StandardComponentMergeStrategy
 
 
 class TestBooleanPSOIntegrationTest(TestCase):
@@ -28,9 +27,9 @@ class TestBooleanPSOIntegrationTest(TestCase):
 
         num_of_classes = 10
         image_input_shape = (28, 28, 1)
-        results_folder = os.path.join(utils.data_load_utils.get_project_root(), 'test_tmp_results')
+        results_folder = os.path.join(data_load_utils.get_project_root(), 'test_tmp_results')
 
-        data_loader = utils.data_load_utils.load_mnist_data
+        data_loader = data_load_utils.load_mnist_data
 
         pso_params = BooleanPSOParams(c1=0.5, c2=0.5, n_bits=15, k=0.5, iters=10, mutation_prob=0.001, pop_size=1)
         optimizable_architecture_params = NeuralArchitectureParams(min_layers=3, max_layers=8)

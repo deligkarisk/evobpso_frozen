@@ -1,10 +1,10 @@
 from unittest import TestCase
 from unittest.mock import Mock
 
-from component_creator.StandardBooleanComponentCreator import StandardBooleanComponentCreator
-from component_data_calculator.StandardBoolenComponentDataCalculator import StandardBooleanComponentDataCalculator
-from params.OptimizationParams import OptimizationParams
-from velocity_factor.VelocityFactor import VelocityFactorEvolve, VelocityFactorAdd, VelocityFactorRemove
+from evobpso.component_creator.StandardBooleanComponentCreator import StandardBooleanComponentCreator
+from evobpso.component_data_calculator.StandardBoolenComponentDataCalculator import StandardBooleanComponentDataCalculator
+from evobpso.params.OptimizationParams import OptimizationParams
+from evobpso.velocity_factor.VelocityFactor import VelocityFactorEvolve, VelocityFactorAdd, VelocityFactorRemove
 
 
 class TestStandardBooleanComponentCreator(TestCase):

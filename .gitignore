@@ -1,15 +1,21 @@
 *.zip
 *.gz
+.idea/
 
-datasets/convex
-datasets/mnist
-datasets/mnist_background_images
-datasets/mnist_background_random
-datasets/mnist_rotation_back_image_new
-datasets/mnist_rotation_new
-datasets/rectangles
-datasets/rectangles_images
+
+datasets/convex/**
+datasets/mnist/**
+datasets/mnist_background_images/**
+datasets/mnist_background_random/**
+datasets/mnist_rotation_back_image_new/**
+datasets/mnist_rotation_new/**
+datasets/rectangles/**
+datasets/rectangles_images/**
+*.amat
+
 
 data_samples
 
 test_tmp_results
+/evobpso.egg-info/
+/build/
