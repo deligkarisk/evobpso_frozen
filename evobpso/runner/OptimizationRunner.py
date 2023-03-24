@@ -13,11 +13,13 @@ class OptimizationRunner:
 
         aggregated_history = []
 
-        results = self.configuration.population.iterate(first_iter=True)
-        aggregated_history.append(results)
+
         for i in range(0, self.configuration.iterations):
             print('starting iteration: ' + str(i))
-            results = self.configuration.population.iterate(first_iter=False)
+            if i == 0:
+                results = self.configuration.population.iterate(first_iter=True)
+            else:
+                results = self.configuration.population.iterate(first_iter=False)
             aggregated_history.append(results)
 
         end_time = time.time()

@@ -13,7 +13,6 @@ datasets/rectangles/**
 datasets/rectangles_images/**
 *.amat
 
-
 data_samples
 
 test_tmp_results
