@@ -61,10 +61,7 @@ class TestBooleanPSOIntegrationTest(TestCase):
         for i in range(0, 2):
             results = parent_pop.iterate(first_iter=False)
             aggregated_history.append(results)
-        print("oK")
-        filename = os.path.join(results_folder, 'aggregated_history.pickle')
-        with open(filename, 'wb') as handle:
-            pickle.dump(aggregated_history, handle, protocol=pickle.HIGHEST_PROTOCOL)
+        print("Integrated test finished")
 
 
 
