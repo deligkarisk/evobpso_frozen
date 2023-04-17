@@ -5,7 +5,7 @@ from keras.engine.input_layer import InputLayer
 from keras.layers import Rescaling, Conv2D, MaxPooling2D, Flatten, Dense, BatchNormalization, Activation
 from tensorflow.python.framework.tensor_shape import Dimension
 
-from evobpso.layer.Layer import ConvLayer, MaxPooling
+from evobpso.layer.Layer import ConvLayer, MaxPooling, FlattenLayer, DenseLayer
 from evobpso.model_creator.TensorflowModelCreator import TensorflowModelCreator
 
 
@@ -22,7 +22,7 @@ class TestTensorflowModelCreator(TestCase):
         mock_architecture_params.dense_layer_units = 10
         model_creator = TensorflowModelCreator(mock_architecture_params)
 
-        architecture = [ConvLayer(32, 3), MaxPooling(), ConvLayer(64, 6), MaxPooling(), ConvLayer(128, 9)]
+        architecture = [ConvLayer(32, 3), MaxPooling(), ConvLayer(64, 6), MaxPooling(), ConvLayer(128, 9), FlattenLayer(), DenseLayer()]
         model = model_creator.create_model(architecture=architecture)
         model.summary()
 

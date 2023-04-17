@@ -20,3 +20,9 @@ class AvgPooling:
 
 
 
+class FlattenLayer:
+    pass
+
+class DenseLayer:
+    pass
+
