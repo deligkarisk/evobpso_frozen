@@ -1,5 +1,4 @@
 import os
-import pickle
 from unittest import TestCase
 
 from evobpso.architecture_decoder.StandardArchitectureDecoder import StandardArchitectureDecoder
@@ -15,7 +14,7 @@ from evobpso.params.PsoParams import BooleanPSOParams
 from evobpso.params.TrainingParams import TrainingParams
 from evobpso.population.Population import Population
 from evobpso.position_update_strategy.StandardPositionUpdateStrategy import StandardPositionUpdateStrategy
-from evobpso.position_validator.DoNothingPositionValidator import DoNothingPositionValidator
+from evobpso.position_validator.ValidatePoolingLayers import ValidatePoolingLayers
 from evobpso.utils import data_load_utils
 from evobpso.velocity_update_strategy.StandardVelocityUpdateStrategy import StandardVelocityUpdateStrategy
 from evobpso.velocity_update_strategy.component_merge_strategy.StandardComponentMergeStrategy import StandardComponentMergeStrategy
@@ -32,7 +31,7 @@ class TestBooleanPSOIntegrationTest(TestCase):
         data_loader = data_load_utils.load_mnist_data
 
         pso_params = BooleanPSOParams(c1=0.5, c2=0.5, n_bits=15, k=0.5, iters=10, mutation_prob=0.001, pop_size=1)
-        optimizable_architecture_params = NeuralArchitectureParams(min_layers=3, max_layers=8)
+        optimizable_architecture_params = NeuralArchitectureParams(min_layers=3, max_layers=8, max_pooling_layers=2)
         training_params = TrainingParams(batch_size=128, train_eval_epochs=1, best_solution_training_epochs=1, loss='categorical_crossentropy',
                                          optimizer='rmsprop', metrics=['accuracy'])
         optimization_params = OptimizationParams(pso_params=pso_params, architecture_params=optimizable_architecture_params, training_params=training_params)
@@ -49,7 +48,7 @@ class TestBooleanPSOIntegrationTest(TestCase):
         model_creator = TensorflowModelCreator(fixed_architecture_properties=fixed_architecture_params)
         evaluator = StandardNNEvaluator(architecture_decoder=decoder, model_creator=model_creator,
                                         training_params=training_params, data_loader= data_loader)
-        validator = DoNothingPositionValidator()
+        validator = ValidatePoolingLayers(pooling_layer_bit_num=decoder.pooling_layer_bit_position)
         initializer = BinaryInitializer(params=optimization_params)
         parent_pop = Population(params=optimization_params, validator=validator, initializer=initializer,
                                 evaluator=evaluator, velocity_update_strategy=velocity_strategy, position_update_strategy=position_update_strategy)

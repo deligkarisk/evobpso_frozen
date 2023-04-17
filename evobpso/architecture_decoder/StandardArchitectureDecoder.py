@@ -5,6 +5,9 @@ from evobpso.utils.utils import extract_integer_from_subset_of_bits
 
 class StandardArchitectureDecoder(ArchitectureDecoder):
 
+    def __init__(self):
+        self.pooling_layer_bit_position = 11
+
     def decode(self, encoded_position):
 
         decoded_position = []
@@ -17,7 +20,7 @@ class StandardArchitectureDecoder(ArchitectureDecoder):
             kernel_size = extract_integer_from_subset_of_bits(encoded_layer, start_index=8, length=3) + 2  # kernel size minimum value is two
 
             # subsequent bit represents the existence of a pooling layer
-            pooling_layer = extract_integer_from_subset_of_bits(encoded_layer, start_index=11, length=1)
+            pooling_layer = extract_integer_from_subset_of_bits(encoded_layer, start_index=self.pooling_layer_bit_position, length=1)
 
             # subsequent bit represents the pooling type
             pooling_type = extract_integer_from_subset_of_bits(encoded_layer, start_index=12, length=1)

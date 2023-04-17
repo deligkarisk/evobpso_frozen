@@ -13,6 +13,7 @@ from evobpso.model_creator.TensorflowModelCreator import TensorflowModelCreator
 from evobpso.population.Population import Population
 from evobpso.position_update_strategy.StandardPositionUpdateStrategy import StandardPositionUpdateStrategy
 from evobpso.position_validator.DoNothingPositionValidator import DoNothingPositionValidator
+from evobpso.position_validator.ValidatePoolingLayers import ValidatePoolingLayers
 from evobpso.utils.filesystem_utils import save_object
 from evobpso.velocity_update_strategy.StandardVelocityUpdateStrategy import StandardVelocityUpdateStrategy
 from evobpso.velocity_update_strategy.component_merge_strategy.StandardComponentMergeStrategy import StandardComponentMergeStrategy
@@ -27,7 +28,7 @@ class StandardBPSOConfiguration(Configuration):
         position_update_strategy = StandardPositionUpdateStrategy(optimization_params=optimization_params)
         decoder = StandardArchitectureDecoder()
         model_creator = TensorflowModelCreator(fixed_architecture_properties=architecture_properties)
-        validator = DoNothingPositionValidator()
+        validator = ValidatePoolingLayers(pooling_layer_bit_num=decoder.pooling_layer_bit_position)
         initializer = BinaryInitializer(params=optimization_params)
 
         self.evaluator = StandardNNEvaluator(architecture_decoder=decoder, model_creator=model_creator,

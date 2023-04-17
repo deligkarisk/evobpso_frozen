@@ -15,6 +15,16 @@ def create_rnd_binary_vector(prob, n_bits):
     return result
 
 
+def clear_bit(vector, bit_position):
+    vector &= ~(1 << bit_position)
+    return vector
+
+
+def set_bit(vector, bit_position):
+    vector |= 1 << bit_position
+    return vector
+
+
 def find_largest_size(vector_a, vector_b):
     # Finds the size of the largest object (e.g. list)
     if len(vector_a) > len(vector_b):
