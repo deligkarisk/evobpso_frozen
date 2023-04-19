@@ -4,6 +4,7 @@ from evobpso.component_data_calculator.StandardBoolenComponentDataCalculator imp
 from evobpso.configuration.Configuration import Configuration
 from evobpso.evaluator.StandardNNEvaluator import StandardNNEvaluator
 from evobpso.initializer.BinaryInitializer import BinaryInitializer
+from evobpso.initializer.Initializer import Initializer
 from evobpso.model_creator.TensorflowModelCreator import TensorflowModelCreator
 from evobpso.population.Population import Population
 from evobpso.position_update_strategy.StandardPositionUpdateStrategy import StandardPositionUpdateStrategy
@@ -13,7 +14,7 @@ from evobpso.velocity_update_strategy.component_merge_strategy.StandardComponent
 
 
 class BPSOWithVmaxConfiguration(Configuration):
-    def __init__(self, optimization_params, architecture_properties, data_loader, results_folder) -> None:
+    def __init__(self, optimization_params, architecture_properties, data_loader, initializer: Initializer, results_folder) -> None:
         data_calculator = StandardBooleanComponentDataCalculator(params=optimization_params)
         component_creator = StandardBooleanComponentCreator(data_calculator=data_calculator)
         component_merger = StandardComponentMergeStrategy()
@@ -22,7 +23,7 @@ class BPSOWithVmaxConfiguration(Configuration):
         decoder = StandardArchitectureDecoder()
         model_creator = TensorflowModelCreator(fixed_architecture_properties=architecture_properties)
         validator = ValidatePoolingLayers(pooling_layer_bit_num=decoder.pooling_layer_bit_position)
-        initializer = BinaryInitializer(params=optimization_params)
+        initializer = initializer
 
         self.evaluator = StandardNNEvaluator(architecture_decoder=decoder, model_creator=model_creator,
                                         training_params=optimization_params.training_params, data_loader=data_loader)

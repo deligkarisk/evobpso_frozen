@@ -13,7 +13,7 @@ class TestBinaryInitializer(TestCase):
     def test_get_initial_position(self, mock_rnd_vector_function, mock_rand):
         pso_params = Mock()
         training_params = Mock()
-        architecture = NeuralArchitectureParams(2, 10)
+        architecture = NeuralArchitectureParams(2, 10, max_pooling_layers=2)
         params = OptimizationParams(pso_params=pso_params, architecture_params=architecture, training_params=training_params)
         initializer = BinaryInitializer(params)
         new_position = initializer.get_initial_position()

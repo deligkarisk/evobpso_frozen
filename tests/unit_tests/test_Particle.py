@@ -18,7 +18,7 @@ class TestParticle(TestCase):
 
     def test_iterate(self):
         pso_params = BooleanPSOParams(pop_size=10, iters=10, c1=0.3, c2=0.3, n_bits=32, k=0.5, mutation_prob=0)
-        architecture = NeuralArchitectureParams(min_layers=10, max_layers=20)
+        architecture = NeuralArchitectureParams(min_layers=10, max_layers=20, max_pooling_layers=2)
         training_params = Mock()
         optimization_params = OptimizationParams(pso_params=pso_params, architecture_params=architecture, training_params=training_params)
         validator = DoNothingPositionValidator()
