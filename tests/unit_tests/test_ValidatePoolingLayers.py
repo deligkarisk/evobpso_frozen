@@ -1,3 +1,4 @@
+import time
 from unittest import TestCase
 from unittest.mock import Mock
 
@@ -19,8 +20,11 @@ class TestValidatePoolingLayers(TestCase):
         num_pooling_layers = len(pooling_layers_indexes)
 
         assert num_pooling_layers == 4  # As initialized, four layers have a pooling layer, i.e. the 11th bit (starting from zero) is 1
-
+        start_time = time.time()
         new_position = validator.validate(position, params)
+        end_time = time.time()
+        elapsed_time = ((end_time - start_time))
+        print("Position validator runtime: " + str(elapsed_time) + " seconds.")
         new_pooling_layers = [extract_integer_from_subset_of_bits(new_encoded_layer, start_index=pooling_layer_bit_num, length=1) for
                               new_encoded_layer in new_position]
         new_pooling_layers_indexes = [idx for idx, value in enumerate(new_pooling_layers) if value == 1]

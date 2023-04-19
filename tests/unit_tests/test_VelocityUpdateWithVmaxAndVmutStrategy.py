@@ -1,3 +1,4 @@
+import time
 from unittest import TestCase
 from unittest.mock import patch, Mock
 
@@ -31,10 +32,14 @@ class TestVelocityUpdateWithVmaxAndVmutStrategy(TestCase):
         component_merger = StandardComponentMergeStrategy()
 
         # now re-run the same configuration, but with vmax set, to count the number of ones
+
         strategy = VelocityUpdateWithVmaxStrategy(component_creator=component_creator, component_merger=component_merger, params=params)
         pso_params.vmax = 6 # set to 6, so we do not have any 1 turned to 0 (i.e. make the output deterministic)
+        start_time = time.time()
         new_velocity = strategy.get_new_velocity(current_velocity, current_position, pbest_position, gbest_position)
-
+        end_time = time.time()
+        elapsed_time = ((end_time - start_time))
+        print("Position validator runtime: " + str(elapsed_time) + " seconds.")
         expected_velocity = []
         expected_velocity.append(VelocityFactorEvolve(data=0b010101))
         expected_velocity.append(VelocityFactorEvolve(data=0b000000))
@@ -42,7 +47,11 @@ class TestVelocityUpdateWithVmaxAndVmutStrategy(TestCase):
         assert new_velocity == expected_velocity
 
         strategy = VelocityUpdateWithVmaxAndVmutStrategy(component_creator=component_creator, component_merger=component_merger, params=params)
+        start_time = time.time()
         new_velocity = strategy.get_new_velocity(current_velocity, current_position, pbest_position, gbest_position)
+        end_time = time.time()
+        elapsed_time = ((end_time - start_time))
+        print("Position validator runtime: " + str(elapsed_time) + " seconds.")
         expected_velocity = []
         expected_velocity.append(VelocityFactorEvolve(data=0b110101))  # same as before, but with the left-most bit now set to 1 (due to
         # the create_rnd_binary_vector return value being set
