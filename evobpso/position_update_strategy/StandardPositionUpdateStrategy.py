@@ -16,8 +16,6 @@ class StandardPositionUpdateStrategy(PositionUpdateStrategy):
             new_position_in_dim = self._update_to_position(current_velocity[i], current_position_placeholder)
             if new_position_in_dim is not None:
                 new_position.append(new_position_in_dim)
-
-        new_position = self._mutate_position(new_position)
         return new_position
 
     def _update_to_position(self, current_velocity, current_position):
@@ -35,20 +33,6 @@ class StandardPositionUpdateStrategy(PositionUpdateStrategy):
 
         return updated_position
 
-
-    def _mutate_position(self, position):
-
-        mut_prob = self.optimization_params.pso_params.mutation_prob
-        if mut_prob > 0:
-            new_position = []
-            n_bits = self.optimization_params.pso_params.n_bits
-            for layer in position:
-                bin_vector = create_rnd_binary_vector(prob=mut_prob, n_bits=n_bits)
-                new_layer = layer ^ bin_vector
-                new_position.append(new_layer)
-            return new_position
-        else:
-            return position
 
 
 
