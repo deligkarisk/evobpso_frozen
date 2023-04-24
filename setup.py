@@ -9,8 +9,9 @@ setup(
     author_email='kosmas.deligkaris@oist.jp',
     license='MIT',
     packages=['evobpso'],
-    install_requires=['pandas==2.0.0',
-                      'tensorflow==2.11',
+    install_requires=['python >=3.10',
+                      'pandas==2.0.0',
+                      'tensorflow=>2.11',
                       'scipy==1.10.1'],
     classifiers=[
         'Development Status :: 1 - Planning',
