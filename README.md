@@ -3,7 +3,7 @@
 ## Overview
 evobpso is a toolbox for automatically designing neural architectures for image classification
 based on evolutionary/swarm optimization algorithms.
-The current version of the toolbox is using [Boolean Particle Swarm Optimization] [1] in a global optimization setting.
+The current version of the toolbox is using Boolean Particle Swarm Optimization [1] in a global optimization setting.
 
 
 ## Requirements
