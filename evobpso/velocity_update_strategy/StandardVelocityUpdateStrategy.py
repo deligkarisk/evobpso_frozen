@@ -4,7 +4,7 @@ from evobpso.velocity_update_strategy.VelocityUpdateStrategy import VelocityUpda
 
 class StandardVelocityUpdateStrategy(VelocityUpdateStrategy):
 
-    def get_new_velocity(self, current_velocity, current_position, pbest_position, gbest_position):
+    def get_new_velocity(self, current_position, pbest_position, gbest_position):
         pso_params = self.params.pso_params
         personal_component = self.component_creator.create_component(pbest_position, current_position, pso_params.c1 )
         global_component = self.component_creator.create_component(gbest_position, current_position, pso_params.c2 )

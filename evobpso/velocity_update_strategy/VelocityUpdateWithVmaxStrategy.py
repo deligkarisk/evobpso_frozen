@@ -6,8 +6,8 @@ import random
 
 class VelocityUpdateWithVmaxStrategy(StandardVelocityUpdateStrategy):
 
-    def get_new_velocity(self, current_velocity, current_position, pbest_position, gbest_position):
-        velocity = super().get_new_velocity(current_velocity, current_position, pbest_position, gbest_position)
+    def get_new_velocity(self, current_position, pbest_position, gbest_position):
+        velocity = super().get_new_velocity(current_position, pbest_position, gbest_position)
 
         for layer in velocity:
             if layer.__class__.__name__ == "VelocityFactorEvolve":

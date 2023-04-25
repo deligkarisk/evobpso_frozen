@@ -6,8 +6,8 @@ from evobpso.velocity_update_strategy.VelocityUpdateWithVmaxStrategy import Velo
 class VelocityUpdateWithVmaxAndVmutStrategy(VelocityUpdateWithVmaxStrategy):
 
 
-    def get_new_velocity(self, current_velocity, current_position, pbest_position, gbest_position):
-        velocity = super().get_new_velocity(current_velocity, current_position, pbest_position, gbest_position)
+    def get_new_velocity(self, current_position, pbest_position, gbest_position):
+        velocity = super().get_new_velocity(current_position, pbest_position, gbest_position)
 
         mut_prob = self.params.pso_params.mutation_prob
         n_bits = self.params.pso_params.n_bits

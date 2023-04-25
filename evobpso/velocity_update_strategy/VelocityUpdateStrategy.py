@@ -11,7 +11,7 @@ class VelocityUpdateStrategy(abc.ABC):
         self.component_creator = component_creator
         self.component_merger = component_merger
         self.params = params
-        super().__init__()
 
-    def get_new_velocity(self, current_velocity, current_position, pbest_position, gbest_position):
+
+    def get_new_velocity(self, current_position, pbest_position, gbest_position):
         raise NotImplementedError

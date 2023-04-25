@@ -68,8 +68,7 @@ class Particle:
 
     # velocity_update_strategy is chosen based on strategy pattern
     def _get_new_velocity(self):
-        return self.velocity_update_strategy.get_new_velocity(
-            self.current_velocity, self.current_position, self.personal_best_position, self.parent_pop.global_best_position)
+        return self.velocity_update_strategy.get_new_velocity(self.current_position, self.personal_best_position, self.parent_pop.global_best_position)
 
     # position update is chosen based on the strategy pattern
     def _get_new_position(self):
