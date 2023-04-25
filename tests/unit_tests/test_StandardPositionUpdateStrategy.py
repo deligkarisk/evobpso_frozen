@@ -6,7 +6,7 @@ from evobpso.position_update_strategy.StandardPositionUpdateStrategy import Stan
 from evobpso.velocity_factor.VelocityFactor import VelocityFactorEvolve, VelocityFactorRemove, VelocityFactorAdd
 
 
-class TestNeuralBooleanPSOStandardPositionUpdateStrategy(TestCase):
+class TestStandardPositionUpdateStrategy(TestCase):
 
     def test_get_new_position_valid_case(self):
         optimization_params = Mock()

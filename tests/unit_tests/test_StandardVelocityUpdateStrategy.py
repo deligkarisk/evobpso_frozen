@@ -11,7 +11,7 @@ from evobpso.velocity_update_strategy.StandardVelocityUpdateStrategy import Stan
 from evobpso.velocity_update_strategy.component_merge_strategy.StandardComponentMergeStrategy import StandardComponentMergeStrategy
 
 
-class TestNeuralBooleanPSOStandardVelocityStrategy(TestCase):
+class TestStandardVelocityUpdateStrategy(TestCase):
 
     def test_get_new_velocity_only_personal_factor(self):
         current_velocity = [0b111111, 0b101010]
