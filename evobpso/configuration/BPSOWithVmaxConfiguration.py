@@ -8,7 +8,7 @@ from evobpso.model_creator.TensorflowModelCreator import TensorflowModelCreator
 from evobpso.population.Population import Population
 from evobpso.position_update_strategy.StandardPositionUpdateStrategy import StandardPositionUpdateStrategy
 from evobpso.position_validator.ValidatePoolingLayers import ValidatePoolingLayers
-from evobpso.velocity_update_strategy.VelocityUpdateWithVmaxStrategy import VelocityUpdateWithVmaxStrategy
+from evobpso.velocity_update_extension.BooleanVmaxExtension import BooleanVmaxExtension
 from evobpso.component_merger.VariableLengthCalculateDataComponentMerger import VariableLengthCalculateDataComponentMerger
 
 
@@ -17,7 +17,7 @@ class BPSOWithVmaxConfiguration(Configuration):
         data_calculator = BooleanComponentCreatorDataCalculator(params=optimization_params)
         component_creator = VariableLengthComponentCreator(data_calculator=data_calculator)
         component_merger = VariableLengthCalculateDataComponentMerger()
-        velocity_strategy = VelocityUpdateWithVmaxStrategy(component_creator=component_creator, component_merger=component_merger, params=optimization_params)
+        velocity_strategy = BooleanVmaxExtension(component_creator=component_creator, component_merger=component_merger, params=optimization_params)
         position_update_strategy = StandardPositionUpdateStrategy(optimization_params=optimization_params)
         decoder = StandardArchitectureDecoder()
         model_creator = TensorflowModelCreator(fixed_architecture_properties=architecture_properties)

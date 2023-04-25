@@ -1,13 +1,11 @@
 import random
 import re
 
-from evobpso.velocity_update_strategy.StandardVelocityUpdateStrategy import StandardVelocityUpdateStrategy
+from evobpso.velocity_update_extension.VelocityUpdateExtension import VelocityUpdateExtension
 
+class BooleanVmaxExtension(VelocityUpdateExtension):
 
-class VelocityUpdateWithVmaxStrategy(StandardVelocityUpdateStrategy):
-
-    def get_new_velocity(self, current_position, pbest_position, gbest_position):
-        velocity = super().get_new_velocity(current_position, pbest_position, gbest_position)
+    def get_new_velocity(self, velocity):
 
         for layer in velocity:
             if layer.__class__.__name__ == "VelocityFactorEvolve":

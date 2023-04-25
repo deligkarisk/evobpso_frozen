@@ -1,14 +1,10 @@
 from evobpso.utils.utils import create_rnd_binary_vector
-from evobpso.velocity_update_strategy.VelocityUpdateWithVmaxStrategy import VelocityUpdateWithVmaxStrategy
+from evobpso.velocity_update_extension.VelocityUpdateExtension import VelocityUpdateExtension
 
 
 
-class VelocityUpdateWithVmaxAndVmutStrategy(VelocityUpdateWithVmaxStrategy):
-
-
-    def get_new_velocity(self, current_position, pbest_position, gbest_position):
-        velocity = super().get_new_velocity(current_position, pbest_position, gbest_position)
-
+class BooleanVmutExtension(VelocityUpdateExtension):
+    def get_new_velocity(self, velocity):
         mut_prob = self.params.pso_params.mutation_prob
         n_bits = self.params.pso_params.n_bits
         for layer in velocity:

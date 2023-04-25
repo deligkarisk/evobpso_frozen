@@ -2,33 +2,26 @@ from unittest import TestCase
 from unittest.mock import Mock, patch
 
 from evobpso.velocity_factor.VelocityFactor import VelocityFactorEvolve, VelocityFactorAdd
-from evobpso.velocity_update_strategy.VelocityUpdateWithVmaxStrategy import VelocityUpdateWithVmaxStrategy
+from evobpso.velocity_update_extension.BooleanVmaxExtension import BooleanVmaxExtension
 
 
-class TestVelocityUpdateWithVmaxStrategy(TestCase):
+class TestBooleanVmaxExtension(TestCase):
 
-    @patch('evobpso.velocity_update_strategy.VelocityUpdateWithVmaxStrategy.super')
-    def test_get_new_velocity_only_personal_factor(self, mock_super):
+    def test_get_new_velocity(self):
 
-        # exact values of the position are irrelevant as we specify the return value of the super's get_new_velocity() a few lines below.
-        current_position = Mock()
-        pbest_position = Mock()
-        gbest_position = Mock()
-
-        velocity = []
-        velocity.append(VelocityFactorEvolve(data=0b010101))
-        velocity.append(VelocityFactorEvolve(data=0b000000))
-        velocity.append(VelocityFactorAdd(data=0b000111))
-        mock_super().get_new_velocity.return_value = velocity
+        base_velocity = []
+        base_velocity.append(VelocityFactorEvolve(data=0b010101))
+        base_velocity.append(VelocityFactorEvolve(data=0b000000))
+        base_velocity.append(VelocityFactorAdd(data=0b000111))
 
         params = Mock()
-        strategy = VelocityUpdateWithVmaxStrategy(component_creator=Mock(), component_merger=Mock(), params=params)
+        extension = BooleanVmaxExtension(params)
 
         # as the vmax process depends on random numbers, we should do the assertions many times
         # try first with vmax = 2
         params.pso_params.vmax = 2
         for i in range(0, 100):
-            new_velocity = strategy.get_new_velocity(current_position, pbest_position, gbest_position)
+            new_velocity = extension.get_new_velocity(base_velocity)
             vmax_data_layer_one = new_velocity[0].data
             vmax_data_layer_two = new_velocity[1].data
             vmax_data_layer_three = new_velocity[2].data
@@ -43,7 +36,7 @@ class TestVelocityUpdateWithVmaxStrategy(TestCase):
 
         # as the vmax process depends on random numbers, we should do the assertions many times
         for i in range(0, 100):
-            new_velocity = strategy.get_new_velocity(current_position, pbest_position, gbest_position)
+            new_velocity = extension.get_new_velocity(base_velocity)
             vmax_data_layer_one = new_velocity[0].data
             vmax_data_layer_two = new_velocity[1].data
             vmax_data_layer_three = new_velocity[2].data
