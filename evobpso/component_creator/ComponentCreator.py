@@ -1,6 +1,6 @@
 import abc
 
-from evobpso.component_creator_data_calculator.ComponentCreatorDataCalculator import ComponentCreatorDataCalculator
+from evobpso.component_creator.data_calculator.ComponentCreatorDataCalculator import ComponentCreatorDataCalculator
 
 
 class ComponentCreator(abc.ABC):

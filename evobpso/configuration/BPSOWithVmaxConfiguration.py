@@ -1,23 +1,22 @@
 from evobpso.architecture_decoder.StandardArchitectureDecoder import StandardArchitectureDecoder
 from evobpso.component_creator.VariableLengthComponentCreator import VariableLengthComponentCreator
-from evobpso.component_creator_data_calculator.BoolenComponentCreatorDataCalculator import BooleanComponentCreatorDataCalculator
+from evobpso.component_creator.data_calculator.BoolenComponentCreatorDataCalculator import BooleanComponentCreatorDataCalculator
 from evobpso.configuration.Configuration import Configuration
 from evobpso.evaluator.StandardNNEvaluator import StandardNNEvaluator
-from evobpso.initializer.BinaryInitializer import BinaryInitializer
 from evobpso.initializer.Initializer import Initializer
 from evobpso.model_creator.TensorflowModelCreator import TensorflowModelCreator
 from evobpso.population.Population import Population
 from evobpso.position_update_strategy.StandardPositionUpdateStrategy import StandardPositionUpdateStrategy
 from evobpso.position_validator.ValidatePoolingLayers import ValidatePoolingLayers
 from evobpso.velocity_update_strategy.VelocityUpdateWithVmaxStrategy import VelocityUpdateWithVmaxStrategy
-from evobpso.velocity_update_strategy.component_merge_strategy.VariableLengthCalculateDataComponentMergeStrategy import VariableLengthCalculateDataComponentMergeStrategy
+from evobpso.component_merger.VariableLengthCalculateDataComponentMerger import VariableLengthCalculateDataComponentMerger
 
 
 class BPSOWithVmaxConfiguration(Configuration):
     def __init__(self, optimization_params, architecture_properties, data_loader, initializer: Initializer, results_folder) -> None:
         data_calculator = BooleanComponentCreatorDataCalculator(params=optimization_params)
         component_creator = VariableLengthComponentCreator(data_calculator=data_calculator)
-        component_merger = VariableLengthCalculateDataComponentMergeStrategy()
+        component_merger = VariableLengthCalculateDataComponentMerger()
         velocity_strategy = VelocityUpdateWithVmaxStrategy(component_creator=component_creator, component_merger=component_merger, params=optimization_params)
         position_update_strategy = StandardPositionUpdateStrategy(optimization_params=optimization_params)
         decoder = StandardArchitectureDecoder()

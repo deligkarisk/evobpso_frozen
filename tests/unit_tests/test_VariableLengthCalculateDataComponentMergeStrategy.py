@@ -2,8 +2,8 @@ from unittest import TestCase
 from unittest.mock import Mock
 
 from evobpso.velocity_factor.VelocityFactor import VelocityFactorEvolve, VelocityFactorRemove, VelocityFactorAdd
-from evobpso.velocity_update_strategy.component_merge_strategy.VariableLengthCalculateDataComponentMergeStrategy import \
-    VariableLengthCalculateDataComponentMergeStrategy
+from evobpso.component_merger.VariableLengthCalculateDataComponentMerger import \
+    VariableLengthCalculateDataComponentMerger
 
 
 class TestVariableLengthCalculateDataComponentMergeStrategy(TestCase):
@@ -26,7 +26,7 @@ class TestVariableLengthCalculateDataComponentMergeStrategy(TestCase):
         pso_params = Mock()
         pso_params.k = 1
 
-        component_merge_strategy = VariableLengthCalculateDataComponentMergeStrategy(component_merger_data_calculator=mock_data_calculator)
+        component_merge_strategy = VariableLengthCalculateDataComponentMerger(component_merger_data_calculator=mock_data_calculator)
         result = component_merge_strategy.merge_personal_and_global_components(personal_component=personal_component, global_component=global_component, pso_params=pso_params)
 
         # There are two layers in the personal and global components that both are Evolve, so the calculator should have been called twice

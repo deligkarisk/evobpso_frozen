@@ -2,12 +2,12 @@ import abc
 
 from evobpso.component_creator.ComponentCreator import ComponentCreator
 from evobpso.params.OptimizationParams import OptimizationParams
-from evobpso.velocity_update_strategy.component_merge_strategy.ComponentMergeStrategy import ComponentMergeStrategy
+from evobpso.component_merger.ComponentMerger import ComponentMerger
 
 
 class VelocityUpdateStrategy(abc.ABC):
 
-    def __init__(self, component_creator: ComponentCreator, component_merger: ComponentMergeStrategy, params: OptimizationParams) -> None:
+    def __init__(self, component_creator: ComponentCreator, component_merger: ComponentMerger, params: OptimizationParams) -> None:
         self.component_creator = component_creator
         self.component_merger = component_merger
         self.params = params

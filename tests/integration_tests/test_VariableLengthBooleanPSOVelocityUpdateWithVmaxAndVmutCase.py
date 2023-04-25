@@ -3,14 +3,14 @@ from unittest import TestCase
 from unittest.mock import patch, Mock
 
 from evobpso.component_creator.VariableLengthComponentCreator import VariableLengthComponentCreator
-from evobpso.component_creator_data_calculator.BoolenComponentCreatorDataCalculator import BooleanComponentCreatorDataCalculator
+from evobpso.component_creator.data_calculator.BoolenComponentCreatorDataCalculator import BooleanComponentCreatorDataCalculator
 from evobpso.params.OptimizationParams import OptimizationParams
 from evobpso.params.PsoParams import BooleanPSOParams
 from evobpso.velocity_factor.VelocityFactor import VelocityFactorAdd, VelocityFactorEvolve
 from evobpso.velocity_update_strategy.VelocityUpdateWithVmaxAndVmutStrategy import VelocityUpdateWithVmaxAndVmutStrategy
 from evobpso.velocity_update_strategy.VelocityUpdateWithVmaxStrategy import VelocityUpdateWithVmaxStrategy
-from evobpso.velocity_update_strategy.component_merge_strategy.VariableLengthCalculateDataComponentMergeStrategy import VariableLengthCalculateDataComponentMergeStrategy
-from evobpso.velocity_update_strategy.component_merge_strategy.component_merger_data_calculator.BooleanComponentMergerDataCalculator import \
+from evobpso.component_merger.VariableLengthCalculateDataComponentMerger import VariableLengthCalculateDataComponentMerger
+from evobpso.component_merger.data_calculator.BooleanComponentMergerDataCalculator import \
     BooleanComponentMergerDataCalculator
 
 
@@ -33,7 +33,7 @@ class VariableLengthBooleanPSOVelocityUpdateWithVmaxAndVmutCase(TestCase):
         component_creator = VariableLengthComponentCreator(data_calculator=data_calculator)
         component_merger_data_calculator = BooleanComponentMergerDataCalculator()
 
-        component_merger = VariableLengthCalculateDataComponentMergeStrategy(component_merger_data_calculator=component_merger_data_calculator)
+        component_merger = VariableLengthCalculateDataComponentMerger(component_merger_data_calculator=component_merger_data_calculator)
 
         # now re-run the same configuration, but with vmax set, to count the number of ones
 

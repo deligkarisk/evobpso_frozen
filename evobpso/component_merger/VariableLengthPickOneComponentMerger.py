@@ -1,10 +1,9 @@
 from evobpso.utils import utils
 from evobpso.utils.algorithm_utils import equalize_sizes
-from evobpso.velocity_factor.VelocityFactor import VelocityFactorEvolve
-from evobpso.velocity_update_strategy.component_merge_strategy.ComponentMergeStrategy import ComponentMergeStrategy
+from evobpso.component_merger.ComponentMerger import ComponentMerger
 
 
-class VariableLengthPickOneComponentMergeStrategy(ComponentMergeStrategy):
+class VariableLengthPickOneComponentMerger(ComponentMerger):
 
     def merge_personal_and_global_components(self, personal_component, global_component, pso_params):
 

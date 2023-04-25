@@ -3,7 +3,7 @@ from unittest import TestCase
 
 from evobpso.architecture_decoder.StandardArchitectureDecoder import StandardArchitectureDecoder
 from evobpso.component_creator.VariableLengthComponentCreator import VariableLengthComponentCreator
-from evobpso.component_creator_data_calculator.BoolenComponentCreatorDataCalculator import BooleanComponentCreatorDataCalculator
+from evobpso.component_creator.data_calculator.BoolenComponentCreatorDataCalculator import BooleanComponentCreatorDataCalculator
 from evobpso.evaluator.StandardNNEvaluator import StandardNNEvaluator
 from evobpso.initializer.BinaryInitializer import BinaryInitializer
 from evobpso.model_creator.TensorflowModelCreator import TensorflowModelCreator
@@ -17,7 +17,7 @@ from evobpso.position_update_strategy.StandardPositionUpdateStrategy import Stan
 from evobpso.position_validator.ValidatePoolingLayers import ValidatePoolingLayers
 from evobpso.utils import data_load_utils
 from evobpso.velocity_update_strategy.StandardVelocityUpdateStrategy import StandardVelocityUpdateStrategy
-from evobpso.velocity_update_strategy.component_merge_strategy.VariableLengthCalculateDataComponentMergeStrategy import VariableLengthCalculateDataComponentMergeStrategy
+from evobpso.component_merger.VariableLengthCalculateDataComponentMerger import VariableLengthCalculateDataComponentMerger
 
 
 class TestBooleanPSOIntegrationTest(TestCase):
@@ -41,7 +41,7 @@ class TestBooleanPSOIntegrationTest(TestCase):
 
         data_calculator = BooleanComponentCreatorDataCalculator(params=optimization_params)
         component_creator = VariableLengthComponentCreator(data_calculator=data_calculator)
-        component_merger = VariableLengthCalculateDataComponentMergeStrategy()
+        component_merger = VariableLengthCalculateDataComponentMerger()
         velocity_strategy = StandardVelocityUpdateStrategy(component_creator=component_creator, params=optimization_params, component_merger=component_merger)
         position_update_strategy = StandardPositionUpdateStrategy(optimization_params=optimization_params)
         decoder = StandardArchitectureDecoder()

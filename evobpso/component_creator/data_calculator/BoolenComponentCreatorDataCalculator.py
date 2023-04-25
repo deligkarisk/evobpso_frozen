@@ -1,4 +1,4 @@
-from evobpso.component_creator_data_calculator.ComponentCreatorDataCalculator import ComponentCreatorDataCalculator
+from evobpso.component_creator.data_calculator.ComponentCreatorDataCalculator import ComponentCreatorDataCalculator
 from evobpso.utils.utils import create_rnd_binary_vector
 
 
