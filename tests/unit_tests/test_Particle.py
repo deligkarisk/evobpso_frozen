@@ -1,8 +1,8 @@
 from unittest import TestCase
 from unittest.mock import Mock
 
-from evobpso.component_creator.StandardBooleanComponentCreator import StandardBooleanComponentCreator
-from evobpso.component_data_calculator.StandardBoolenComponentDataCalculator import StandardBooleanComponentDataCalculator
+from evobpso.component_creator.VariableLengthComponentCreator import VariableLengthComponentCreator
+from evobpso.component_creator_data_calculator.BoolenComponentCreatorDataCalculator import BooleanComponentCreatorDataCalculator
 from evobpso.initializer.BinaryInitializer import BinaryInitializer
 from evobpso.params.NeuralArchitectureParams import NeuralArchitectureParams
 from evobpso.params.OptimizationParams import OptimizationParams
@@ -11,7 +11,9 @@ from evobpso.particle.Particle import Particle
 from evobpso.position_update_strategy.StandardPositionUpdateStrategy import StandardPositionUpdateStrategy
 from evobpso.position_validator.DoNothingPositionValidator import DoNothingPositionValidator
 from evobpso.velocity_update_strategy.StandardVelocityUpdateStrategy import StandardVelocityUpdateStrategy
-from evobpso.velocity_update_strategy.component_merge_strategy.StandardComponentMergeStrategy import StandardComponentMergeStrategy
+from evobpso.velocity_update_strategy.component_merge_strategy.VariableLengthCalculateDataComponentMergeStrategy import VariableLengthCalculateDataComponentMergeStrategy
+from evobpso.velocity_update_strategy.component_merge_strategy.component_merger_data_calculator.BooleanComponentMergerDataCalculator import \
+    BooleanComponentMergerDataCalculator
 
 
 class TestParticle(TestCase):
@@ -24,9 +26,10 @@ class TestParticle(TestCase):
         validator = DoNothingPositionValidator()
         initializer = BinaryInitializer(params=optimization_params)
         mock_evaluator = Mock()
-        data_calculator = StandardBooleanComponentDataCalculator(params=optimization_params)
-        component_creator = StandardBooleanComponentCreator(data_calculator=data_calculator)
-        component_merger = StandardComponentMergeStrategy()
+        data_calculator = BooleanComponentCreatorDataCalculator(params=optimization_params)
+        component_creator = VariableLengthComponentCreator(data_calculator=data_calculator)
+        component_merger_data_calculator = BooleanComponentMergerDataCalculator()
+        component_merger = VariableLengthCalculateDataComponentMergeStrategy(component_merger_data_calculator=component_merger_data_calculator)
         velocity_strategy = StandardVelocityUpdateStrategy(component_creator, component_merger, optimization_params)
         position_update_strategy = StandardPositionUpdateStrategy(optimization_params)
         mock_population = Mock()

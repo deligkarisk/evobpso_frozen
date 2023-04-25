@@ -3,7 +3,7 @@ import abc
 from evobpso.params.OptimizationParams import OptimizationParams
 
 
-class ComponentDataCalculator(abc.ABC):
+class ComponentCreatorDataCalculator(abc.ABC):
 
     def __init__(self, params: OptimizationParams) -> None:
         self.params = params

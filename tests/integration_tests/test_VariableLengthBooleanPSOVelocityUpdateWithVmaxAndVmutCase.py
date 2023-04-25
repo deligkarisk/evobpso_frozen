@@ -2,17 +2,19 @@ import time
 from unittest import TestCase
 from unittest.mock import patch, Mock
 
-from evobpso.component_creator.StandardBooleanComponentCreator import StandardBooleanComponentCreator
-from evobpso.component_data_calculator.StandardBoolenComponentDataCalculator import StandardBooleanComponentDataCalculator
+from evobpso.component_creator.VariableLengthComponentCreator import VariableLengthComponentCreator
+from evobpso.component_creator_data_calculator.BoolenComponentCreatorDataCalculator import BooleanComponentCreatorDataCalculator
 from evobpso.params.OptimizationParams import OptimizationParams
 from evobpso.params.PsoParams import BooleanPSOParams
 from evobpso.velocity_factor.VelocityFactor import VelocityFactorAdd, VelocityFactorEvolve
 from evobpso.velocity_update_strategy.VelocityUpdateWithVmaxAndVmutStrategy import VelocityUpdateWithVmaxAndVmutStrategy
 from evobpso.velocity_update_strategy.VelocityUpdateWithVmaxStrategy import VelocityUpdateWithVmaxStrategy
-from evobpso.velocity_update_strategy.component_merge_strategy.StandardComponentMergeStrategy import StandardComponentMergeStrategy
+from evobpso.velocity_update_strategy.component_merge_strategy.VariableLengthCalculateDataComponentMergeStrategy import VariableLengthCalculateDataComponentMergeStrategy
+from evobpso.velocity_update_strategy.component_merge_strategy.component_merger_data_calculator.BooleanComponentMergerDataCalculator import \
+    BooleanComponentMergerDataCalculator
 
 
-class TestVelocityUpdateWithVmaxAndVmutStrategy(TestCase):
+class VariableLengthBooleanPSOVelocityUpdateWithVmaxAndVmutCase(TestCase):
 
     @patch('evobpso.velocity_update_strategy.VelocityUpdateWithVmaxAndVmutStrategy.create_rnd_binary_vector', return_value=0b100000)
     def test_get_new_velocity_only_personal_factor(self, mock_rnd_binary_vector_creator):
@@ -27,9 +29,11 @@ class TestVelocityUpdateWithVmaxAndVmutStrategy(TestCase):
         architecture_params = Mock()
         training_params = Mock()
         params = OptimizationParams(pso_params, architecture_params, training_params)
-        data_calculator = StandardBooleanComponentDataCalculator(params=params)
-        component_creator = StandardBooleanComponentCreator(data_calculator=data_calculator)
-        component_merger = StandardComponentMergeStrategy()
+        data_calculator = BooleanComponentCreatorDataCalculator(params=params)
+        component_creator = VariableLengthComponentCreator(data_calculator=data_calculator)
+        component_merger_data_calculator = BooleanComponentMergerDataCalculator()
+
+        component_merger = VariableLengthCalculateDataComponentMergeStrategy(component_merger_data_calculator=component_merger_data_calculator)
 
         # now re-run the same configuration, but with vmax set, to count the number of ones
 

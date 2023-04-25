@@ -1,11 +1,14 @@
 from evobpso.utils import utils
+from evobpso.utils.algorithm_utils import equalize_sizes
 from evobpso.velocity_factor.VelocityFactor import VelocityFactorEvolve
 from evobpso.velocity_update_strategy.component_merge_strategy.ComponentMergeStrategy import ComponentMergeStrategy
 
 
-class PickOneComponentMergeStrategy(ComponentMergeStrategy):
+class VariableLengthPickOneComponentMergeStrategy(ComponentMergeStrategy):
 
     def merge_personal_and_global_components(self, personal_component, global_component, pso_params):
+
+        personal_component, global_component = equalize_sizes(personal_component, global_component)
 
         if len(personal_component) != len(global_component):
             raise ValueError('input components must have the same size')

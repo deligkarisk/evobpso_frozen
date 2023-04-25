@@ -3,7 +3,7 @@ from evobpso.utils.utils import find_largest_size, find_smallest_size, find_larg
 from evobpso.velocity_factor.VelocityFactor import VelocityFactorEvolve, VelocityFactorAdd, VelocityFactorRemove
 
 
-class StandardBooleanComponentCreator(ComponentCreator):
+class VariableLengthComponentCreator(ComponentCreator):
 
     def create_component(self, best_position, current_position, c_factor):
         # creates the social and personal components of the velocity equation.
@@ -12,7 +12,7 @@ class StandardBooleanComponentCreator(ComponentCreator):
         best_position_is_larger = find_largest_index(best_position, current_position) == 0
         new_component = []
 
-        # for the dimensions that both positions have, produce component using the xor and "and" operations
+        # for the dimensions that both positions have, produce component using the data calculator operations
         for current_index in range(0, smallest_size):
             component_data = self.data_calculator.calculate(best_position[current_index], current_position[current_index], c_factor)
             velocity_component = VelocityFactorEvolve(data=component_data)

@@ -2,17 +2,19 @@ import copy
 from unittest import TestCase
 from unittest.mock import patch, Mock
 
-from evobpso.component_creator.StandardBooleanComponentCreator import StandardBooleanComponentCreator
-from evobpso.component_data_calculator.StandardBoolenComponentDataCalculator import StandardBooleanComponentDataCalculator
+from evobpso.component_creator.VariableLengthComponentCreator import VariableLengthComponentCreator
+from evobpso.component_creator_data_calculator.BoolenComponentCreatorDataCalculator import BooleanComponentCreatorDataCalculator
 from evobpso.params.OptimizationParams import OptimizationParams
 from evobpso.params.PsoParams import PsoParams, BooleanPSOParams
 from evobpso.velocity_factor.VelocityFactor import VelocityFactorRemove, VelocityFactorAdd, VelocityFactorEvolve
 from evobpso.velocity_update_strategy.StandardVelocityUpdateStrategy import StandardVelocityUpdateStrategy
 from evobpso.velocity_update_strategy.VelocityUpdateWithVmaxStrategy import VelocityUpdateWithVmaxStrategy
-from evobpso.velocity_update_strategy.component_merge_strategy.StandardComponentMergeStrategy import StandardComponentMergeStrategy
+from evobpso.velocity_update_strategy.component_merge_strategy.VariableLengthCalculateDataComponentMergeStrategy import VariableLengthCalculateDataComponentMergeStrategy
+from evobpso.velocity_update_strategy.component_merge_strategy.component_merger_data_calculator.BooleanComponentMergerDataCalculator import \
+    BooleanComponentMergerDataCalculator
 
 
-class TestVelocityUpdateWithVmaxStrategy(TestCase):
+class VariableLengthBooleanPSOVelocityUpdateWithVmaxCase(TestCase):
 
     def test_get_new_velocity_only_personal_factor(self):
         current_velocity = [0b111111, 0b101010]
@@ -26,9 +28,11 @@ class TestVelocityUpdateWithVmaxStrategy(TestCase):
         architecture_params = Mock()
         training_params = Mock()
         params = OptimizationParams(pso_params, architecture_params, training_params)
-        data_calculator = StandardBooleanComponentDataCalculator(params=params)
-        component_creator = StandardBooleanComponentCreator(data_calculator=data_calculator)
-        component_merger = StandardComponentMergeStrategy()
+        data_calculator = BooleanComponentCreatorDataCalculator(params=params)
+        component_creator = VariableLengthComponentCreator(data_calculator=data_calculator)
+        component_merger_data_calculator = BooleanComponentMergerDataCalculator()
+
+        component_merger = VariableLengthCalculateDataComponentMergeStrategy(component_merger_data_calculator=component_merger_data_calculator)
 
         strategy = StandardVelocityUpdateStrategy(component_creator=component_creator, component_merger=component_merger, params=params)
         new_velocity = strategy.get_new_velocity(current_velocity, current_position, pbest_position, gbest_position)

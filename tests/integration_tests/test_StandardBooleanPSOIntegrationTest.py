@@ -2,8 +2,8 @@ import os
 from unittest import TestCase
 
 from evobpso.architecture_decoder.StandardArchitectureDecoder import StandardArchitectureDecoder
-from evobpso.component_creator.StandardBooleanComponentCreator import StandardBooleanComponentCreator
-from evobpso.component_data_calculator.StandardBoolenComponentDataCalculator import StandardBooleanComponentDataCalculator
+from evobpso.component_creator.VariableLengthComponentCreator import VariableLengthComponentCreator
+from evobpso.component_creator_data_calculator.BoolenComponentCreatorDataCalculator import BooleanComponentCreatorDataCalculator
 from evobpso.evaluator.StandardNNEvaluator import StandardNNEvaluator
 from evobpso.initializer.BinaryInitializer import BinaryInitializer
 from evobpso.model_creator.TensorflowModelCreator import TensorflowModelCreator
@@ -18,7 +18,7 @@ from evobpso.position_validator.DoNothingPositionValidator import DoNothingPosit
 from evobpso.position_validator.ValidatePoolingLayers import ValidatePoolingLayers
 from evobpso.utils import data_load_utils
 from evobpso.velocity_update_strategy.StandardVelocityUpdateStrategy import StandardVelocityUpdateStrategy
-from evobpso.velocity_update_strategy.component_merge_strategy.StandardComponentMergeStrategy import StandardComponentMergeStrategy
+from evobpso.velocity_update_strategy.component_merge_strategy.VariableLengthCalculateDataComponentMergeStrategy import VariableLengthCalculateDataComponentMergeStrategy
 
 
 class TestBooleanPSOIntegrationTest(TestCase):
@@ -40,9 +40,9 @@ class TestBooleanPSOIntegrationTest(TestCase):
                                                                 pool_layer_kernel_size=2, pool_layer_stride=2,
                                                                 padding='same', dense_layer_units=num_of_classes)
 
-        data_calculator = StandardBooleanComponentDataCalculator(params=optimization_params)
-        component_creator = StandardBooleanComponentCreator(data_calculator=data_calculator)
-        component_merger = StandardComponentMergeStrategy()
+        data_calculator = BooleanComponentCreatorDataCalculator(params=optimization_params)
+        component_creator = VariableLengthComponentCreator(data_calculator=data_calculator)
+        component_merger = VariableLengthCalculateDataComponentMergeStrategy()
         velocity_strategy = StandardVelocityUpdateStrategy(component_creator=component_creator, params=optimization_params, component_merger=component_merger)
         position_update_strategy = StandardPositionUpdateStrategy(optimization_params=optimization_params)
         decoder = StandardArchitectureDecoder()

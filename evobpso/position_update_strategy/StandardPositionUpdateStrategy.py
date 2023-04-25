@@ -21,7 +21,7 @@ class StandardPositionUpdateStrategy(PositionUpdateStrategy):
     def _update_to_position(self, current_velocity, current_position):
 
         if isinstance(current_velocity, VelocityFactorEvolve):
-            if current_position is  None:
+            if current_position is None:
                 raise Exception("Attempt to XOR a velocity component with an empty position.")
             updated_position = current_position ^ current_velocity.data
         elif isinstance(current_velocity, VelocityFactorAdd):
