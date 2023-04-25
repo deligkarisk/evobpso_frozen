@@ -15,7 +15,7 @@ class VelocityFactor(abc.ABC):
 
 class VelocityFactorEvolve(VelocityFactor):
 
-    def __init__(self, data):
+    def __init__(self, data: object) -> object:
         self.data = data
 
     def __eq__(self, other):

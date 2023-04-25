@@ -1,7 +1,7 @@
-from evobpso.velocity_update_strategy.StandardVelocityUpdateStrategy import StandardVelocityUpdateStrategy
-from evobpso.velocity_update_strategy.VelocityUpdateStrategy import VelocityUpdateStrategy
-import re
 import random
+import re
+
+from evobpso.velocity_update_strategy.StandardVelocityUpdateStrategy import StandardVelocityUpdateStrategy
 
 
 class VelocityUpdateWithVmaxStrategy(StandardVelocityUpdateStrategy):
