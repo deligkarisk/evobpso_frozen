@@ -14,7 +14,6 @@ class StandardBooleanComponentCreator(ComponentCreator):
 
         # for the dimensions that both positions have, produce component using the xor and "and" operations
         for current_index in range(0, smallest_size):
-            #component_data = (best_position[current_index] ^ current_position[current_index]) & rnd_vector_partial()
             component_data = self.data_calculator.calculate(best_position[current_index], current_position[current_index], c_factor)
             velocity_component = VelocityFactorEvolve(data=component_data)
             new_component.append(velocity_component)

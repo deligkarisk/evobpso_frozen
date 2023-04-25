@@ -1,7 +1,6 @@
 import abc
 
 from evobpso.component_data_calculator.ComponentDataCalculator import ComponentDataCalculator
-from evobpso.params.OptimizationParams import OptimizationParams
 
 
 class ComponentCreator(abc.ABC):

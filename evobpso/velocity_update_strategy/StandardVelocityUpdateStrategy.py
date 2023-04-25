@@ -1,10 +1,5 @@
-import abc
-from functools import partial
-
-from evobpso.utils import utils
-from evobpso.utils.utils import find_largest_size, create_rnd_binary_vector, find_smallest_size, find_largest_index
+from evobpso.velocity_factor.VelocityFactor import VelocityFactorRemove
 from evobpso.velocity_update_strategy.VelocityUpdateStrategy import VelocityUpdateStrategy
-from evobpso.velocity_factor.VelocityFactor import VelocityFactorRemove, VelocityFactorAdd, VelocityFactorEvolve
 
 
 class StandardVelocityUpdateStrategy(VelocityUpdateStrategy):
