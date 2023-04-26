@@ -1,5 +1,4 @@
 import copy
-import time
 
 from evobpso.evaluator.Evaluator import Evaluator
 from evobpso.initializer.Initializer import Initializer

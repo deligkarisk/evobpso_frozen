@@ -2,8 +2,7 @@ from unittest import TestCase
 from unittest.mock import Mock
 
 from keras.engine.input_layer import InputLayer
-from keras.layers import Rescaling, Conv2D, MaxPooling2D, Flatten, Dense, BatchNormalization, Activation
-from tensorflow.python.framework.tensor_shape import Dimension
+from keras.layers import Conv2D, MaxPooling2D, Flatten, Dense, BatchNormalization, Activation
 
 from evobpso.layer.Layer import ConvLayer, MaxPooling, FlattenLayer, DenseLayer
 from evobpso.model_creator.TensorflowModelCreator import TensorflowModelCreator

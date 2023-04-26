@@ -1,4 +1,3 @@
-from evobpso.params import FixedArchitectureProperties
 from evobpso.params.NeuralArchitectureParams import NeuralArchitectureParams
 from evobpso.params.PsoParams import PsoParams
 from evobpso.params.TrainingParams import TrainingParams

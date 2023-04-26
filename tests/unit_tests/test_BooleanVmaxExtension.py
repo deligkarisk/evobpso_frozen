@@ -1,5 +1,5 @@
 from unittest import TestCase
-from unittest.mock import Mock, patch
+from unittest.mock import Mock
 
 from evobpso.velocity_factor.VelocityFactor import VelocityFactorEvolve, VelocityFactorAdd
 from evobpso.velocity_update_extension.BooleanVmaxExtension import BooleanVmaxExtension

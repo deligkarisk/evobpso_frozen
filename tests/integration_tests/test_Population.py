@@ -1,22 +1,12 @@
 from unittest import TestCase
 from unittest.mock import Mock
 
-from evobpso.component_creator.VariableLengthComponentCreator import VariableLengthComponentCreator
-from evobpso.component_creator.data_calculator.BoolenComponentCreatorDataCalculator import BooleanComponentCreatorDataCalculator
-from evobpso.architecture_decoder.DoNothingDecoder import DoNothingDecoder
 from evobpso.evaluator.MockIncreasingEvaluator import MockIncreasingEvaluator
-from evobpso.initializer.BinaryInitializer import BinaryInitializer
 from evobpso.params.NeuralArchitectureParams import NeuralArchitectureParams
 from evobpso.params.OptimizationParams import OptimizationParams
 from evobpso.params.PsoParams import BooleanPSOParams
 from evobpso.population.Population import Population
-from evobpso.position_update_strategy.StandardPositionUpdateStrategy import StandardPositionUpdateStrategy
-from evobpso.position_validator.DoNothingPositionValidator import DoNothingPositionValidator
 from evobpso.scheme.Scheme import Scheme
-from evobpso.velocity_update_strategy.StandardVelocityUpdateStrategy import StandardVelocityUpdateStrategy
-from evobpso.component_merger.VariableLengthCalculateDataComponentMerger import VariableLengthCalculateDataComponentMerger
-from evobpso.component_merger.data_calculator.BooleanComponentMergerDataCalculator import \
-    BooleanComponentMergerDataCalculator
 
 
 class TestPopulation(TestCase):
