@@ -10,7 +10,7 @@ from evobpso.velocity_update_extension.VelocityUpdateExtension import VelocityUp
 class VelocityUpdateStrategy(abc.ABC):
 
     def __init__(self, component_creator: ComponentCreator, component_merger: ComponentMerger, params: OptimizationParams,
-                 velocity_update_extensions: List[VelocityUpdateExtension] = None):
+                 velocity_update_extensions: List[VelocityUpdateExtension]):
         self.component_creator = component_creator
         self.component_merger = component_merger
         self.params = params

@@ -1,12 +1,12 @@
 import time
 
-from evobpso.configuration.Configuration import Configuration
+from evobpso.population.Population import Population
 
 
 class OptimizationRunner:
 
-    def __init__(self, configuration: Configuration):
-        self.configuration = configuration
+    def __init__(self, population: Population):
+        self.population = population
 
     def run(self):
         start_time = time.time()
@@ -14,12 +14,12 @@ class OptimizationRunner:
         aggregated_history = []
 
 
-        for i in range(0, self.configuration.iterations):
+        for i in range(0, self.population.scheme.optimization_params.pso_params.iters):
             print('starting iteration: ' + str(i))
             if i == 0:
-                results = self.configuration.population.iterate(first_iter=True)
+                results = self.population.iterate(first_iter=True)
             else:
-                results = self.configuration.population.iterate(first_iter=False)
+                results = self.population.iterate(first_iter=False)
             aggregated_history.append(results)
 
         end_time = time.time()
@@ -28,6 +28,6 @@ class OptimizationRunner:
 
         results = {'optimization_elapsed_time': elapsed_time,
                    'optimization_results_history': aggregated_history,
-                   'optimization_population': self.configuration.population}
+                   'optimization_population': self.population}
 
         return results

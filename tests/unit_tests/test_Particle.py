@@ -30,7 +30,7 @@ class TestParticle(TestCase):
         component_creator = VariableLengthComponentCreator(data_calculator=data_calculator)
         component_merger_data_calculator = BooleanComponentMergerDataCalculator()
         component_merger = VariableLengthCalculateDataComponentMerger(component_merger_data_calculator=component_merger_data_calculator)
-        velocity_strategy = StandardVelocityUpdateStrategy(component_creator, component_merger, optimization_params)
+        velocity_strategy = StandardVelocityUpdateStrategy(component_creator, component_merger, optimization_params, velocity_update_extensions=[])
         position_update_strategy = StandardPositionUpdateStrategy(optimization_params)
         mock_population = Mock()
         mock_population.global_best_position = [11020303, 3042323]

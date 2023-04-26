@@ -11,7 +11,7 @@ from evobpso.velocity_update_strategy.VelocityUpdateStrategy import VelocityUpda
 
 class Particle:
 
-    def __init__(self, parent_pop, params: OptimizationParams, validator: PositionValidator, initializer: Initializer, evaluator: Evaluator,
+    def __init__(self, parent_pop, params: OptimizationParams, position_validator: PositionValidator, initializer: Initializer, evaluator: Evaluator,
                  velocity_update_strategy: VelocityUpdateStrategy,
                  position_update_strategy: PositionUpdateStrategy):
         self.current_result = None
@@ -22,7 +22,7 @@ class Particle:
         self.velocity_history = []
         self.parent_pop = parent_pop
         self.params = params
-        self.validator = validator
+        self.position_validator = position_validator
         self.initializer = initializer
         self.evaluator = evaluator
         self.velocity_update_strategy = velocity_update_strategy
@@ -73,6 +73,6 @@ class Particle:
     # position update is chosen based on the strategy pattern
     def _get_new_position(self):
         new_position = self.position_update_strategy.get_new_position(self.current_position, self.current_velocity)
-        post_validation_position = self.validator.validate(new_position, self.params)
+        post_validation_position = self.position_validator.validate(new_position, self.params)
         return post_validation_position
 

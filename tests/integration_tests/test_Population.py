@@ -12,6 +12,7 @@ from evobpso.params.PsoParams import BooleanPSOParams
 from evobpso.population.Population import Population
 from evobpso.position_update_strategy.StandardPositionUpdateStrategy import StandardPositionUpdateStrategy
 from evobpso.position_validator.DoNothingPositionValidator import DoNothingPositionValidator
+from evobpso.scheme.Scheme import Scheme
 from evobpso.velocity_update_strategy.StandardVelocityUpdateStrategy import StandardVelocityUpdateStrategy
 from evobpso.component_merger.VariableLengthCalculateDataComponentMerger import VariableLengthCalculateDataComponentMerger
 from evobpso.component_merger.data_calculator.BooleanComponentMergerDataCalculator import \
@@ -25,19 +26,13 @@ class TestPopulation(TestCase):
         architecture = NeuralArchitectureParams(min_layers=10, max_layers=20, max_pooling_layers=2)
         training_params = Mock()
         optimization_params = OptimizationParams(pso_params=pso_params, architecture_params=architecture, training_params=training_params)
-        decoder = DoNothingDecoder()
-        validator = DoNothingPositionValidator()
-        initializer = BinaryInitializer(params=optimization_params)
         mock_evaluator = MockIncreasingEvaluator()
-        data_calculator = BooleanComponentCreatorDataCalculator(params=optimization_params)
-        component_creator = VariableLengthComponentCreator(data_calculator=data_calculator)
-        component_merger_data_calculator = BooleanComponentMergerDataCalculator()
-        component_merger = VariableLengthCalculateDataComponentMerger(component_merger_data_calculator=component_merger_data_calculator)
-        velocity_strategy = StandardVelocityUpdateStrategy(component_creator, component_merger, optimization_params)
-        position_update_strategy = StandardPositionUpdateStrategy(optimization_params)
+        scheme = Scheme(version='boolean', variable_length=True, vmax=False, vmut=False, optimization_params=optimization_params)
+        scheme.compile(architecture_properties=architecture, data_loader=Mock(), results_folder=None)
+        scheme.evaluator = mock_evaluator
 
-        population = Population(optimization_params, validator, initializer, mock_evaluator,
-                                velocity_strategy, position_update_strategy)
+
+        population = Population(scheme)
 
         # some basic initial checks
         assert len(population.particles) == 50

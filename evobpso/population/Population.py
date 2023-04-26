@@ -1,36 +1,31 @@
 import copy
-import os
-from evobpso.utils.filesystem_utils import get_save_folder
 
-from evobpso.architecture_decoder.ArchitectureDecoder import ArchitectureDecoder
-from evobpso.evaluator.Evaluator import Evaluator
-from evobpso.initializer.Initializer import Initializer
-from evobpso.params.OptimizationParams import OptimizationParams
 from evobpso.particle.Particle import Particle
-from evobpso.position_update_strategy.PositionUpdateStrategy import PositionUpdateStrategy
-from evobpso.position_validator.PositionValidator import PositionValidator
-from evobpso.velocity_update_strategy.VelocityUpdateStrategy import VelocityUpdateStrategy
+from evobpso.scheme.Scheme import Scheme
+from evobpso.utils.filesystem_utils import get_save_folder
 
 
 class Population:
 
-    def __init__(self, params: OptimizationParams, validator: PositionValidator, initializer: Initializer,
-                 evaluator: Evaluator,
-                 velocity_update_strategy: VelocityUpdateStrategy,
-                 position_update_strategy: PositionUpdateStrategy,
-                 results_folder=None):
+    def __init__(self, scheme: Scheme):
 
         self.particles = []
         self.global_best_position = None
         self.global_best_result = None
         self.global_best_result_history = []
         self.iter_number = -1  # used to track internally the iter number
-        self.results_folder = results_folder
-        self.pop_size = params.pso_params.pop_size
+        self.results_folder = scheme.results_folder
+        self.pop_size = scheme.optimization_params.pso_params.pop_size
+        self.scheme = scheme
 
         for i in range(0, self.pop_size):
             self.particles.append(
-                Particle(self, params, validator, initializer, evaluator, velocity_update_strategy, position_update_strategy))
+                Particle(self, params=scheme.optimization_params,
+                         position_validator=scheme.position_validator,
+                         initializer=scheme.initializer,
+                         evaluator= scheme.evaluator,
+                         velocity_update_strategy=scheme.velocity_update_strategy,
+                         position_update_strategy=scheme.position_update_strategy))
 
     def iterate(self, first_iter):
         current_iteration_results = {}
