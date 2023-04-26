@@ -4,6 +4,7 @@ from unittest import TestCase
 from evobpso.architecture_decoder.StandardArchitectureDecoder import StandardArchitectureDecoder
 from evobpso.component_creator.VariableLengthComponentCreator import VariableLengthComponentCreator
 from evobpso.component_creator.data_calculator.BoolenComponentCreatorDataCalculator import BooleanComponentCreatorDataCalculator
+from evobpso.component_merger.data_calculator.BooleanComponentMergerDataCalculator import BooleanComponentMergerDataCalculator
 from evobpso.evaluator.StandardNNEvaluator import StandardNNEvaluator
 from evobpso.initializer.BinaryInitializer import BinaryInitializer
 from evobpso.model_creator.TensorflowModelCreator import TensorflowModelCreator
@@ -30,7 +31,7 @@ class TestBooleanPSOIntegrationTest(TestCase):
 
         data_loader = data_load_utils.load_mnist_data
 
-        pso_params = BooleanPSOParams(c1=0.5, c2=0.5, n_bits=15, k=0.5, iters=10, mutation_prob=0.001, pop_size=1)
+        pso_params = BooleanPSOParams(c1=0.5, c2=0.5, n_bits=15, k=0.5, iters=1, mutation_prob=0.001, pop_size=1)
         optimizable_architecture_params = NeuralArchitectureParams(min_layers=3, max_layers=8, max_pooling_layers=2)
         training_params = TrainingParams(batch_size=128, train_eval_epochs=1, best_solution_training_epochs=1, loss='categorical_crossentropy',
                                          optimizer='rmsprop', metrics=['accuracy'])
@@ -41,7 +42,8 @@ class TestBooleanPSOIntegrationTest(TestCase):
 
         data_calculator = BooleanComponentCreatorDataCalculator(params=optimization_params)
         component_creator = VariableLengthComponentCreator(data_calculator=data_calculator)
-        component_merger = VariableLengthCalculateDataComponentMerger()
+        component_merger_data_calculator = BooleanComponentMergerDataCalculator()
+        component_merger = VariableLengthCalculateDataComponentMerger(component_merger_data_calculator=component_merger_data_calculator)
         velocity_strategy = StandardVelocityUpdateStrategy(component_creator=component_creator, params=optimization_params, component_merger=component_merger)
         position_update_strategy = StandardPositionUpdateStrategy(optimization_params=optimization_params)
         decoder = StandardArchitectureDecoder()

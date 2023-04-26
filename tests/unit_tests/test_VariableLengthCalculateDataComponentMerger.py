@@ -6,7 +6,7 @@ from evobpso.component_merger.VariableLengthCalculateDataComponentMerger import 
     VariableLengthCalculateDataComponentMerger
 
 
-class TestVariableLengthCalculateDataComponentMergeStrategy(TestCase):
+class TestVariableLengthCalculateDataComponentMerger(TestCase):
     def test_merge_personal_and_global_components_correct_number_of_calculator_calls(self):
 
         component_a = VelocityFactorEvolve(data=0b100111)
