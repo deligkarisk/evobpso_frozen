@@ -11,7 +11,7 @@ class TestValidatePoolingLayers(TestCase):
         pooling_layer_bit_num = 11
         position = [0b0100000000001, 0b0100000000010, 0b0100000000100, 0b0100000001000, 0b0000000010000, 0b0000000010000]
         params = Mock()
-        params.architecture_params.max_pooling_layers = 2
+        params.neural_architecture_params.max_pooling_layers = 2
         validator = ValidatePoolingLayers(pooling_layer_bit_num=pooling_layer_bit_num)
 
         pooling_layers = [extract_integer_from_subset_of_bits(encoded_layer, start_index=pooling_layer_bit_num, length=1) for
@@ -30,7 +30,7 @@ class TestValidatePoolingLayers(TestCase):
         new_pooling_layers_indexes = [idx for idx, value in enumerate(new_pooling_layers) if value == 1]
         new_num_pooling_layers = len(new_pooling_layers_indexes)
 
-        assert new_num_pooling_layers == params.architecture_params.max_pooling_layers
+        assert new_num_pooling_layers == params.neural_architecture_params.max_pooling_layers
 
         # new pooling layers indexes should be a subset of the original ones
         assert set(new_pooling_layers_indexes) <= set(pooling_layers_indexes)

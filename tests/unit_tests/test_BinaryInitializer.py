@@ -14,7 +14,7 @@ class TestBinaryInitializer(TestCase):
         pso_params = Mock()
         training_params = Mock()
         architecture = NeuralArchitectureParams(2, 10, max_pooling_layers=2)
-        params = OptimizationParams(pso_params=pso_params, architecture_params=architecture, training_params=training_params)
+        params = OptimizationParams(pso_params=pso_params, neural_architecture_params=architecture, training_params=training_params)
         initializer = BinaryInitializer(params)
         new_position = initializer.get_initial_position()
         assert mock_rnd_vector_function.assert_called

@@ -35,7 +35,7 @@ class TestBooleanPSOIntegrationTest(TestCase):
         optimizable_architecture_params = NeuralArchitectureParams(min_layers=3, max_layers=8, max_pooling_layers=2)
         training_params = TrainingParams(batch_size=128, train_eval_epochs=1, best_solution_training_epochs=1, loss='categorical_crossentropy',
                                          optimizer='rmsprop', metrics=['accuracy'])
-        optimization_params = OptimizationParams(pso_params=pso_params, architecture_params=optimizable_architecture_params, training_params=training_params)
+        optimization_params = OptimizationParams(pso_params=pso_params, neural_architecture_params=optimizable_architecture_params, training_params=training_params)
         fixed_architecture_params = FixedArchitectureProperties(input_shape=image_input_shape, conv_stride=1, activation_function='relu',
                                                                 pool_layer_kernel_size=2, pool_layer_stride=2,
                                                                 padding='same', dense_layer_units=num_of_classes)

@@ -47,9 +47,9 @@ class Scheme:
 
 
 
-    def compile(self, architecture_properties, data_loader, results_folder):
+    def compile(self, fixed_architecture_properties, data_loader, results_folder):
         decoder = StandardArchitectureDecoder()
-        model_creator = TensorflowModelCreator(fixed_architecture_properties=architecture_properties)
+        model_creator = TensorflowModelCreator(fixed_architecture_properties=fixed_architecture_properties)
 
         self.evaluator = StandardNNEvaluator(architecture_decoder=decoder, model_creator=model_creator,
                                         training_params=self.optimization_params.training_params, data_loader=data_loader)

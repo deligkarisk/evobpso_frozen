@@ -16,5 +16,8 @@ datasets/rectangles_images/**
 data_samples
 
 test_tmp_results
+tests/test_data/cats_vs_dogs_small
+tests/test_data/dogs-vs-cats
+
 /evobpso.egg-info/
 /build/
