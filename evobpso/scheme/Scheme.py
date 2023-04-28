@@ -30,10 +30,10 @@ class Scheme:
                                                                                                          optimization_params=optimization_params)
         component_creator, component_merger = self._get_component_creator_and_merger(
             component_merger_data_calculator=component_merger_data_calculator,
-            component_creator_data_calculator=component_merger_data_calculator,
+            component_creator_data_calculator=component_creator_data_calculator,
             variable_length=variable_length)
 
-        velocity_update_extensions = self._get_velocity_update_extensions(vmax, vmut)
+        velocity_update_extensions = self._get_velocity_update_extensions(vmax, vmut, optimization_params)
 
         self.velocity_update_strategy = StandardVelocityUpdateStrategy(component_creator=component_creator,
                                                                        component_merger=component_merger,
@@ -83,7 +83,7 @@ class Scheme:
 
         return component_creator, component_merger
 
-    def _get_velocity_update_extensions(self, vmax, vmut):
+    def _get_velocity_update_extensions(self, vmax, vmut, optimization_params):
         velocity_update_extensions = []
         if vmax:
             velocity_update_extensions.append(BooleanVmaxExtension(params=optimization_params))
