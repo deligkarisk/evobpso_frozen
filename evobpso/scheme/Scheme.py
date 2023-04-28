@@ -24,42 +24,69 @@ class Scheme:
         self.position_update_strategy = None
         self.optimization_params = optimization_params
 
-        velocity_update_extensions = []
+        self.initializer = self._get_initializer(version=version, optimization_params=optimization_params)
 
-        if version == 'boolean':
-            self.initializer = BinaryInitializer(params=optimization_params)
-        elif version == 'real':
-            raise NotImplementedError
+        component_creator_data_calculator, component_merger_data_calculator = self._get_data_calculators(version=version,
+                                                                                                         optimization_params=optimization_params)
+        component_creator, component_merger = self._get_component_creator_and_merger(
+            component_merger_data_calculator=component_merger_data_calculator,
+            component_creator_data_calculator=component_merger_data_calculator,
+            variable_length=variable_length)
 
-        if version == 'boolean' and variable_length is True:
-            component_creator, component_merger = self._initialize_with_boolean_and_variable_length(optimization_params)
+        velocity_update_extensions = self._get_velocity_update_extensions(vmax, vmut)
 
-            if vmax:
-                velocity_update_extensions.append(BooleanVmaxExtension(params=optimization_params))
-            if vmut:
-                velocity_update_extensions.append(BooleanVmutExtension(params=optimization_params))
+        self.velocity_update_strategy = StandardVelocityUpdateStrategy(component_creator=component_creator,
+                                                                       component_merger=component_merger,
+                                                                       params=optimization_params,
+                                                                       velocity_update_extensions=velocity_update_extensions)
 
-            self.velocity_update_strategy = StandardVelocityUpdateStrategy(component_creator=component_creator, component_merger=component_merger,
-                                                                           params=optimization_params,
-                                                                           velocity_update_extensions=velocity_update_extensions)
-
-            self.position_update_strategy = StandardPositionUpdateStrategy(optimization_params=optimization_params)
-
+        self.position_update_strategy = StandardPositionUpdateStrategy(optimization_params=optimization_params)
 
 
     def compile(self, fixed_architecture_properties, data_loader, results_folder):
+        """ The compile method sets-up the classes that do not have different implementations.
+        If you create different implementations of the below classes and you would like to use them in configurations,
+        then move them to the init method, following similar pattern to the other classes (e.g. initializer, component_creator). """
         decoder = StandardArchitectureDecoder()
         model_creator = TensorflowModelCreator(fixed_architecture_properties=fixed_architecture_properties)
 
         self.evaluator = StandardNNEvaluator(architecture_decoder=decoder, model_creator=model_creator,
-                                        training_params=self.optimization_params.training_params, data_loader=data_loader)
+                                             training_params=self.optimization_params.training_params, data_loader=data_loader)
         self.position_validator = ValidatePoolingLayers(pooling_layer_bit_num=decoder.pooling_layer_bit_position)
-        self.results_folder=results_folder
+        self.results_folder = results_folder
 
-    def _initialize_with_boolean_and_variable_length(self, optimization_params):
-        data_calculator = BooleanComponentCreatorDataCalculator(params=optimization_params)
-        component_creator = VariableLengthComponentCreator(data_calculator=data_calculator)
-        component_merger_data_calculator = BooleanComponentMergerDataCalculator()
-        component_merger = VariableLengthCalculateDataComponentMerger(component_merger_data_calculator=component_merger_data_calculator)
+
+    def _get_initializer(self, version, optimization_params):
+        if version == 'boolean':
+            initializer = BinaryInitializer(params=optimization_params)
+        else:
+            raise NotImplementedError
+        return initializer
+
+
+    def _get_data_calculators(self, version, optimization_params):
+        if version == 'boolean':
+            component_creator_data_calculator = BooleanComponentCreatorDataCalculator(params=optimization_params)
+            component_merger_data_calculator = BooleanComponentMergerDataCalculator()
+        else:
+            raise NotImplementedError
+
+        return component_creator_data_calculator, component_merger_data_calculator
+
+
+    def _get_component_creator_and_merger(self, component_creator_data_calculator, component_merger_data_calculator, variable_length):
+        if variable_length:
+            component_creator = VariableLengthComponentCreator(data_calculator=component_creator_data_calculator)
+            component_merger = VariableLengthCalculateDataComponentMerger(component_merger_data_calculator=component_merger_data_calculator)
+        else:
+            raise NotImplementedError
+
         return component_creator, component_merger
 
+    def _get_velocity_update_extensions(self, vmax, vmut):
+        velocity_update_extensions = []
+        if vmax:
+            velocity_update_extensions.append(BooleanVmaxExtension(params=optimization_params))
+        if vmut:
+            velocity_update_extensions.append(BooleanVmutExtension(params=optimization_params))
+        return velocity_update_extensions
