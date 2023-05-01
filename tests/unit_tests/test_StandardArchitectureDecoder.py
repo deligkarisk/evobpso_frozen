@@ -1,11 +1,14 @@
 from unittest import TestCase
 
 from evobpso.architecture_decoder.StandardArchitectureDecoder import StandardArchitectureDecoder
+from evobpso.encoding.BooleanEncoding import BooleanEncoding
 from evobpso.layer.Layer import AvgPooling, MaxPooling, ConvLayer, FlattenLayer, DenseLayer
 
 
 class TestStandardArchitectureDecoder(TestCase):
-    def test_decode(self):
+    def test_decode_with_boolean_sample_encoding(self):
+
+        encoding = BooleanEncoding(filter_bits=8, kernel_size_bits=3)
         position = []
         position.append(0b1101110000010)
         filters_first_dim = 131  # binary is 130, then adding one as the minimum filter is one, not zero.
@@ -22,7 +25,7 @@ class TestStandardArchitectureDecoder(TestCase):
         kernel_size_third_dim = 2  # binary is zero, adding two as the minimum kernel size is two.
         pooling_layers_third_dim = 0  # no pooling layer after the third convolutional layer.
 
-        decoder = StandardArchitectureDecoder()
+        decoder = StandardArchitectureDecoder(encoding=encoding)
         returned_architecture = decoder.decode(position)
 
         assert len(returned_architecture) == 7  # Conv, Pooling, Conv, Pooling, Conv, Flatten, Dense

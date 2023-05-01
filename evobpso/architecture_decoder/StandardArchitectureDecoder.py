@@ -12,16 +12,16 @@ class StandardArchitectureDecoder(ArchitectureDecoder):
 
         for encoded_layer in encoded_position:
             # first nine bits represent the number of filters
-            filters = extract_integer_from_subset_of_bits(encoded_layer, start_index=0, length=8) + 1 # filters minimum value is one
+            filters = extract_integer_from_subset_of_bits(encoded_layer, start_index=0, length=self.encoding.filter_bits) + 1 # filters minimum value is one
 
             # subsequent three bits represent the kernel size
-            kernel_size = extract_integer_from_subset_of_bits(encoded_layer, start_index=8, length=3) + 2  # kernel size minimum value is two
+            kernel_size = extract_integer_from_subset_of_bits(encoded_layer, start_index=self.encoding.filter_bits, length=self.encoding.kernel_size_bits) + 2  # kernel size minimum value is two
 
             # subsequent bit represents the existence of a pooling layer
-            pooling_layer = extract_integer_from_subset_of_bits(encoded_layer, start_index=self.encoding.pooling_layer_bit_position, length=1)
+            pooling_layer = extract_integer_from_subset_of_bits(encoded_layer, start_index=self.encoding.pooling_layer_bit_position, length=self.encoding.pooling_layer_bits)
 
             # subsequent bit represents the pooling type
-            pooling_type = extract_integer_from_subset_of_bits(encoded_layer, start_index=12, length=1)
+            pooling_type = extract_integer_from_subset_of_bits(encoded_layer, start_index=self.encoding.pooling_type_bit_position, length=self.encoding.pooling_type_bits)
 
             decoded_position.append(ConvLayer(filters=filters, kernel_size=kernel_size))
 
