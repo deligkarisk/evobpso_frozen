@@ -3,7 +3,7 @@ from evobpso.layer.Layer import ConvLayer, MaxPooling, AvgPooling, FlattenLayer,
 from evobpso.utils.utils import extract_integer_from_subset_of_bits
 
 
-class StandardArchitectureDecoder(ArchitectureDecoder):
+class SequentialArchitectureDecoder(ArchitectureDecoder):
 
 
     def decode(self, encoded_position):

@@ -1,6 +1,6 @@
 from unittest import TestCase
 
-from evobpso.architecture_decoder.StandardArchitectureDecoder import StandardArchitectureDecoder
+from evobpso.architecture_decoder.SequentialArchitectureDecoder import SequentialArchitectureDecoder
 from evobpso.encoding.BooleanEncoding import BooleanEncoding
 from evobpso.layer.Layer import AvgPooling, MaxPooling, ConvLayer, FlattenLayer, DenseLayer
 
@@ -25,7 +25,7 @@ class TestStandardArchitectureDecoder(TestCase):
         kernel_size_third_dim = 2  # binary is zero, adding two as the minimum kernel size is two.
         pooling_layers_third_dim = 0  # no pooling layer after the third convolutional layer.
 
-        decoder = StandardArchitectureDecoder(encoding=encoding)
+        decoder = SequentialArchitectureDecoder(encoding=encoding)
         returned_architecture = decoder.decode(position)
 
         assert len(returned_architecture) == 7  # Conv, Pooling, Conv, Pooling, Conv, Flatten, Dense
