@@ -46,7 +46,7 @@ class Scheme:
 
     def compile(self, fixed_architecture_properties, data_loader, results_folder, encoding: Encoding):
         """ The compile method sets-up the classes that do not have different implementations.
-        If you create different implementations of the below classes and you would like to use them in configurations,
+        If you create different implementations of the below classes, and you would like to use them in configurations,
         then move them to the init method, following similar pattern to the other classes (e.g. initializer, component_creator). """
         decoder = BooleanSequentialArchitectureDecoder(encoding=encoding)
         model_creator = TensorflowModelCreator(fixed_architecture_properties=fixed_architecture_properties)
