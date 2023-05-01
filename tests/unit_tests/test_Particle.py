@@ -3,6 +3,7 @@ from unittest.mock import Mock
 
 from evobpso.component_creator.VariableLengthComponentCreator import VariableLengthComponentCreator
 from evobpso.component_creator.data_calculator.BoolenComponentCreatorDataCalculator import BooleanComponentCreatorDataCalculator
+from evobpso.encoding.BooleanEncoding import BooleanEncoding
 from evobpso.initializer.BinaryInitializer import BinaryInitializer
 from evobpso.params.NeuralArchitectureParams import NeuralArchitectureParams
 from evobpso.params.OptimizationParams import OptimizationParams
@@ -19,7 +20,8 @@ from evobpso.component_merger.data_calculator.BooleanComponentMergerDataCalculat
 class TestParticle(TestCase):
 
     def test_iterate(self):
-        pso_params = BooleanPSOParams(pop_size=10, iters=10, c1=0.3, c2=0.3, n_bits=32, k=0.5, mutation_prob=0)
+        encoding = BooleanEncoding(filter_bits=24, kernel_size_bits=6)
+        pso_params = BooleanPSOParams(pop_size=10, iters=10, c1=0.3, c2=0.3, k=0.5, mutation_prob=0, encoding=encoding)
         architecture = NeuralArchitectureParams(min_layers=10, max_layers=20, max_pooling_layers=2)
         training_params = Mock()
         optimization_params = OptimizationParams(pso_params=pso_params, neural_architecture_params=architecture, training_params=training_params)

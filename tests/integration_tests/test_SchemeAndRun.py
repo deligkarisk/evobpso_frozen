@@ -9,8 +9,9 @@ from evobpso.population.Population import Population
 from evobpso.runner.OptimizationRunner import OptimizationRunner
 from evobpso.scheme.SequentialScheme import SequentialScheme
 
+encoding = BooleanEncoding(filter_bits=8, kernel_size_bits=3)
 
-pso_params = BooleanPSOParams(pop_size=2, iters=2, c1=0.5, c2=0.5, n_bits=12, k=1, mutation_prob=0, vmax=2)
+pso_params = BooleanPSOParams(pop_size=2, iters=2, c1=0.5, c2=0.5, k=1, mutation_prob=0, vmax=2, encoding=encoding)
 neural_architecture_params = NeuralArchitectureParams(min_layers=2, max_layers=4, max_pooling_layers=2)
 fixed_architecture_properties = FixedArchitectureProperties(input_shape=(28,28,1),
                                                             conv_stride=2,
@@ -20,7 +21,7 @@ fixed_architecture_properties = FixedArchitectureProperties(input_shape=(28,28,1
                                                             padding='same',
                                                             dense_layer_units=10)
 
-encoding = BooleanEncoding(filter_bits=8, kernel_size_bits=3)
+
 
 
 training_params = TrainingParams(batch_size=2,

@@ -1,14 +1,16 @@
 import abc
 
+from evobpso.encoding.BooleanEncoding import BooleanEncoding
+
 
 class PsoParams(abc.ABC):
     pass
 
 class BooleanPSOParams(PsoParams):
-    def __init__(self, pop_size, iters, c1, c2, n_bits, k, mutation_prob=0, vmax=None):
+    def __init__(self, pop_size, iters, c1, c2, k, encoding: BooleanEncoding, mutation_prob=0, vmax=None):
         self.pop_size = pop_size
         self.iters = iters
-        self.n_bits = n_bits
+        self.n_bits = encoding.total_bits
         self.c1 = c1
         self.c2 = c2
         self.k = k  # The probability of selecting the personal factor when either the personal or global component is Add or Remove
