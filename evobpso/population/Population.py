@@ -18,12 +18,15 @@ class Population:
         self.pop_size = scheme.optimization_params.pso_params.pop_size
         self.scheme = scheme
 
+        if not scheme.compiled:
+            raise Exception("Scheme is not compiled. Please compile before initializing the population.")
+
         for i in range(0, self.pop_size):
             self.particles.append(
                 Particle(self, params=scheme.optimization_params,
                          position_validator=scheme.position_validator,
                          initializer=scheme.initializer,
-                         evaluator= scheme.evaluator,
+                         evaluator=scheme.evaluator,
                          velocity_update_strategy=scheme.velocity_update_strategy,
                          position_update_strategy=scheme.position_update_strategy))
 
@@ -58,4 +61,3 @@ class Population:
     def _get_best_particle(self):
         best_particle = sorted(self.particles, key=lambda x: x.personal_best_result)[0]
         return best_particle
-

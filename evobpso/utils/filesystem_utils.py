@@ -2,9 +2,9 @@ import os
 import pickle
 
 
-def save_params(optimization_params, fixed_architecture_properties, training_params, filename):
+def save_params(optimization_params, fixed_architecture_properties, encoding, filename):
     params_to_save = {'optimization_params': optimization_params, 'fixed_architecture_properties': fixed_architecture_properties,
-                      'training_params': training_params}
+                      'encoding': encoding}
     save_object(params_to_save, filename)
 
 
