@@ -1,4 +1,5 @@
 import tests.test_functions.test_functions
+from evobpso.encoding.BooleanEncoding import BooleanEncoding
 from evobpso.params.FixedArchitectureProperties import FixedArchitectureProperties
 from evobpso.params.NeuralArchitectureParams import NeuralArchitectureParams
 from evobpso.params.OptimizationParams import OptimizationParams
@@ -18,6 +19,10 @@ fixed_architecture_properties = FixedArchitectureProperties(input_shape=(28,28,1
                                                             pool_layer_stride=2,
                                                             padding='same',
                                                             dense_layer_units=10)
+
+encoding = BooleanEncoding(filter_bits=8, kernel_size_bits=3)
+
+
 training_params = TrainingParams(batch_size=2,
                                  train_eval_epochs=1,
                                  best_solution_training_epochs=1,
@@ -33,7 +38,7 @@ optimization_params = OptimizationParams(pso_params=pso_params,
                                          training_params=training_params)
 
 scheme = Scheme(version='boolean', variable_length=True, vmax=False, vmut=True, optimization_params=optimization_params)
-scheme.compile(fixed_architecture_properties=fixed_architecture_properties, data_loader=data_loader, results_folder='temp')
+scheme.compile(fixed_architecture_properties=fixed_architecture_properties, data_loader=data_loader, results_folder='temp', encoding=encoding)
 population = Population(scheme)
 runner = OptimizationRunner(population=population)
 runner.run()

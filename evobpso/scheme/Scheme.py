@@ -3,6 +3,7 @@ from evobpso.component_creator.VariableLengthComponentCreator import VariableLen
 from evobpso.component_creator.data_calculator.BoolenComponentCreatorDataCalculator import BooleanComponentCreatorDataCalculator
 from evobpso.component_merger.VariableLengthCalculateDataComponentMerger import VariableLengthCalculateDataComponentMerger
 from evobpso.component_merger.data_calculator.BooleanComponentMergerDataCalculator import BooleanComponentMergerDataCalculator
+from evobpso.encoding.Encoding import Encoding
 from evobpso.evaluator.StandardNNEvaluator import StandardNNEvaluator
 from evobpso.initializer.BinaryInitializer import BinaryInitializer
 from evobpso.model_creator.TensorflowModelCreator import TensorflowModelCreator
@@ -43,16 +44,16 @@ class Scheme:
         self.position_update_strategy = StandardPositionUpdateStrategy(optimization_params=optimization_params)
 
 
-    def compile(self, fixed_architecture_properties, data_loader, results_folder):
+    def compile(self, fixed_architecture_properties, data_loader, results_folder, encoding: Encoding):
         """ The compile method sets-up the classes that do not have different implementations.
         If you create different implementations of the below classes and you would like to use them in configurations,
         then move them to the init method, following similar pattern to the other classes (e.g. initializer, component_creator). """
-        decoder = StandardArchitectureDecoder()
+        decoder = StandardArchitectureDecoder(encoding=encoding)
         model_creator = TensorflowModelCreator(fixed_architecture_properties=fixed_architecture_properties)
 
         self.evaluator = StandardNNEvaluator(architecture_decoder=decoder, model_creator=model_creator,
                                              training_params=self.optimization_params.training_params, data_loader=data_loader)
-        self.position_validator = ValidatePoolingLayers(pooling_layer_bit_num=decoder.pooling_layer_bit_position)
+        self.position_validator = ValidatePoolingLayers(pooling_layer_bit_num=decoder.encoding.pooling_layer_bit_position)
         self.results_folder = results_folder
 
 
