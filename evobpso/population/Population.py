@@ -1,13 +1,13 @@
 import copy
 
 from evobpso.particle.Particle import Particle
-from evobpso.scheme.Scheme import Scheme
+from evobpso.scheme.SequentialScheme import SequentialScheme
 from evobpso.utils.filesystem_utils import get_save_folder
 
 
 class Population:
 
-    def __init__(self, scheme: Scheme):
+    def __init__(self, scheme: SequentialScheme):
 
         self.particles = []
         self.global_best_position = None

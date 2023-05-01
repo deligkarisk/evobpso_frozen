@@ -14,8 +14,8 @@ from evobpso.velocity_update_extension.BooleanVmutExtension import BooleanVmutEx
 from evobpso.velocity_update_strategy.StandardVelocityUpdateStrategy import StandardVelocityUpdateStrategy
 
 
-class Scheme:
-    def __init__(self, version, variable_length, vmax, vmut, optimization_params):
+class SequentialScheme:
+    def __init__(self, version, variable_length, vmax, vmut, optimization_params, encoding: Encoding):
 
         self.evaluator = None
         self.position_validator = None
@@ -26,6 +26,7 @@ class Scheme:
         self.optimization_params = optimization_params
 
         self.initializer = self._get_initializer(version=version, optimization_params=optimization_params)
+        self.decoder = self._get_decoder(version=version, encoding=encoding)
 
         component_creator_data_calculator, component_merger_data_calculator = self._get_data_calculators(version=version,
                                                                                                          optimization_params=optimization_params)
@@ -44,16 +45,15 @@ class Scheme:
         self.position_update_strategy = StandardPositionUpdateStrategy(optimization_params=optimization_params)
 
 
-    def compile(self, fixed_architecture_properties, data_loader, results_folder, encoding: Encoding):
+    def compile(self, fixed_architecture_properties, data_loader, results_folder):
         """ The compile method sets-up the classes that do not have different implementations.
         If you create different implementations of the below classes, and you would like to use them in configurations,
         then move them to the init method, following similar pattern to the other classes (e.g. initializer, component_creator). """
-        decoder = BooleanSequentialArchitectureDecoder(encoding=encoding)
         model_creator = TensorflowModelCreator(fixed_architecture_properties=fixed_architecture_properties)
 
-        self.evaluator = StandardNNEvaluator(architecture_decoder=decoder, model_creator=model_creator,
+        self.evaluator = StandardNNEvaluator(architecture_decoder=self.decoder, model_creator=model_creator,
                                              training_params=self.optimization_params.training_params, data_loader=data_loader)
-        self.position_validator = ValidatePoolingLayers(pooling_layer_bit_num=decoder.encoding.pooling_layer_bit_position)
+        self.position_validator = ValidatePoolingLayers(pooling_layer_bit_num=self.decoder.encoding.pooling_layer_bit_position)
         self.results_folder = results_folder
 
 
@@ -63,6 +63,16 @@ class Scheme:
         else:
             raise NotImplementedError
         return initializer
+
+
+
+    def _get_decoder(self, version, encoding):
+        if version == 'boolean':
+            decoder = BooleanSequentialArchitectureDecoder(encoding=encoding)
+        else:
+            raise NotImplementedError
+        return decoder
+
 
 
     def _get_data_calculators(self, version, optimization_params):

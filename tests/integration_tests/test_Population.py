@@ -6,7 +6,7 @@ from evobpso.params.NeuralArchitectureParams import NeuralArchitectureParams
 from evobpso.params.OptimizationParams import OptimizationParams
 from evobpso.params.PsoParams import BooleanPSOParams
 from evobpso.population.Population import Population
-from evobpso.scheme.Scheme import Scheme
+from evobpso.scheme.SequentialScheme import SequentialScheme
 
 
 class TestPopulation(TestCase):
@@ -17,7 +17,7 @@ class TestPopulation(TestCase):
         training_params = Mock()
         optimization_params = OptimizationParams(pso_params=pso_params, neural_architecture_params=architecture, training_params=training_params)
         mock_evaluator = MockIncreasingEvaluator()
-        scheme = Scheme(version='boolean', variable_length=True, vmax=False, vmut=False, optimization_params=optimization_params)
+        scheme = SequentialScheme(version='boolean', variable_length=True, vmax=False, vmut=False, optimization_params=optimization_params)
         scheme.compile(fixed_architecture_properties=architecture, data_loader=Mock(), results_folder=None)
         scheme.evaluator = mock_evaluator
 
