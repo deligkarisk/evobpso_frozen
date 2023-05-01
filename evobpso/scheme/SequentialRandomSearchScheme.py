@@ -10,7 +10,7 @@ from evobpso.velocity_update_strategy.ReturnZeroVelocityUpdateStrategy import Re
 
 class SequentialRandomSearchScheme:
     def __init__(self, version, optimization_params, encoding: Encoding):
-
+        self.compiled = False
         self.evaluator = None
         self.position_validator = None
         self.results_folder = None
@@ -37,6 +37,7 @@ class SequentialRandomSearchScheme:
                                              training_params=self.optimization_params.training_params, data_loader=data_loader)
         self.position_validator = ValidatePoolingLayers(pooling_layer_bit_num=self.decoder.encoding.pooling_layer_bit_position)
         self.results_folder = results_folder
+        self.compiled = True
 
 
     def _get_initializer(self, version, optimization_params):
