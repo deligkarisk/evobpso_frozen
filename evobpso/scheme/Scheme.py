@@ -1,4 +1,4 @@
-from evobpso.architecture_decoder.SequentialArchitectureDecoder import SequentialArchitectureDecoder
+from evobpso.architecture_decoder.BooleanSequentialArchitectureDecoder import BooleanSequentialArchitectureDecoder
 from evobpso.component_creator.VariableLengthComponentCreator import VariableLengthComponentCreator
 from evobpso.component_creator.data_calculator.BoolenComponentCreatorDataCalculator import BooleanComponentCreatorDataCalculator
 from evobpso.component_merger.VariableLengthCalculateDataComponentMerger import VariableLengthCalculateDataComponentMerger
@@ -48,7 +48,7 @@ class Scheme:
         """ The compile method sets-up the classes that do not have different implementations.
         If you create different implementations of the below classes and you would like to use them in configurations,
         then move them to the init method, following similar pattern to the other classes (e.g. initializer, component_creator). """
-        decoder = SequentialArchitectureDecoder(encoding=encoding)
+        decoder = BooleanSequentialArchitectureDecoder(encoding=encoding)
         model_creator = TensorflowModelCreator(fixed_architecture_properties=fixed_architecture_properties)
 
         self.evaluator = StandardNNEvaluator(architecture_decoder=decoder, model_creator=model_creator,
