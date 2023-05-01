@@ -2,7 +2,7 @@ import tests.test_functions.test_functions
 from evobpso.params.FixedArchitectureProperties import FixedArchitectureProperties
 from evobpso.params.NeuralArchitectureParams import NeuralArchitectureParams
 from evobpso.params.OptimizationParams import OptimizationParams
-from evobpso.params.PsoParams import PsoParams, BooleanPSOParams
+from evobpso.params.PsoParams import BooleanPSOParams
 from evobpso.params.TrainingParams import TrainingParams
 from evobpso.population.Population import Population
 from evobpso.runner.OptimizationRunner import OptimizationRunner
@@ -34,6 +34,6 @@ optimization_params = OptimizationParams(pso_params=pso_params,
 
 scheme = Scheme(version='boolean', variable_length=True, vmax=False, vmut=True, optimization_params=optimization_params)
 scheme.compile(fixed_architecture_properties=fixed_architecture_properties, data_loader=data_loader, results_folder='temp')
-population = Population(scheme)  # adds the rest of the necessary properties
+population = Population(scheme)
 runner = OptimizationRunner(population=population)
 runner.run()
