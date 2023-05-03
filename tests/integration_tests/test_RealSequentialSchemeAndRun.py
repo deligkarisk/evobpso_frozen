@@ -17,7 +17,7 @@ class TestRealSequentialSchemeAndRun(TestCase):
     def test_real_sequential_scheme_and_run(self):
         encoding = RealEncoding(min_conv_filters=2, max_conv_filters=12, min_kernel_size=2, max_kernel_size=4)
 
-        pso_params = RealPSOParams(pop_size=2, iters=2, c1=0.5, c2=0.5, k=1, omega=0)
+        pso_params = RealPSOParams(pop_size=2, iters=2, c1=0.5, c2=0.5, k=1)
         neural_architecture_params = NeuralArchitectureParams(min_layers=2, max_layers=4, max_pooling_layers=2)
         fixed_architecture_properties = FixedArchitectureProperties(input_shape=(28, 28, 1),
                                                                     conv_stride=2,

@@ -11,7 +11,7 @@ from evobpso.params.PsoParams import RealPSOParams
 class TestRealInitializer(TestCase):
 
     def test_get_initial_position(self):
-        pso_params = RealPSOParams(pop_size=2, iters=2, c1=0, c2=0, omega=0, k=1)
+        pso_params = RealPSOParams(pop_size=2, iters=2, c1=0, c2=0, k=1)
         encoding = RealEncoding(min_conv_filters=2, max_conv_filters=10, min_kernel_size=2, max_kernel_size=4)
         architecture = NeuralArchitectureParams(min_layers=2, max_layers=4, max_pooling_layers=2)
         training_params = Mock()

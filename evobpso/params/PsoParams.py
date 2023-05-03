@@ -21,11 +21,10 @@ class BooleanPSOParams(PsoParams):
 
 
 class RealPSOParams(PsoParams):
-    def __init__(self, pop_size, iters, c1, c2, k, omega):
+    def __init__(self, pop_size, iters, c1, c2, k):
         self.pop_size = pop_size
         self.iters = iters
         self.c1 = c1
         self.c2 = c2
-       # self.omega = omega
         self.k = k  # The probability of selecting the personal factor when either the personal or global component is Add or Remove
         # (during velocity update)
