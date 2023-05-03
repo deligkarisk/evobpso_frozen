@@ -15,7 +15,8 @@ class TestBinaryInitializer(TestCase):
         training_params = Mock()
         architecture = NeuralArchitectureParams(2, 10, max_pooling_layers=2)
         params = OptimizationParams(pso_params=pso_params, neural_architecture_params=architecture, training_params=training_params)
-        initializer = BinaryInitializer(params)
+        encoding = Mock()
+        initializer = BinaryInitializer(params, encoding=encoding)
         new_position = initializer.get_initial_position()
         assert mock_rnd_vector_function.assert_called
         assert mock_rnd_vector_function.call_count == 4

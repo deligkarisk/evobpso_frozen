@@ -10,6 +10,10 @@ class RealInitializer(Initializer):
         num_layers = random.randint(self.architecture.min_layers, self.architecture.max_layers)
         position = []
         for i in range(0, num_layers):
-            position.append(random.uniform(self.pso_params.min_value, self.pso_params.max_value))
+            kernel_size = random.randint(self.encoding.min_kernel_size, self.encoding.max_kernel_size)
+            conv_filters = random.randint(self.encoding.min_conv_filters, self.encoding.max_conv_filters)
+            pooling = random.random()
+            layer = {'kernel_size': kernel_size, 'conv_filters': conv_filters, 'pooling': pooling}
+            position.append(layer)
         return position
 

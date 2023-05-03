@@ -9,7 +9,7 @@ from evobpso.params.NeuralArchitectureParams import NeuralArchitectureParams
 from evobpso.params.OptimizationParams import OptimizationParams
 from evobpso.params.PsoParams import BooleanPSOParams
 from evobpso.particle.Particle import Particle
-from evobpso.position_update_strategy.StandardPositionUpdateStrategy import StandardPositionUpdateStrategy
+from evobpso.position_update_strategy.BooleanPositionUpdateStrategy import BooleanPositionUpdateStrategy
 from evobpso.position_validator.DoNothingPositionValidator import DoNothingPositionValidator
 from evobpso.velocity_update_strategy.StandardVelocityUpdateStrategy import StandardVelocityUpdateStrategy
 from evobpso.component_merger.VariableLengthCalculateDataComponentMerger import VariableLengthCalculateDataComponentMerger
@@ -26,14 +26,14 @@ class TestParticle(TestCase):
         training_params = Mock()
         optimization_params = OptimizationParams(pso_params=pso_params, neural_architecture_params=architecture, training_params=training_params)
         validator = DoNothingPositionValidator()
-        initializer = BinaryInitializer(params=optimization_params)
+        initializer = BinaryInitializer(params=optimization_params, encoding=encoding)
         mock_evaluator = Mock()
         data_calculator = BooleanComponentCreatorDataCalculator(params=optimization_params)
         component_creator = VariableLengthComponentCreator(data_calculator=data_calculator)
         component_merger_data_calculator = BooleanComponentMergerDataCalculator()
         component_merger = VariableLengthCalculateDataComponentMerger(component_merger_data_calculator=component_merger_data_calculator)
         velocity_strategy = StandardVelocityUpdateStrategy(component_creator, component_merger, optimization_params, velocity_update_extensions=[])
-        position_update_strategy = StandardPositionUpdateStrategy(optimization_params)
+        position_update_strategy = BooleanPositionUpdateStrategy(optimization_params)
         mock_population = Mock()
         mock_population.global_best_position = [11020303, 3042323]
 

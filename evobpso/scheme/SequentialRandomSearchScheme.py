@@ -4,7 +4,7 @@ from evobpso.evaluator.StandardNNEvaluator import StandardNNEvaluator
 from evobpso.initializer.BinaryInitializer import BinaryInitializer
 from evobpso.model_creator.TensorflowModelCreator import TensorflowModelCreator
 from evobpso.position_update_strategy.BooleanRandomPositionUpdateStrategy import BooleanRandomPositionUpdateStrategy
-from evobpso.position_validator.ValidatePoolingLayers import ValidatePoolingLayers
+from evobpso.position_validator.BooleanPoolingLayersPositionValidator import BooleanPoolingLayersPositionValidator
 from evobpso.velocity_update_strategy.ReturnZeroVelocityUpdateStrategy import ReturnZeroVelocityUpdateStrategy
 
 
@@ -19,7 +19,7 @@ class SequentialRandomSearchScheme:
         self.position_update_strategy = None
         self.optimization_params = optimization_params
 
-        self.initializer = self._get_initializer(version=version, optimization_params=optimization_params)
+        self.initializer = self._get_initializer(version=version, optimization_params=optimization_params, encoding=encoding)
         self.decoder = self._get_decoder(version=version, encoding=encoding)
 
 
@@ -35,14 +35,14 @@ class SequentialRandomSearchScheme:
 
         self.evaluator = StandardNNEvaluator(architecture_decoder=self.decoder, model_creator=model_creator,
                                              training_params=self.optimization_params.training_params, data_loader=data_loader)
-        self.position_validator = ValidatePoolingLayers(pooling_layer_bit_num=self.decoder.encoding.pooling_layer_bit_position)
+        self.position_validator = BooleanPoolingLayersPositionValidator(pooling_layer_bit_num=self.decoder.encoding.pooling_layer_bit_position)
         self.results_folder = results_folder
         self.compiled = True
 
 
-    def _get_initializer(self, version, optimization_params):
+    def _get_initializer(self, version, optimization_params, encoding):
         if version == 'boolean':
-            initializer = BinaryInitializer(params=optimization_params)
+            initializer = BinaryInitializer(params=optimization_params, encoding=encoding)
         else:
             raise NotImplementedError
         return initializer

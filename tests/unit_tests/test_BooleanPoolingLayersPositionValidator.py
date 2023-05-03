@@ -2,17 +2,17 @@ import time
 from unittest import TestCase
 from unittest.mock import Mock
 
-from evobpso.position_validator.ValidatePoolingLayers import ValidatePoolingLayers
+from evobpso.position_validator.BooleanPoolingLayersPositionValidator import BooleanPoolingLayersPositionValidator
 from evobpso.utils.utils import extract_integer_from_subset_of_bits
 
 
-class TestValidatePoolingLayers(TestCase):
+class TestBooleanPoolingLayersPositionValidator(TestCase):
     def test_validate(self):
         pooling_layer_bit_num = 11
         position = [0b0100000000001, 0b0100000000010, 0b0100000000100, 0b0100000001000, 0b0000000010000, 0b0000000010000]
         params = Mock()
         params.neural_architecture_params.max_pooling_layers = 2
-        validator = ValidatePoolingLayers(pooling_layer_bit_num=pooling_layer_bit_num)
+        validator = BooleanPoolingLayersPositionValidator(pooling_layer_bit_num=pooling_layer_bit_num)
 
         pooling_layers = [extract_integer_from_subset_of_bits(encoded_layer, start_index=pooling_layer_bit_num, length=1) for
                           encoded_layer in position]

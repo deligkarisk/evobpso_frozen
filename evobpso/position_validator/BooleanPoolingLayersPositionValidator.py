@@ -4,7 +4,7 @@ from evobpso.position_validator.PositionValidator import PositionValidator
 from evobpso.utils.utils import extract_integer_from_subset_of_bits, clear_bit, set_bit
 
 
-class ValidatePoolingLayers(PositionValidator):
+class BooleanPoolingLayersPositionValidator(PositionValidator):
 
     def __init__(self, pooling_layer_bit_num):
         self.pooling_layer_bit_num = pooling_layer_bit_num

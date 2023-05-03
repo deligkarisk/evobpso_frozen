@@ -5,7 +5,7 @@ from evobpso.encoding.BooleanEncoding import BooleanEncoding
 from evobpso.layer.Layer import AvgPooling, MaxPooling, ConvLayer, FlattenLayer, DenseLayer
 
 
-class TestStandardArchitectureDecoder(TestCase):
+class TestBooleanSequentialArchitectureDecoder(TestCase):
     def test_decode_with_boolean_sample_encoding(self):
 
         encoding = BooleanEncoding(filter_bits=8, kernel_size_bits=3)
